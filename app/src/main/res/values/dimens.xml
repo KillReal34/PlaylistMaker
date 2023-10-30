@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textSize">22sp</dimen>
+    <dimen name="main_button_cornerRadius">22dp</dimen>
+    <dimen name="settings_frame_height">61dp</dimen>
+    <dimen name="settings_textSize">16sp</dimen>
+    <dimen name="settings_text_marginStart">10dp</dimen>
+    <dimen name="settings_imageView_marginEnd">10dp</dimen>
+    <dimen name="settings_imageView_marginTop">19dp</dimen>
+</resources>
