@@ -8,19 +8,15 @@
     android:background="@color/blue"
     tools:context=".MainActivity">
 
-    <FrameLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="22sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/app_name"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
-    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,13 +35,13 @@
             android:backgroundTint="@color/white"
             android:text="@string/search"
             android:textColor="@color/black"
-            android:textSize="@dimen/textSize"
+            android:textSize="@dimen/main_interface_textSize"
             android:textAllCaps="false"
             app:icon="@drawable/search"
             app:iconTint="@color/black"
             app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            app:iconSize="22dp"
+            app:iconPadding="@dimen/main_iconPadding"
+            app:iconSize="@dimen/main_iconSize"
             app:cornerRadius="@dimen/main_button_cornerRadius"/>
 
         <Button
@@ -58,13 +54,13 @@
             android:backgroundTint="@color/white"
             android:text="@string/library"
             android:textColor="@color/black"
-            android:textSize="@dimen/textSize"
+            android:textSize="@dimen/main_interface_textSize"
             android:textAllCaps="false"
             app:icon="@drawable/library"
             app:iconTint="@color/black"
             app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            app:iconSize="22dp"
+            app:iconPadding="@dimen/main_iconPadding"
+            app:iconSize="@dimen/main_iconSize"
             app:cornerRadius="@dimen/main_button_cornerRadius" />
 
         <Button
@@ -75,13 +71,13 @@
             android:backgroundTint="@color/white"
             android:text="@string/settings"
             android:textColor="@color/black"
-            android:textSize="@dimen/textSize"
+            android:textSize="@dimen/main_interface_textSize"
             android:textAllCaps="false"
             app:icon="@drawable/settings"
             app:iconTint="@color/black"
             app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            app:iconSize="22dp"
+            app:iconPadding="@dimen/main_iconPadding"
+            app:iconSize="@dimen/main_iconSize"
             app:cornerRadius="@dimen/main_button_cornerRadius" />
     </LinearLayout>
 

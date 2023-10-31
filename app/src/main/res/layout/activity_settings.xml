@@ -7,9 +7,10 @@
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/button_back"
@@ -23,23 +24,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="80dp"
+            android:layout_marginTop="2dp"
             android:text="@string/settings"
             android:textColor="@color/black"
-            android:textSize="@dimen/textSize" />
-    </FrameLayout>
+            android:textSize="@dimen/main_interface_textSize" />
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_frame_height"
+        android:layout_marginStart="@dimen/settings_frame_marginStart"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="40dp" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/settings_text_marginStart"
             android:text="@string/black_theme"
             android:textSize="@dimen/settings_textSize"
             android:textColor="@color/black" />
@@ -53,13 +54,14 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_frame_height" >
+        android:layout_height="@dimen/settings_frame_height"
+        android:layout_marginStart="@dimen/settings_frame_marginStart"
+        android:layout_marginEnd="@dimen/settings_frame_marginEnd" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/settings_text_marginStart"
             android:text="@string/share_app"
             android:textSize="@dimen/settings_textSize"
             android:textColor="@color/black" />
@@ -68,20 +70,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/settings_imageView_marginEnd"
             android:layout_marginTop="@dimen/settings_imageView_marginTop"
             android:src="@drawable/share_app" />
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_frame_height" >
+        android:layout_height="@dimen/settings_frame_height"
+        android:layout_marginStart="@dimen/settings_frame_marginStart"
+        android:layout_marginEnd="@dimen/settings_frame_marginEnd" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/settings_text_marginStart"
             android:text="@string/support"
             android:textSize="@dimen/settings_textSize"
             android:textColor="@color/black" />
@@ -90,20 +92,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/settings_imageView_marginEnd"
             android:layout_marginTop="@dimen/settings_imageView_marginTop"
             android:src="@drawable/support" />
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_frame_height" >
+        android:layout_height="@dimen/settings_frame_height"
+        android:layout_marginStart="@dimen/settings_frame_marginStart"
+        android:layout_marginEnd="@dimen/settings_frame_marginEnd">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/settings_text_marginStart"
             android:text="@string/user_agreement"
             android:textSize="@dimen/settings_textSize"
             android:textColor="@color/black" />
@@ -112,7 +114,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/settings_imageView_marginEnd"
             android:layout_marginTop="@dimen/settings_imageView_marginTop"
             android:src="@drawable/user_agreement" />
     </FrameLayout>
