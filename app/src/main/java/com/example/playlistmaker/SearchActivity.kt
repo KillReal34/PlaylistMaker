@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
+import androidx.core.view.isVisible
 
 class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,12 +20,15 @@ class SearchActivity : AppCompatActivity() {
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
         val backButton = findViewById<Button>(R.id.button_back_activitySearch)
 
+
         backButton.setOnClickListener{
             onBackPressed()
         }
 
         clearButton.setOnClickListener {
             inputSearchText.setText("")
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
 
         val simpleTextWatcher = object : TextWatcher {
@@ -41,22 +45,21 @@ class SearchActivity : AppCompatActivity() {
                 //empty
             }
         }
-        inputSearchText.setText(SEARCH_TEXT)
         inputSearchText.addTextChangedListener(simpleTextWatcher)
-
-    }
-    companion object {
-        var SEARCH_TEXT = ""
+        inputSearchText.setText(SEARCH_TEXT)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("text", SEARCH_TEXT)
+        outState.run {
+            putString("text", SEARCH_TEXT)
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        savedInstanceState.getString(SEARCH_TEXT)
+        savedInstanceState.getString("text")
+
     }
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
@@ -64,5 +67,8 @@ class SearchActivity : AppCompatActivity() {
         } else {
             View.VISIBLE
         }
+    }
+    companion object {
+        var SEARCH_TEXT = ""
     }
 }
