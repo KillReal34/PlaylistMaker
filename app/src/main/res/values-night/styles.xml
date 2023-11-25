@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="MainActivityLinearLayoutStyle" >
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
         <item name="android:background">@color/black</item>
     </style>
 
     <style name="ActivityLinearLayoutStyle" >
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
         <item name="android:background">@color/black</item>
     </style>
@@ -21,9 +17,6 @@
     </style>
     
     <style name="MainButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton" >
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/main_interface_textSize</item>
@@ -60,17 +53,12 @@
     </style>
 
     <style name="PanelHeaderButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton" >
-        <item name="android:layout_width">60dp</item>
-        <item name="android:layout_height">48dp</item>
         <item name="android:backgroundTint">@color/black</item>
         <item name="iconPadding">22dp</item>
         <item name="iconTint">@color/white</item>
     </style>
 
     <style name="PanelHeaderTextStyle" >
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/main_interface_textSize</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
@@ -81,9 +69,15 @@
         <item name="android:maxLength">25</item>
         <item name="android:maxLines">1</item>
         <item name="android:inputType">text</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
         <item name="android:drawableStart">@drawable/search</item>
-        <item name="android:drawableTint">@color/gray</item>
+        <item name="android:drawableTint">@color/black</item>
+    </style>
+
+    <style name="SearchImageViewStyle" >
+        <item name="android:src">@drawable/clear_icon</item>
+        <item name="android:visibility">gone</item>
+        <item name="tint">@color/black</item>
     </style>
 </resources>
