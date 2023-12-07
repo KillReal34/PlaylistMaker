@@ -13,4 +13,7 @@
     <string name="support_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="user_agreement">Пользовательское соглашение</string>
     <string name="user_agreement_address">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="trackActivity_trackName">Название трека</string>
+    <string name="trackActivity_textViewNameGroup">Группа</string>
+    <string name="trackActivity_textViewTimeTrack">Время</string>
 </resources>

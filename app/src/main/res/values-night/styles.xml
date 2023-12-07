@@ -80,4 +80,27 @@
         <item name="android:visibility">gone</item>
         <item name="tint">@color/black</item>
     </style>
+
+    <style name="ActivityTrackRootLayoutStyle" >
+        <item name="backgroundTint">@color/black</item>
+    </style>
+
+    <style name="ActivityTrackTextViewTrackNameStyle" >
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ActivityTrackTextViewNameGroupStyle" >
+        <item name="android:textSize">@dimen/settings_groupName_or_trackTime_textSize</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ActivityTrackTextViewTimeTrack" >
+        <item name="android:textSize">@dimen/settings_groupName_or_trackTime_textSize</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ActivityTrackImageViewStyle" >
+        <item name="tint">@color/white</item>
+    </style>
 </resources>
