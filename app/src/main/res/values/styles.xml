@@ -78,6 +78,29 @@
     <style name="SearchImageViewStyle" >
         <item name="android:src">@drawable/clear_icon</item>
         <item name="android:visibility">gone</item>
-        <item name="tint">@color/button_close_gray</item>
+        <item name="tint">@color/light_gray</item>
+    </style>
+
+    <style name="ActivityTrackRootLayoutStyle" >
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
+    <style name="ActivityTrackTextViewTrackNameStyle" >
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ActivityTrackTextViewNameGroupStyle" >
+        <item name="android:textSize">@dimen/settings_groupName_or_trackTime_textSize</item>
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="ActivityTrackTextViewTimeTrack" >
+        <item name="android:textSize">@dimen/settings_groupName_or_trackTime_textSize</item>
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="ActivityTrackImageViewStyle" >
+        <item name="tint">@color/light_gray</item>
     </style>
 </resources>
