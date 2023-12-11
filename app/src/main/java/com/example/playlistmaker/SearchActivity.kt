@@ -52,6 +52,7 @@ class SearchActivity : AppCompatActivity() {
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
                 //empty
             }
 
@@ -64,6 +65,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
+
                 //empty
             }
         }
