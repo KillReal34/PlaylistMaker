@@ -1,7 +1,5 @@
 package com.example.playlistmaker
 
-import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -11,13 +9,16 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class SearchActivity : AppCompatActivity() {
 
-    private var searchText = ""
+    companion object {
+        const val KEY_EDIT_TEXT = "text"
+    }
+
+    var searchText = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -52,20 +53,17 @@ class SearchActivity : AppCompatActivity() {
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
                 //empty
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchText = s.toString()
                 clearButton.visibility = clearButtonVisibility(s)
-                if (!searchText.isNullOrEmpty()) {
-                    recyclerView.adapter = trackAdapter
-                }
+                recyclerView.adapter = trackAdapter
+
             }
 
             override fun afterTextChanged(s: Editable?) {
-
                 //empty
             }
         }
@@ -76,13 +74,13 @@ class SearchActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.run {
-            putString("text", searchText)
+            putString(KEY_EDIT_TEXT, searchText)
         }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        savedInstanceState.getString("text")
+        savedInstanceState.getString(KEY_EDIT_TEXT)
 
     }
     private fun clearButtonVisibility(s: CharSequence?): Int {

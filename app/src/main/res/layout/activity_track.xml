@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <FrameLayout
         android:id="@+id/rootFrameLayout"
@@ -26,7 +27,7 @@
             android:layout_marginBottom="24dp"
             android:layout_marginStart="64dp"
             android:layout_marginTop="12dp"
-            android:text="@string/trackActivity_trackName"
+            tools:text="Track name"
             style="@style/ActivityTrackTextViewTrackNameStyle" />
 
         <LinearLayout
@@ -41,7 +42,7 @@
                 android:id="@+id/textViewNameGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trackActivity_textViewNameGroup"
+                tools:text="Group"
                 style="@style/ActivityTrackTextViewNameGroupStyle"/>
 
             <ImageView
@@ -55,7 +56,7 @@
                 android:id="@+id/textViewTimeTrack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trackActivity_textViewTimeTrack"
+                tools:text="Time"
                 style="@style/ActivityTrackTextViewTimeTrack" />
         </LinearLayout>
 
