@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <FrameLayout
+        android:id="@+id/rootFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ActivityTrackRootLayoutStyle">
+
+        <ImageView
+            android:id="@+id/trackImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/no_load_image"/>
+
+        <TextView
+            android:id="@+id/trackName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="12dp"
+            tools:text="Track name"
+            style="@style/ActivityTrackTextViewTrackNameStyle" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="34dp"
+            android:orientation="horizontal"
+            style="@style/ActivityTrackRootLayoutStyle" >
+
+            <TextView
+                android:id="@+id/textViewNameGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Group"
+                style="@style/ActivityTrackTextViewNameGroupStyle"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/point"
+                style="@style/ActivityTrackImageViewStyle" />
+
+
+            <TextView
+                android:id="@+id/textViewTimeTrack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Time"
+                style="@style/ActivityTrackTextViewTimeTrack" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/user_agreement"
+            style="@style/ActivityTrackImageViewStyle" />
+    </FrameLayout>
+
+</LinearLayout>
