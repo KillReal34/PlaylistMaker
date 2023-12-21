@@ -61,6 +61,7 @@ class SearchActivity : AppCompatActivity() {
         trackAdapter.track = trackList
         recyclerView.adapter = trackAdapter
 
+
         backButton.setOnClickListener{
             onBackPressed()
         }
@@ -124,19 +125,23 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun searchITunesApi(editText: String) {
-        itunesService.search(editText).enqueue(object : Callback<TrackResponse>{
+    private fun searchITunesApi(query: String) {
+        itunesService.search(query).enqueue(object : Callback<TrackResponse>{
             override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
-                if (response.body()?.results?.isNotEmpty() == true) {
+
+                val trackResponseResult = response.body()?.results
+
+                if (trackResponseResult?.isNotEmpty() == true) {
                     recyclerView.visibility = View.VISIBLE
                     trackList.clear()
-                    trackList.addAll(response.body()?.results!!)
+                    trackList.addAll(trackResponseResult)
                     trackAdapter.notifyDataSetChanged()
                 }
                 else {
                     trackList.clear()
                     trackAdapter.notifyDataSetChanged()
                     recyclerView.visibility = View.GONE
+                    refreshButton.visibility = View.GONE
                     if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
                         errorImage.setImageResource(R.drawable.not_found_track_image_night_mode)
                     }
@@ -148,6 +153,7 @@ class SearchActivity : AppCompatActivity() {
             }
             override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
                 trackList.clear()
+                trackAdapter.notifyDataSetChanged()
                 recyclerView.visibility = View.GONE
                 if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                     errorImage.setImageResource(R.drawable.error_internet_connection_image_night_mode)
