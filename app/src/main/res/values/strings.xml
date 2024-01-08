@@ -16,4 +16,6 @@
     <string name="not_found_track_message">Ничего не нашлось</string>
     <string name="error_internet_connection_message">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="refresh_button">Обновить</string>
+    <string name="text_history_title">Вы искали</string>
+    <string name="button_history_clear">Очистить историю</string>
 </resources>
