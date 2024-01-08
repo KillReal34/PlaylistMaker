@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_interface_textSize">22sp</dimen>
+    <dimen name="settings_textSize">16sp</dimen>
+    <dimen name="settings_groupName_or_trackTime_textSize">12sp</dimen>
+    <dimen name="main_button_cornerRadius">24dp</dimen>
+    <dimen name="settings_frame_height">64dp</dimen>
+    <dimen name="settings_frame_marginStart">16dp</dimen>
+    <dimen name="settings_frame_marginEnd">16dp</dimen>
+    <dimen name="settings_imageView_marginTop">20dp</dimen>
+    <dimen name="main_iconPadding">8dp</dimen>
+    <dimen name="main_iconSize">24dp</dimen>
+    <dimen name="panelHeader_button_width">60dp</dimen>
+    <dimen name="panelHeader_button_height">40dp</dimen>
+    <dimen name="searchActivity_error_text_size">20sp</dimen>
+</resources>

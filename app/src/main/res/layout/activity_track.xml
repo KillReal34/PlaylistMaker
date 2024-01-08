@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools" >
 
-    <FrameLayout
-        android:id="@+id/rootFrameLayout"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/trackImage"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/ActivityTrackRootLayoutStyle">
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        tools:src="@drawable/no_load_image" />
 
-        <ImageView
-            android:id="@+id/trackImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/no_load_image"/>
+    <LinearLayout
+        android:id="@+id/rootFrameLayout"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingStart="8dp"
+        style="@style/ActivityTrackRootLayoutStyle">
 
         <TextView
             android:id="@+id/trackName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginTop="12dp"
+            android:paddingTop="12dp"
             tools:text="Track name"
             style="@style/ActivityTrackTextViewTrackNameStyle" />
 
         <LinearLayout
+            android:id="@+id/trackRootLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
-            android:layout_marginTop="34dp"
-            android:orientation="horizontal"
             style="@style/ActivityTrackRootLayoutStyle" >
 
             <TextView
@@ -51,7 +50,6 @@
                 android:src="@drawable/point"
                 style="@style/ActivityTrackImageViewStyle" />
 
-
             <TextView
                 android:id="@+id/textViewTimeTrack"
                 android:layout_width="wrap_content"
@@ -60,14 +58,13 @@
                 style="@style/ActivityTrackTextViewTimeTrack" />
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="12dp"
-            android:src="@drawable/user_agreement"
-            style="@style/ActivityTrackImageViewStyle" />
-    </FrameLayout>
+    </LinearLayout>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingEnd="20dp"
+        android:src="@drawable/user_agreement"
+        style="@style/ActivityTrackImageViewStyle" />
 </LinearLayout>
