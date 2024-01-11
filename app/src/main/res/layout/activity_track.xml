@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/trackLayout"
+    android:id="@+id/ll_track_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -8,7 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <ImageView
-        android:id="@+id/trackImage"
+        android:id="@+id/iv_track_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="12dp"
@@ -17,7 +17,7 @@
         tools:src="@drawable/no_load_image" />
 
     <LinearLayout
-        android:id="@+id/rootFrameLayout"
+        android:id="@+id/ll_root_linear_layout"
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         style="@style/ActivityTrackRootLayoutStyle">
 
         <TextView
-            android:id="@+id/trackName"
+            android:id="@+id/tv_track_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
@@ -34,13 +34,13 @@
             style="@style/ActivityTrackTextViewTrackNameStyle" />
 
         <LinearLayout
-            android:id="@+id/trackRootLayout"
+            android:id="@+id/ll_track_root_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ActivityTrackRootLayoutStyle" >
 
             <TextView
-                android:id="@+id/textViewNameGroup"
+                android:id="@+id/tv_name_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Group"
@@ -53,7 +53,7 @@
                 style="@style/ActivityTrackImageViewStyle" />
 
             <TextView
-                android:id="@+id/textViewTimeTrack"
+                android:id="@+id/tv_time_track"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Time"

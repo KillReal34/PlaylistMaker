@@ -11,10 +11,10 @@ import java.util.Locale
 
 class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    private val trackImage: ImageView = itemView.findViewById(R.id.trackImage)
-    private val trackName: TextView = itemView.findViewById(R.id.trackName)
-    private val trackActor: TextView = itemView.findViewById(R.id.textViewNameGroup)
-    private val trackTime: TextView = itemView.findViewById(R.id.textViewTimeTrack)
+    private val trackImage: ImageView = itemView.findViewById(R.id.iv_track_image)
+    private val trackName: TextView = itemView.findViewById(R.id.tv_track_name)
+    private val trackActor: TextView = itemView.findViewById(R.id.tv_name_group)
+    private val trackTime: TextView = itemView.findViewById(R.id.tv_time_track)
 
     fun bind(item: Track) {
         val roundedCornersImage = 10
