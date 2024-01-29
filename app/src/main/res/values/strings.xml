@@ -18,4 +18,10 @@
     <string name="refresh_button">Обновить</string>
     <string name="text_history_title">Вы искали</string>
     <string name="button_history_clear">Очистить историю</string>
+    <string name="audioplayer_tv_time_track_label">Длительность</string>
+    <string name="audioplayer_tv_album_name_label">Альбом</string>
+    <string name="audioplayer_tv_year_track_label">Год</string>
+    <string name="audioplayer_tv_track_genre_label">Жанр</string>
+    <string name="audioplayer_tv_track_country_label">Страна</string>
+
 </resources>

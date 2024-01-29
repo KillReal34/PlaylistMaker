@@ -53,7 +53,7 @@
                 style="@style/ActivityTrackImageViewStyle" />
 
             <TextView
-                android:id="@+id/tv_time_track"
+                android:id="@+id/tv_left_time_track"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Time"
