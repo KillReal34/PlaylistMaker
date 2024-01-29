@@ -28,10 +28,10 @@
 
     <ImageButton
         android:id="@+id/button_back"
+        style="@style/ActivityAudioPlayerButtonBackStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:backgroundTint="@color/white"
         android:src="@drawable/button_back"
         app:layout_constraintBottom_toTopOf="@+id/top_guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,23 +50,20 @@
 
     <TextView
         android:id="@+id/tv_track_name"
+        style="@style/ActivityAudioPlayerTrackNameStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/main_interface_textSize"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/iv_track_image"
         tools:text="Yesterday (Remastered 2009)" />
 
     <TextView
         android:id="@+id/tv_name_group"
+        style="@style/ActivityAudioPlayerNameGroupStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/tv_track_name"
         tools:text="Group" />
@@ -77,11 +74,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="54dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@android:color/transparent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/button_back"
         app:layout_constraintTop_toBottomOf="@id/tv_name_group"
-        app:srcCompat="@drawable/button_in_playlist" />
+        app:srcCompat="@drawable/button_in_playlist"
+        style="@style/ActivityAudioPlayerButtonAddAndLikeStyle"/>
 
     <ImageButton
         android:id="@+id/ib_like"
@@ -89,18 +87,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="54dp"
         android:layout_marginEnd="12dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@id/tv_name_group"
-        app:srcCompat="@drawable/button_like" />
+        app:srcCompat="@drawable/button_like"
+        style="@style/ActivityAudioPlayerButtonAddAndLikeStyle"/>
 
     <ImageButton
         android:id="@+id/ib_play"
+        style="@style/ActivityAudioPlayerButtonPlayStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:backgroundTint="@color/white"
         app:layout_constraintEnd_toStartOf="@id/ib_like"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/ib_add_playlist"
@@ -109,11 +108,10 @@
 
     <TextView
         android:id="@+id/tv_play_time"
+        style="@style/ActivityAudioPlayerPlayTimeStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0:30"
-        android:textColor="@color/black"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/ib_play" />
@@ -165,45 +163,45 @@
 
     <TextView
         android:id="@+id/tv_right_time_track"
+        style="@style/ActivityAudioPlayerRightInfoTrackStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_left_time_track"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         tools:text="5:35" />
 
     <TextView
         android:id="@+id/tv_right_album_name"
+        style="@style/ActivityAudioPlayerRightInfoTrackStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_left_album_name"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         tools:text="Yesterday(Remastered 2009)" />
 
     <TextView
         android:id="@+id/tv_right_year_track"
+        style="@style/ActivityAudioPlayerRightInfoTrackStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_left_year_track"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         tools:text="1965" />
 
     <TextView
         android:id="@+id/tv_right_track_genre"
+        style="@style/ActivityAudioPlayerRightInfoTrackStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_left_track_genre"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         tools:text="Rock" />
 
     <TextView
         android:id="@+id/tv_right_track_country"
+        style="@style/ActivityAudioPlayerRightInfoTrackStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_left_track_country"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         tools:text="Великобритания" />
