@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
@@ -24,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.07" />
+        app:layout_constraintGuide_percent="0.06" />
 
     <ImageButton
         android:id="@+id/button_back"
@@ -41,11 +42,11 @@
         android:id="@+id/iv_track_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="26dp"
-        app:layout_constraintDimensionRatio="16:10"
+        android:layout_marginTop="16dp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/top_guideline"
+        app:layout_constraintTop_toTopOf="@id/top_guideline"
         app:srcCompat="@drawable/no_load_image_512x512" />
 
     <TextView
@@ -53,9 +54,10 @@
         style="@style/ActivityAudioPlayerTrackNameStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/iv_track_image"
+        app:layout_constraintBottom_toTopOf="@id/tv_name_group"
         tools:text="Yesterday (Remastered 2009)" />
 
     <TextView
@@ -63,21 +65,21 @@
         style="@style/ActivityAudioPlayerNameGroupStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/tv_track_name"
+        app:layout_constraintBottom_toTopOf="@id/ib_play"
         tools:text="Group" />
 
     <ImageButton
         android:id="@+id/ib_add_playlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="54dp"
         android:backgroundTint="@android:color/transparent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@id/button_back"
-        app:layout_constraintTop_toBottomOf="@id/tv_name_group"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ib_play"
+        app:layout_constraintEnd_toStartOf="@id/ib_play"
+        app:layout_constraintBottom_toBottomOf="@id/ib_play"
         app:srcCompat="@drawable/button_in_playlist"
         style="@style/ActivityAudioPlayerButtonAddAndLikeStyle"/>
 
@@ -85,12 +87,12 @@
         android:id="@+id/ib_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="54dp"
-        android:layout_marginEnd="12dp"
         android:backgroundTint="@android:color/transparent"
+        android:layout_marginStart="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintTop_toBottomOf="@id/tv_name_group"
+        app:layout_constraintTop_toTopOf="@id/ib_play"
+        app:layout_constraintStart_toEndOf="@id/ib_play"
+        app:layout_constraintBottom_toBottomOf="@id/ib_play"
         app:srcCompat="@drawable/button_like"
         style="@style/ActivityAudioPlayerButtonAddAndLikeStyle"/>
 
@@ -99,7 +101,6 @@
         style="@style/ActivityAudioPlayerButtonPlayStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toStartOf="@id/ib_like"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/ib_add_playlist"
@@ -112,6 +113,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0:30"
+        android:textSize="14sp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/ib_play" />
@@ -120,46 +123,46 @@
         android:id="@+id/tv_left_time_track"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:text="@string/audioplayer_tv_time_track_label"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv_play_time" />
+        app:layout_constraintTop_toBottomOf="@id/tv_play_time"
+        app:layout_constraintBottom_toTopOf="@id/tv_left_album_name"/>
 
     <TextView
         android:id="@+id/tv_left_album_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/audioplayer_left_tv_marginTop"
         android:text="@string/audioplayer_tv_album_name_label"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv_left_time_track" />
+        app:layout_constraintTop_toBottomOf="@id/tv_left_time_track"
+        app:layout_constraintBottom_toTopOf="@+id/tv_left_year_track"/>
 
     <TextView
         android:id="@+id/tv_left_year_track"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/audioplayer_left_tv_marginTop"
         android:text="@string/audioplayer_tv_year_track_label"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv_left_album_name" />
+        app:layout_constraintTop_toBottomOf="@id/tv_left_album_name"
+        app:layout_constraintBottom_toTopOf="@id/tv_left_track_genre" />
 
     <TextView
         android:id="@+id/tv_left_track_genre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/audioplayer_left_tv_marginTop"
         android:text="@string/audioplayer_tv_track_genre_label"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv_left_year_track" />
+        app:layout_constraintTop_toBottomOf="@id/tv_left_year_track"
+        app:layout_constraintBottom_toTopOf="@id/tv_left_track_country" />
 
     <TextView
         android:id="@+id/tv_left_track_country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/audioplayer_left_tv_marginTop"
         android:text="@string/audioplayer_tv_track_country_label"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/tv_left_track_genre" />
+        app:layout_constraintTop_toBottomOf="@id/tv_left_track_genre"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/tv_right_time_track"

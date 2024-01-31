@@ -8,12 +8,13 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 
-class AudioPlayerActivity : AppCompatActivity() {
+class AudioPlayerActivity : AppCompatActivity(R.layout.activity_audioplayer) {
 
     private var backButton: ImageButton? = null
     private var trackImage: ImageView? = null
@@ -29,10 +30,8 @@ class AudioPlayerActivity : AppCompatActivity() {
     private var trackGenre: TextView? = null
     private var trackCountry: TextView? = null
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_audioplayer)
 
         backButton = findViewById(R.id.button_back)
         trackImage = findViewById(R.id.iv_track_image)
@@ -57,9 +56,13 @@ class AudioPlayerActivity : AppCompatActivity() {
             trackYear?.text = SimpleDateFormat("yyyy", Locale.getDefault()).format(date)
             trackGenre?.text = track.primaryGenreName
             trackCountry?.text = track.country
+
+            val density = resources.displayMetrics.density
+            val roundedCornersImage = 8 * density
             Glide.with(applicationContext)
                 .load(track.coverArtWork)
                 .placeholder(R.drawable.no_load_image)
+                .transform(RoundedCorners(roundedCornersImage.toInt()))
                 .into(trackImage ?: return@let)
         }
 
