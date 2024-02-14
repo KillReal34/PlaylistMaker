@@ -1,6 +1,6 @@
 package com.example.playlistmaker
 
-import android.content.SharedPreferences
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -14,8 +14,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,6 +29,7 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val KEY_EDIT_TEXT = "text"
         const val PLAYLIST_MAKER_PREFERENCES_TRACK = "playlist_maker_preferences"
+        const val TRACK_EXTRA = "track_extra"
     }
 
     private var searchResultLayout: LinearLayout? = null
@@ -40,12 +43,11 @@ class SearchActivity : AppCompatActivity() {
     private var textHistoryTitle: TextView? = null
     private var btnClearHistory: Button? = null
 
-    private var sharedPref: SharedPreferences? = null
-
     private val trackAdapter = TrackAdapter()
     private val historyTrackAdapter = TrackAdapter()
 
     var searchText = ""
+    var jsonTrack = ""
 
     private val baseITunesUrl = "https://itunes.apple.com"
     private val retrofit = Retrofit.Builder()
@@ -71,14 +73,15 @@ class SearchActivity : AppCompatActivity() {
         textHistoryTitle = findViewById(R.id.tv_text_history_title)
         btnClearHistory = findViewById(R.id.btn_clear_history)
 
-        sharedPref = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES_TRACK, MODE_PRIVATE)
-        val searchHistory = SearchHistory(sharedPref!!)
+        val sharedPref = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES_TRACK, MODE_PRIVATE)
+        val searchHistory = SearchHistory(sharedPref)
 
         trackAdapter.tracks = trackList
         historyTrackAdapter.tracks.addAll(searchHistory.read())
 
         trackAdapter.onClickListener = {track ->
             val historyTrackIndex = searchHistory.read().indexOf(track)
+
             if (searchHistory.read().contains(track) && track.trackId == searchHistory.read()[historyTrackIndex].trackId) {
                 historyTrackAdapter.tracks.remove(track)
                 historyTrackAdapter.tracks.add(0, track)
@@ -91,34 +94,43 @@ class SearchActivity : AppCompatActivity() {
                 historyTrackAdapter.tracks.removeAt(10)
                 searchHistory.write(historyTrackAdapter.tracks)
             }
+            val audioPlayerIntent = Intent(this, AudioPlayerActivity::class.java)
+            audioPlayerIntent.putExtra(TRACK_EXTRA, track)
+            startActivity(audioPlayerIntent)
         }
 
-        backButton!!.setOnClickListener{
+        historyTrackAdapter.onClickListener = {track ->
+            val audioPlayerIntent = Intent(this, AudioPlayerActivity::class.java)
+            audioPlayerIntent.putExtra(TRACK_EXTRA, track)
+            startActivity(audioPlayerIntent)
+        }
+
+        backButton?.setOnClickListener{
             onBackPressed()
         }
 
-        clearButton!!.setOnClickListener {
+        clearButton?.setOnClickListener {
             trackList.clear()
             trackAdapter.notifyDataSetChanged()
-            inputSearchText!!.setText("")
+            inputSearchText?.setText("")
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
 
-        refreshButton!!.setOnClickListener {
-            recyclerView!!.visibility = View.VISIBLE
+        refreshButton?.setOnClickListener {
+            recyclerView?.visibility = View.VISIBLE
             searchITunesApi(searchText)
         }
 
-        btnClearHistory!!.setOnClickListener {
+        btnClearHistory?.setOnClickListener {
             searchHistory.clear()
             historyTrackAdapter.tracks.clear()
             historyTrackAdapter.notifyDataSetChanged()
-            textHistoryTitle!!.visibility = View.GONE
-            btnClearHistory!!.visibility = View.GONE
+            textHistoryTitle?.visibility = View.GONE
+            btnClearHistory?.visibility = View.GONE
         }
 
-        inputSearchText!!.setOnEditorActionListener { _, actionId, _ ->
+        inputSearchText?.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 searchITunesApi(searchText)
                 true
@@ -126,16 +138,16 @@ class SearchActivity : AppCompatActivity() {
             false
         }
 
-        inputSearchText!!.setOnFocusChangeListener { view, hasFocus ->
-            if(hasFocus && inputSearchText!!.text.isEmpty() && searchHistory.read()!!.isNotEmpty()) {
-                textHistoryTitle!!.visibility = View.VISIBLE
-                btnClearHistory!!.visibility = View.VISIBLE
-                recyclerView!!.adapter = historyTrackAdapter
+        inputSearchText?.setOnFocusChangeListener { view, hasFocus ->
+            if(hasFocus && inputSearchText?.text!!.isEmpty()  && searchHistory.read().isNotEmpty()) {
+                textHistoryTitle?.visibility = View.VISIBLE
+                btnClearHistory?.visibility = View.VISIBLE
+                recyclerView?.adapter = historyTrackAdapter
                 historyTrackAdapter.notifyDataSetChanged()
             } else {
-                textHistoryTitle!!.visibility = View.GONE
-                btnClearHistory!!.visibility = View.GONE
-                recyclerView!!.adapter = trackAdapter
+                textHistoryTitle?.visibility = View.GONE
+                btnClearHistory?.visibility = View.GONE
+                recyclerView?.adapter = trackAdapter
                 trackAdapter.notifyDataSetChanged()
             }
         }
@@ -147,16 +159,16 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchText = s.toString()
-                clearButton!!.visibility = clearButtonVisibility(s)
-                if (inputSearchText!!.hasFocus() && s?.isEmpty() == true && searchHistory.read()!!.isNotEmpty()) {
-                    textHistoryTitle!!.visibility = View.VISIBLE
-                    btnClearHistory!!.visibility = View.VISIBLE
-                    recyclerView!!.adapter = historyTrackAdapter
+                clearButton?.visibility = clearButtonVisibility(s)
+                if (inputSearchText?.hasFocus() == true && s?.isEmpty() == true && searchHistory.read().isNotEmpty()) {
+                    textHistoryTitle?.visibility = View.VISIBLE
+                    btnClearHistory?.visibility = View.VISIBLE
+                    recyclerView?.adapter = historyTrackAdapter
                     historyTrackAdapter.notifyDataSetChanged()
                 } else {
-                    textHistoryTitle!!.visibility = View.GONE
-                    btnClearHistory!!.visibility = View.GONE
-                    recyclerView!!.adapter = trackAdapter
+                    textHistoryTitle?.visibility = View.GONE
+                    btnClearHistory?.visibility = View.GONE
+                    recyclerView?.adapter = trackAdapter
                     trackAdapter.notifyDataSetChanged()
                 }
             }
@@ -165,8 +177,8 @@ class SearchActivity : AppCompatActivity() {
                 //empty
             }
         }
-        inputSearchText!!.addTextChangedListener(simpleTextWatcher)
-        inputSearchText!!.setText(searchText)
+        inputSearchText?.addTextChangedListener(simpleTextWatcher)
+        inputSearchText?.setText(searchText)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -179,8 +191,8 @@ class SearchActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         savedInstanceState.getString(KEY_EDIT_TEXT)
-
     }
+
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
             View.GONE
@@ -196,10 +208,10 @@ class SearchActivity : AppCompatActivity() {
                 val trackResponseResult = response.body()?.results
 
                 if (trackResponseResult?.isNotEmpty() == true) {
-                    recyclerView!!.visibility = View.VISIBLE
-                    errorText!!.visibility = View.GONE
-                    errorText!!.visibility = View.GONE
-                    refreshButton!!.visibility = View.GONE
+                    recyclerView?.visibility = View.VISIBLE
+                    errorText?.visibility = View.GONE
+                    errorText?.visibility = View.GONE
+                    refreshButton?.visibility = View.GONE
                     trackList.clear()
                     trackList.addAll(trackResponseResult)
                     trackAdapter.notifyDataSetChanged()
@@ -207,32 +219,32 @@ class SearchActivity : AppCompatActivity() {
                 else {
                     trackList.clear()
                     trackAdapter.notifyDataSetChanged()
-                    recyclerView!!.visibility = View.GONE
-                    refreshButton!!.visibility = View.GONE
-                    errorImage!!.visibility = View.VISIBLE
-                    errorText!!.visibility = View.VISIBLE
+                    recyclerView?.visibility = View.GONE
+                    refreshButton?.visibility = View.GONE
+                    errorImage?.visibility = View.VISIBLE
+                    errorText?.visibility = View.VISIBLE
                     if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                        errorImage!!.setImageResource(R.drawable.not_found_track_image_night_mode)
+                        errorImage?.setImageResource(R.drawable.not_found_track_image_night_mode)
                     }
                     else {
-                        errorImage!!.setImageResource(R.drawable.not_found_track_image_light_mode)
+                        errorImage?.setImageResource(R.drawable.not_found_track_image_light_mode)
                     }
-                    errorText!!.setText(R.string.not_found_track_message)
+                    errorText?.setText(R.string.not_found_track_message)
                 }
             }
             override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
                 trackList.clear()
                 trackAdapter.notifyDataSetChanged()
-                recyclerView!!.visibility = View.GONE
-                errorImage!!.visibility = View.VISIBLE
-                errorText!!.visibility = View.VISIBLE
+                recyclerView?.visibility = View.GONE
+                errorImage?.visibility = View.VISIBLE
+                errorText?.visibility = View.VISIBLE
                 if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                    errorImage!!.setImageResource(R.drawable.error_internet_connection_image_night_mode)
+                    errorImage?.setImageResource(R.drawable.error_internet_connection_image_night_mode)
                 } else {
-                    errorImage!!.setImageResource(R.drawable.error_internet_connection_image_light_mode)
+                    errorImage?.setImageResource(R.drawable.error_internet_connection_image_light_mode)
                 }
-                errorText!!.setText(R.string.error_internet_connection_message)
-                refreshButton!!.visibility = View.VISIBLE
+                errorText?.setText(R.string.error_internet_connection_message)
+                refreshButton?.visibility = View.VISIBLE
             }
         })
     }

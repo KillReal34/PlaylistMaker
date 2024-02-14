@@ -126,4 +126,38 @@
         <item name="android:textSize">8sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="ActivityAudioPlayerButtonBackStyle" >
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="ActivityAudioPlayerTrackNameStyle" >
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/main_interface_textSize</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ActivityAudioPlayerNameGroupStyle" >
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ActivityAudioPlayerButtonPlayStyle" >
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="ActivityAudioPlayerButtonAddAndLikeStyle" >
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="ActivityAudioPlayerPlayTimeStyle" >
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ActivityAudioPlayerRightInfoTrackStyle" >
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>
