@@ -1,11 +1,20 @@
 package com.example.playlistmaker
 
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class TrackAdapter() : RecyclerView.Adapter<TrackViewHolder>() {
+
+    companion object{
+        private const val DEBOUNCE_DELAY = 1000L
+    }
+
+    private var clickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
 
     var onClickListener : ((Track) -> Unit)? = null
     var tracks = ArrayList<Track>()
@@ -24,5 +33,14 @@ class TrackAdapter() : RecyclerView.Adapter<TrackViewHolder>() {
         holder.itemView.setOnClickListener{
             onClickListener?.invoke(tracks[position])
         }
+    }
+
+    fun clickDebounce(): Boolean {
+       val current = clickAllowed
+        if (clickAllowed) {
+            clickAllowed = false
+            handler.postDelayed({clickAllowed = true}, DEBOUNCE_DELAY)
+        }
+        return current
     }
 }
