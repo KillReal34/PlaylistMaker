@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -20,9 +20,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import com.example.playlistmaker.R
+import com.example.playlistmaker.data.dto.SearchHistory
+import com.example.playlistmaker.domain.model.Track
+import com.example.playlistmaker.TrackResponse
+import com.example.playlistmaker.data.network.ITunesApi
+import com.example.playlistmaker.presentation.TrackAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

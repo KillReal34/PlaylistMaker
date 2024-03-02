@@ -1,11 +1,12 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation
 
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.model.Track
 
 class TrackAdapter() : RecyclerView.Adapter<TrackViewHolder>() {
 
