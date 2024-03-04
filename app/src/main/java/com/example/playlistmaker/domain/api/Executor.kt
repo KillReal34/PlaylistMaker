@@ -1,5 +1,11 @@
 package com.example.playlistmaker.domain.api
 
 interface Executor {
-    fun execute(message: String)
+
+    enum class MediaListener{
+        DoButtonEnable,
+        ChangeButtonDefault
+    }
+
+    fun execute(message: MediaListener)
 }

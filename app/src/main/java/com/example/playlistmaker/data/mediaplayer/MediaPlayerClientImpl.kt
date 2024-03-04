@@ -19,11 +19,11 @@ class MediaPlayerClientImpl(val executor: Executor) : MediaPlayerClient {
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
             playerState = PlayerState.STATE_PREPARED
-            executor.execute("DoButtonEnable")
+            executor.execute(Executor.MediaListener.DoButtonEnable)
         }
         mediaPlayer.setOnCompletionListener {
             playerState = PlayerState.STATE_PREPARED
-            executor.execute("ChangeButtonDefault")
+            executor.execute(Executor.MediaListener.ChangeButtonDefault)
         }
     }
 

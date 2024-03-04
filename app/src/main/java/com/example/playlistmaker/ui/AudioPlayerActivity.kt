@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.playlistmaker.Creator.Creator
 import com.example.playlistmaker.R
 import com.example.playlistmaker.domain.api.MediaPlayerClient
 import com.example.playlistmaker.data.mediaplayer.MediaPlayerClientImpl
@@ -44,13 +45,13 @@ class AudioPlayerActivity : AppCompatActivity(R.layout.activity_audioplayer), Ex
     private var trackGenre: TextView? = null
     private var trackCountry: TextView? = null
 
-    private val mediaPlayerClient: MediaPlayerClient = MediaPlayerClientImpl(this)
+    private var mediaPlayerClient: MediaPlayerClient = Creator.getMediaPlayerClient(this)
 
-    override fun execute(message: String) {
+    override fun execute(message: Executor.MediaListener) {
         btnPlay = findViewById(R.id.ib_play)
         when(message){
-            "DoButtonEnable" -> btnPlay?.isEnabled = true
-            "ChangeButtonDefault" -> btnPlay?.setImageResource(R.drawable.button_play)
+            Executor.MediaListener.DoButtonEnable -> btnPlay?.isEnabled = true
+            Executor.MediaListener.ChangeButtonDefault -> btnPlay?.setImageResource(R.drawable.button_play)
         }
     }
 
