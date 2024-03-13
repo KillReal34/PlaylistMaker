@@ -1,11 +1,12 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.playlistmaker.R
 
-class MainActivity : AppCompatActivity() {
+class LibraryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_library)
     }
 }

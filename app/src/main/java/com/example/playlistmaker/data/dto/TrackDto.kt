@@ -1,10 +1,6 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.data.dto
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
-@Parcelize
-data class Track(
+data class TrackDto (
     val trackId: Int,
     val collectionName: String,
     val releaseDate: String,
@@ -15,7 +11,4 @@ data class Track(
     val trackTimeMillis: Int,
     val artworkUrl100: String,
     val previewUrl: String
-) : Parcelable {
-    val coverArtWork: String
-        get() = artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
-}
+)

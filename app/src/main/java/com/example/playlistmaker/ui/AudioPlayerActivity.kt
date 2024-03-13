@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -10,22 +10,23 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.playlistmaker.Creator.Creator
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.api.MediaPlayerClient
+import com.example.playlistmaker.data.mediaplayer.MediaPlayerClientImpl
+import com.example.playlistmaker.domain.api.Executor
+import com.example.playlistmaker.domain.model.PlayerState
+import com.example.playlistmaker.domain.model.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class AudioPlayerActivity : AppCompatActivity(R.layout.activity_audioplayer) {
+class AudioPlayerActivity : AppCompatActivity(R.layout.activity_audioplayer), Executor{
 
     companion object {
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
         private const val DELAY = 500L
     }
-    private var playerState = STATE_DEFAULT
 
-    private var mediaPlayer = MediaPlayer()
     private var url: String = ""
 
     private var handler: Handler? = null
@@ -43,6 +44,16 @@ class AudioPlayerActivity : AppCompatActivity(R.layout.activity_audioplayer) {
     private var trackYear: TextView? = null
     private var trackGenre: TextView? = null
     private var trackCountry: TextView? = null
+
+    private var mediaPlayerClient: MediaPlayerClient = Creator.getMediaPlayerClient(this)
+
+    override fun execute(message: Executor.MediaListener) {
+        btnPlay = findViewById(R.id.ib_play)
+        when(message){
+            Executor.MediaListener.DoButtonEnable -> btnPlay?.isEnabled = true
+            Executor.MediaListener.ChangeButtonDefault -> btnPlay?.setImageResource(R.drawable.button_play)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,72 +101,46 @@ class AudioPlayerActivity : AppCompatActivity(R.layout.activity_audioplayer) {
             onBackPressed()
         }
 
-        preparePlayed()
-
+        mediaPlayerClient.preparePlayed(url)
+        
         btnPlay?.setOnClickListener {
-            playbackControl()
+            when(mediaPlayerClient.getPlayerState()) {
+                PlayerState.STATE_PLAYING -> btnPlay?.setImageResource(R.drawable.button_play)
+                PlayerState.STATE_PAUSED, PlayerState.STATE_PREPARED -> btnPlay?.setImageResource(R.drawable.button_stop)
+                else -> {}
+            }
+            mediaPlayerClient.playbackControl()
             handler?.post(updateTimerPlay())
         }
     }
 
     override fun onPause() {
         super.onPause()
-        pausedPlay()
+        mediaPlayerClient.pausedPlay()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         handler?.post(updateTimerPlay())
-        mediaPlayer.release()
-    }
-
-    private fun preparePlayed() {
-        mediaPlayer.setDataSource(url)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            btnPlay?.isEnabled = true
-            playerState = STATE_PREPARED
-        }
-        mediaPlayer.setOnCompletionListener {
-            playerState = STATE_PREPARED
-            btnPlay?.setImageResource(R.drawable.button_play)
-        }
-    }
-
-    private fun startPlay() {
-        mediaPlayer.start()
-        btnPlay?.setImageResource(R.drawable.button_stop)
-        playerState = STATE_PLAYING
-    }
-
-    private fun pausedPlay() {
-        mediaPlayer.pause()
-        btnPlay?.setImageResource(R.drawable.button_play)
-        playerState = STATE_PAUSED
-    }
-
-    private fun playbackControl() {
-        when(playerState) {
-            STATE_PLAYING -> {pausedPlay()}
-            STATE_PAUSED, STATE_PREPARED -> {startPlay()}
-        }
+        mediaPlayerClient.release()
     }
 
     private fun updateTimerPlay() : Runnable {
         return object : Runnable {
             override fun run() {
-                when(playerState) {
-                    STATE_PLAYING -> {
-                        tvPlayTime?.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+                when(mediaPlayerClient.getPlayerState()) {
+                    PlayerState.STATE_PLAYING -> {
+                        tvPlayTime?.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayerClient.currentPosition())
                         handler?.postDelayed(this, DELAY)
                     }
-                    STATE_PAUSED -> {
+                    PlayerState.STATE_PAUSED -> {
                         handler?.removeCallbacks(this)
                     }
-                    STATE_PREPARED -> {
+                    PlayerState.STATE_PREPARED -> {
                         tvPlayTime?.text = "00:00"
                         handler?.removeCallbacks(this)
                     }
+                    else -> {}
                 }
             }
         }
