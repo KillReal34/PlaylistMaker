@@ -3,12 +3,10 @@ package com.example.playlistmaker.settings.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import com.example.playlistmaker.data.dto.App
 import com.example.playlistmaker.R
+import com.example.playlistmaker.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -17,32 +15,26 @@ class SettingsActivity : AppCompatActivity() {
         const val SWITCH_KEY = "switchKey"
     }
 
-    private var buttonBackMain: Button? = null
-    private var switchDarkTheme: SwitchCompat? = null
-    private var shareApp: TextView? = null
-    private var supportText: TextView? = null
-    private var userAgreementText: TextView? = null
+    private lateinit var binding: ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        buttonBackMain = findViewById(R.id.button_back)
-        buttonBackMain!!.setOnClickListener {
+        binding.buttonBack.setOnClickListener {
             onBackPressed()
         }
 
         val sharedPref = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES_SWITCH, MODE_PRIVATE)
 
-        switchDarkTheme = findViewById(R.id.switch_dark_theme)
-        switchDarkTheme?.setOnCheckedChangeListener { buttonView, isChecked ->
-            sharedPref.edit().putBoolean(SWITCH_KEY, switchDarkTheme!!.isChecked).apply()
+        binding.switchDarkTheme.setOnCheckedChangeListener { _, isChecked ->
+            sharedPref.edit().putBoolean(SWITCH_KEY, isChecked).apply()
             (applicationContext as App).switchTheme(isChecked)
         }
-        switchDarkTheme!!.isChecked = sharedPref.getBoolean(SWITCH_KEY, false)
+        binding.switchDarkTheme.isChecked = sharedPref.getBoolean(SWITCH_KEY, false)
 
-        shareApp = findViewById(R.id.text_share_app)
-        shareApp!!.setOnClickListener {
+        binding.textShareApp.setOnClickListener {
             Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.share_app_headerText))
                 type = "text/plain"
@@ -50,8 +42,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        supportText = findViewById(R.id.text_support)
-        supportText!!.setOnClickListener {
+        binding.textSupport.setOnClickListener {
             Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_address)))
@@ -61,8 +52,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        userAgreementText = findViewById(R.id.text_user_agreement)
-        userAgreementText!!.setOnClickListener {
+        binding.textUserAgreement.setOnClickListener {
             Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(getString(R.string.user_agreement_address))
                 startActivity(this)
