@@ -1,12 +1,9 @@
-package com.example.playlistmaker.data.mediaplayer
+package com.example.playlistmaker.player.data
 
-import android.graphics.drawable.AdaptiveIconDrawable
 import android.media.MediaPlayer
-import android.widget.ImageButton
-import com.example.playlistmaker.R
-import com.example.playlistmaker.domain.api.Executor
-import com.example.playlistmaker.domain.api.MediaPlayerClient
-import com.example.playlistmaker.domain.model.PlayerState
+import com.example.playlistmaker.player.domain.api.Executor
+import com.example.playlistmaker.player.domain.api.MediaPlayerClient
+import com.example.playlistmaker.player.domain.model.PlayerState
 
 class MediaPlayerClientImpl(val executor: Executor) : MediaPlayerClient {
 

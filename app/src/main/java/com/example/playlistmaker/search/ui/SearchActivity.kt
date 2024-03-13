@@ -1,4 +1,4 @@
-package com.example.playlistmaker.ui
+package com.example.playlistmaker.search.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -22,9 +22,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.data.dto.SearchHistory
-import com.example.playlistmaker.domain.model.Track
-import com.example.playlistmaker.TrackResponse
+import com.example.playlistmaker.player.domain.model.Track
+import com.example.playlistmaker.search.data.TrackResponse
 import com.example.playlistmaker.data.network.ITunesApi
+import com.example.playlistmaker.player.ui.AudioPlayerActivity
 import com.example.playlistmaker.presentation.TrackAdapter
 import retrofit2.Call
 import retrofit2.Callback

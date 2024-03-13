@@ -1,7 +1,6 @@
-package com.example.playlistmaker.domain.api
+package com.example.playlistmaker.player.domain.api
 
-import android.widget.ImageButton
-import com.example.playlistmaker.domain.model.PlayerState
+import com.example.playlistmaker.player.domain.model.PlayerState
 
 interface MediaPlayerClient {
     fun preparePlayed(url: String)

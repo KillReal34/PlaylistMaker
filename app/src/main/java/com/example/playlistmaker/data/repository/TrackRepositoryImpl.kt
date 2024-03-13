@@ -1,6 +1,6 @@
 package com.example.playlistmaker.data.repository
 
-import com.example.playlistmaker.domain.model.Track
+import com.example.playlistmaker.player.domain.model.Track
 import com.example.playlistmaker.data.dto.TrackSearchRequest
 import com.example.playlistmaker.data.dto.TrackSearchResponse
 import com.example.playlistmaker.data.network.NetworkClient

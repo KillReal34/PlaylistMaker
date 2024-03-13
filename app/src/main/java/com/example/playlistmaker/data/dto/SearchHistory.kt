@@ -1,7 +1,7 @@
 package com.example.playlistmaker.data.dto
 
 import android.content.SharedPreferences
-import com.example.playlistmaker.domain.model.Track
+import com.example.playlistmaker.player.domain.model.Track
 import com.google.gson.Gson
 
 const val USER_KEY = "user_key"
