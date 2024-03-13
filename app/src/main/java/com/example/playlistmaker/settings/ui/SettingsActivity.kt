@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.playlistmaker.data.dto.App
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
+import com.example.playlistmaker.settings.domain.entities.SettingsUri
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -38,14 +39,14 @@ class SettingsActivity : AppCompatActivity() {
             Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.share_app_headerText))
                 type = "text/plain"
-                startActivity(Intent.createChooser(this, getString(R.string.share_app_message)))
+                startActivity(Intent.createChooser(this, SettingsUri.SHARE_APP))
             }
         }
 
         binding.textSupport.setOnClickListener {
             Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
-                putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_address)))
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(SettingsUri.SUPPORT_EMAIL))
                 putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_subject))
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.support_message))
                 startActivity(this)
@@ -54,7 +55,7 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.textUserAgreement.setOnClickListener {
             Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(getString(R.string.user_agreement_address))
+                data = Uri.parse(SettingsUri.USER_AGREEMENT)
                 startActivity(this)
             }
         }

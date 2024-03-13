@@ -5,14 +5,11 @@
     <string name="settings">Настройки</string>
     <string name="black_theme">Темная тема</string>
     <string name="share_app">Поделиться приложением</string>
-    <string name="share_app_message">https://practicum.yandex.ru/android-developer/?from=catalog</string>
     <string name="share_app_headerText">Поделиться Playlist Maker</string>
     <string name="support">Написать в поддержку</string>
     <string name="support_message">Спасибо разработчикам и разработчицам за крутое приложение!</string>
-    <string name="support_address">Kimate2499@yandex.ru</string>
     <string name="support_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="user_agreement">Пользовательское соглашение</string>
-    <string name="user_agreement_address">https://yandex.ru/legal/practicum_offer/</string>
     <string name="not_found_track_message">Ничего не нашлось</string>
     <string name="error_internet_connection_message">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="refresh_button">Обновить</string>
