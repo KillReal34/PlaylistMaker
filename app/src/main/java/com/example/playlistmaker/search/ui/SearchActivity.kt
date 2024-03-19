@@ -10,16 +10,8 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.ScrollView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.data.dto.SearchHistory
 import com.example.playlistmaker.player.domain.model.Track
@@ -45,19 +37,6 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
 
-//    private var searchResultLayout: LinearLayout? = null
-//    private var inputSearchText: EditText? = null
-//    private var clearButton: ImageView? = null
-//    private var backButton: Button? = null
-//    private var recyclerView: RecyclerView? = null
-//    private var errorImage: ImageView? = null
-//    private var errorText: TextView? = null
-//    private var refreshButton: Button? = null
-//    private var textHistoryTitle: TextView? = null
-//    private var btnClearHistory: Button? = null
-//    private var progressBar: ProgressBar? = null
-//    private var scrollView: ScrollView? = null
-
     private val trackAdapter = TrackAdapter()
     private val historyTrackAdapter = TrackAdapter()
 
@@ -79,19 +58,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        searchResultLayout = findViewById(R.id.ll_search_result_layout)
-//        inputSearchText = findViewById(R.id.et_input_search_text)
-//        clearButton = findViewById(R.id.iv_clear_icon)
-//        backButton = findViewById(R.id.button_back_activitySearch)
-//        recyclerView = findViewById(R.id.recycler_view)
-//        errorImage = findViewById(R.id.iv_error_image)
-//        errorText = findViewById(R.id.tv_error_text)
-//        refreshButton = findViewById(R.id.btn_refresh)
-//        textHistoryTitle = findViewById(R.id.tv_text_history_title)
-//        btnClearHistory = findViewById(R.id.btn_clear_history)
-//        progressBar = findViewById(R.id.progressBar)
-//        scrollView = findViewById(R.id.scrollView)
 
         val sharedPref = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES_TRACK, MODE_PRIVATE)
         val searchHistory = SearchHistory(sharedPref)
