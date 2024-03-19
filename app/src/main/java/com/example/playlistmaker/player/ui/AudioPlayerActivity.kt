@@ -7,11 +7,14 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.R
-import com.example.playlistmaker.player.domain.api.MediaPlayerClient
+import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
+import com.example.playlistmaker.databinding.ActivitySettingsBinding
+import com.example.playlistmaker.player.domain.api.PlayerRepository
 import com.example.playlistmaker.player.domain.api.Executor
 import com.example.playlistmaker.player.domain.model.PlayerState
 import com.example.playlistmaker.player.domain.model.Track
@@ -20,7 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class AudioPlayerActivity : AppCompatActivity(R.layout.activity_audioplayer), Executor {
+class AudioPlayerActivity : AppCompatActivity(), Executor {
 
     companion object {
         private const val DELAY = 500L
@@ -30,62 +33,45 @@ class AudioPlayerActivity : AppCompatActivity(R.layout.activity_audioplayer), Ex
 
     private var handler: Handler? = null
 
-    private var backButton: ImageButton? = null
-    private var trackImage: ImageView? = null
-    private var trackName: TextView? = null
-    private var groupName: TextView? = null
-    private var btnAddPlaylist: ImageButton? = null
-    private var btnPlay: ImageButton? = null
-    private var btnLike: ImageButton? = null
-    private var tvPlayTime: TextView? = null
-    private var trackTime: TextView? = null
-    private var albumName: TextView? = null
-    private var trackYear: TextView? = null
-    private var trackGenre: TextView? = null
-    private var trackCountry: TextView? = null
+    private lateinit var binding: ActivityAudioplayerBinding
 
-    private var mediaPlayerClient: MediaPlayerClient = Creator.getMediaPlayerClient(this)
+    private lateinit var viewModel: TrackViewModel
+
+    private var mediaPlayerClient: PlayerRepository = Creator.getPlayerRepository(this)
 
     override fun execute(message: Executor.MediaListener) {
-        btnPlay = findViewById(R.id.ib_play)
-        when(message){
-            Executor.MediaListener.DoButtonEnable -> btnPlay?.isEnabled = true
-            Executor.MediaListener.ChangeButtonDefault -> btnPlay?.setImageResource(R.drawable.button_play)
+        when (message) {
+            Executor.MediaListener.DoButtonEnable -> binding.ibPlay.isEnabled = true
+            Executor.MediaListener.ChangeButtonDefault -> binding.ibPlay.setImageResource(R.drawable.button_play)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityAudioplayerBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(
+            this,
+            TrackViewModel.getViewModelFactory("123")
+        )[TrackViewModel::class.java]
+        setContentView(binding.root)
 
         handler = Handler(Looper.getMainLooper())
 
-        backButton = findViewById(R.id.button_back)
-        trackImage = findViewById(R.id.iv_track_image)
-        trackName = findViewById(R.id.tv_track_name)
-        groupName = findViewById(R.id.tv_name_group)
-        trackTime = findViewById(R.id.tv_right_time_track)
-        albumName = findViewById(R.id.tv_right_album_name)
-        trackYear = findViewById(R.id.tv_right_year_track)
-        trackGenre = findViewById(R.id.tv_right_track_genre)
-        trackCountry = findViewById(R.id.tv_right_track_country)
-        btnPlay = findViewById(R.id.ib_play)
-        tvPlayTime = findViewById(R.id.tv_play_time)
-        tvPlayTime?.text = "00:00"
-
         intent?.extras?.getParcelable<Track>(SearchActivity.TRACK_EXTRA)?.let { track ->
             url = track.previewUrl
-            trackName?.text = track.trackName
-            groupName?.text = track.artistName
-            trackTime?.text =
+            binding.tvTrackName.text = track.trackName
+            binding.tvNameGroup.text = track.artistName
+            binding.tvRightTimeTrack.text =
                 SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
-            albumName?.text = track.collectionName
+            binding.tvRightAlbumName.text = track.collectionName
             val date = SimpleDateFormat(
                 "yyyy-MM-dd'T'HH:mm:ss'Z'",
                 Locale.getDefault()
             ).parse(track.releaseDate)
-            trackYear?.text = SimpleDateFormat("yyyy", Locale.getDefault()).format(date)
-            trackGenre?.text = track.primaryGenreName
-            trackCountry?.text = track.country
+            binding.tvRightYearTrack.text =
+                SimpleDateFormat("yyyy", Locale.getDefault()).format(date)
+            binding.tvRightTrackGenre.text = track.primaryGenreName
+            binding.tvRightTrackCountry.text = track.country
 
             val density = resources.displayMetrics.density
             val roundedCornersImage = 8 * density
@@ -93,19 +79,22 @@ class AudioPlayerActivity : AppCompatActivity(R.layout.activity_audioplayer), Ex
                 .load(track.coverArtWork)
                 .placeholder(R.drawable.no_load_image)
                 .transform(RoundedCorners(roundedCornersImage.toInt()))
-                .into(trackImage ?: return@let)
+                .into(binding.ivTrackImage)
         }
 
-        backButton?.setOnClickListener {
+        binding.buttonBack.setOnClickListener {
             onBackPressed()
         }
 
         mediaPlayerClient.preparePlayed(url)
-        
-        btnPlay?.setOnClickListener {
-            when(mediaPlayerClient.getPlayerState()) {
-                PlayerState.STATE_PLAYING -> btnPlay?.setImageResource(R.drawable.button_play)
-                PlayerState.STATE_PAUSED, PlayerState.STATE_PREPARED -> btnPlay?.setImageResource(R.drawable.button_stop)
+
+        binding.ibPlay.setOnClickListener {
+            when (mediaPlayerClient.getPlayerState()) {
+                PlayerState.STATE_PLAYING -> binding.ibPlay.setImageResource(R.drawable.button_play)
+                PlayerState.STATE_PAUSED, PlayerState.STATE_PREPARED -> binding.ibPlay.setImageResource(
+                    R.drawable.button_stop
+                )
+
                 else -> {}
             }
             mediaPlayerClient.playbackControl()
@@ -124,21 +113,27 @@ class AudioPlayerActivity : AppCompatActivity(R.layout.activity_audioplayer), Ex
         mediaPlayerClient.release()
     }
 
-    private fun updateTimerPlay() : Runnable {
+    private fun updateTimerPlay(): Runnable {
         return object : Runnable {
             override fun run() {
-                when(mediaPlayerClient.getPlayerState()) {
+                when (mediaPlayerClient.getPlayerState()) {
                     PlayerState.STATE_PLAYING -> {
-                        tvPlayTime?.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayerClient.currentPosition())
+                        binding.tvPlayTime.text = SimpleDateFormat(
+                            "mm:ss",
+                            Locale.getDefault()
+                        ).format(mediaPlayerClient.currentPosition())
                         handler?.postDelayed(this, DELAY)
                     }
+
                     PlayerState.STATE_PAUSED -> {
                         handler?.removeCallbacks(this)
                     }
+
                     PlayerState.STATE_PREPARED -> {
-                        tvPlayTime?.text = "00:00"
+                        binding.tvPlayTime.text = "00:00"
                         handler?.removeCallbacks(this)
                     }
+
                     else -> {}
                 }
             }

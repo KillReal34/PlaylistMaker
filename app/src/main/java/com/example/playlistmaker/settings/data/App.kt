@@ -1,4 +1,4 @@
-package com.example.playlistmaker.data.dto
+package com.example.playlistmaker.settings.data
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate

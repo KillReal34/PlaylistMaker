@@ -2,7 +2,7 @@ package com.example.playlistmaker.player.domain.api
 
 import com.example.playlistmaker.player.domain.model.PlayerState
 
-interface MediaPlayerClient {
+interface PlayerInteractor {
     fun preparePlayed(url: String)
 
     fun startPlay()

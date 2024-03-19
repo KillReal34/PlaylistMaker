@@ -25,6 +25,7 @@ import com.example.playlistmaker.data.dto.SearchHistory
 import com.example.playlistmaker.player.domain.model.Track
 import com.example.playlistmaker.search.data.TrackResponse
 import com.example.playlistmaker.data.network.ITunesApi
+import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.player.ui.AudioPlayerActivity
 import com.example.playlistmaker.presentation.TrackAdapter
 import retrofit2.Call
@@ -42,18 +43,20 @@ class SearchActivity : AppCompatActivity() {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 
-    private var searchResultLayout: LinearLayout? = null
-    private var inputSearchText: EditText? = null
-    private var clearButton: ImageView? = null
-    private var backButton: Button? = null
-    private var recyclerView: RecyclerView? = null
-    private var errorImage: ImageView? = null
-    private var errorText: TextView? = null
-    private var refreshButton: Button? = null
-    private var textHistoryTitle: TextView? = null
-    private var btnClearHistory: Button? = null
-    private var progressBar: ProgressBar? = null
-    private var scrollView: ScrollView? = null
+    private lateinit var binding: ActivitySearchBinding
+
+//    private var searchResultLayout: LinearLayout? = null
+//    private var inputSearchText: EditText? = null
+//    private var clearButton: ImageView? = null
+//    private var backButton: Button? = null
+//    private var recyclerView: RecyclerView? = null
+//    private var errorImage: ImageView? = null
+//    private var errorText: TextView? = null
+//    private var refreshButton: Button? = null
+//    private var textHistoryTitle: TextView? = null
+//    private var btnClearHistory: Button? = null
+//    private var progressBar: ProgressBar? = null
+//    private var scrollView: ScrollView? = null
 
     private val trackAdapter = TrackAdapter()
     private val historyTrackAdapter = TrackAdapter()
@@ -74,20 +77,21 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        searchResultLayout = findViewById(R.id.ll_search_result_layout)
-        inputSearchText = findViewById(R.id.et_input_search_text)
-        clearButton = findViewById(R.id.iv_clear_icon)
-        backButton = findViewById(R.id.button_back_activitySearch)
-        recyclerView = findViewById(R.id.recycler_view)
-        errorImage = findViewById(R.id.iv_error_image)
-        errorText = findViewById(R.id.tv_error_text)
-        refreshButton = findViewById(R.id.btn_refresh)
-        textHistoryTitle = findViewById(R.id.tv_text_history_title)
-        btnClearHistory = findViewById(R.id.btn_clear_history)
-        progressBar = findViewById(R.id.progressBar)
-        scrollView = findViewById(R.id.scrollView)
+//        searchResultLayout = findViewById(R.id.ll_search_result_layout)
+//        inputSearchText = findViewById(R.id.et_input_search_text)
+//        clearButton = findViewById(R.id.iv_clear_icon)
+//        backButton = findViewById(R.id.button_back_activitySearch)
+//        recyclerView = findViewById(R.id.recycler_view)
+//        errorImage = findViewById(R.id.iv_error_image)
+//        errorText = findViewById(R.id.tv_error_text)
+//        refreshButton = findViewById(R.id.btn_refresh)
+//        textHistoryTitle = findViewById(R.id.tv_text_history_title)
+//        btnClearHistory = findViewById(R.id.btn_clear_history)
+//        progressBar = findViewById(R.id.progressBar)
+//        scrollView = findViewById(R.id.scrollView)
 
         val sharedPref = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES_TRACK, MODE_PRIVATE)
         val searchHistory = SearchHistory(sharedPref)
@@ -126,32 +130,32 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        backButton?.setOnClickListener{
+        binding.buttonBackActivitySearch.setOnClickListener{
             onBackPressed()
         }
 
-        clearButton?.setOnClickListener {
+        binding.ivClearIcon.setOnClickListener {
             trackList.clear()
             trackAdapter.notifyDataSetChanged()
-            inputSearchText?.setText("")
+            binding.etInputSearchText.setText("")
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
 
-        refreshButton?.setOnClickListener {
-            recyclerView?.isVisible = true
+        binding.btnRefresh.setOnClickListener {
+            binding.recyclerView.isVisible = true
             searchITunesApi(searchText)
         }
 
-        btnClearHistory?.setOnClickListener {
+        binding.btnClearHistory.setOnClickListener {
             searchHistory.clear()
             historyTrackAdapter.tracks.clear()
             historyTrackAdapter.notifyDataSetChanged()
-            textHistoryTitle?.isVisible = false
-            btnClearHistory?.isVisible = false
+            binding.tvTextHistoryTitle.isVisible = false
+            binding.btnClearHistory.isVisible = false
         }
 
-        inputSearchText?.setOnEditorActionListener { _, actionId, _ ->
+        binding.etInputSearchText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 searchITunesApi(searchText)
                 true
@@ -159,16 +163,16 @@ class SearchActivity : AppCompatActivity() {
             false
         }
 
-        inputSearchText?.setOnFocusChangeListener { view, hasFocus ->
-            if(hasFocus && inputSearchText?.text!!.isEmpty()  && searchHistory.read().isNotEmpty()) {
-                textHistoryTitle?.isVisible = true
-                btnClearHistory?.isVisible = true
-                recyclerView?.adapter = historyTrackAdapter
+        binding.etInputSearchText.setOnFocusChangeListener { view, hasFocus ->
+            if(hasFocus && binding.etInputSearchText.text!!.isEmpty()  && searchHistory.read().isNotEmpty()) {
+                binding.tvTextHistoryTitle.isVisible = true
+                binding.btnClearHistory.isVisible = true
+                binding.recyclerView.adapter = historyTrackAdapter
                 historyTrackAdapter.notifyDataSetChanged()
             } else {
-                textHistoryTitle?.isVisible = false
-                btnClearHistory?.isVisible = false
-                recyclerView?.adapter = trackAdapter
+                binding.tvTextHistoryTitle.isVisible = false
+                binding.btnClearHistory.isVisible = false
+                binding.recyclerView.adapter = trackAdapter
                 trackAdapter.notifyDataSetChanged()
             }
         }
@@ -183,16 +187,16 @@ class SearchActivity : AppCompatActivity() {
 
                 searchDebounce()
 
-                clearButton?.visibility = clearButtonVisibility(s)
-                if (inputSearchText?.hasFocus() == true && s?.isEmpty() == true && searchHistory.read().isNotEmpty()) {
-                    textHistoryTitle?.isVisible = true
-                    btnClearHistory?.isVisible = true
-                    recyclerView?.adapter = historyTrackAdapter
+                binding.ivClearIcon.visibility = clearButtonVisibility(s)
+                if (binding.etInputSearchText.hasFocus() && s?.isEmpty() == true && searchHistory.read().isNotEmpty()) {
+                    binding.tvTextHistoryTitle.isVisible = true
+                    binding.btnClearHistory.isVisible = true
+                    binding.recyclerView.adapter = historyTrackAdapter
                     historyTrackAdapter.notifyDataSetChanged()
                 } else {
-                    textHistoryTitle?.isVisible = false
-                    btnClearHistory?.isVisible = false
-                    recyclerView?.adapter = trackAdapter
+                    binding.tvTextHistoryTitle.isVisible = false
+                    binding.btnClearHistory.isVisible = false
+                    binding.recyclerView.adapter = trackAdapter
                     trackAdapter.notifyDataSetChanged()
                 }
             }
@@ -201,8 +205,8 @@ class SearchActivity : AppCompatActivity() {
                 //empty
             }
         }
-        inputSearchText?.addTextChangedListener(simpleTextWatcher)
-        inputSearchText?.setText(searchText)
+        binding.etInputSearchText.addTextChangedListener(simpleTextWatcher)
+        binding.etInputSearchText.setText(searchText)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -231,22 +235,22 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchITunesApi(query: String) {
-        if (inputSearchText?.text!!.isNotEmpty()) {
-            progressBar?.isVisible = true
-            scrollView?.isVisible = false
+        if (binding.etInputSearchText.text!!.isNotEmpty()) {
+            binding.progressBar.isVisible = true
+            binding.scrollView.isVisible = false
 
             itunesService.search(query).enqueue(object : Callback<TrackResponse>{
                 override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
-                    progressBar?.isVisible = false
-                    scrollView?.isVisible = true
+                    binding.progressBar.isVisible = false
+                    binding.scrollView.isVisible = true
 
                     val trackResponseResult = response.body()?.results
 
                     if (trackResponseResult?.isNotEmpty() == true) {
-                        recyclerView?.isVisible = true
-                        errorText?.isVisible = false
-                        errorImage?.isVisible = false
-                        refreshButton?.isVisible = false
+                        binding.recyclerView.isVisible = true
+                        binding.tvErrorText.isVisible = false
+                        binding.ivErrorImage.isVisible = false
+                        binding.btnRefresh.isVisible = false
                         trackList.clear()
                         trackList.addAll(trackResponseResult)
                         trackAdapter.notifyDataSetChanged()
@@ -254,35 +258,34 @@ class SearchActivity : AppCompatActivity() {
                     else {
                         trackList.clear()
                         trackAdapter.notifyDataSetChanged()
-                        recyclerView?.isVisible = false
-                        refreshButton?.isVisible = false
-                        errorImage?.isVisible = true
-                        errorText?.isVisible = true
+                        binding.recyclerView.isVisible = false
+                        binding.btnRefresh.isVisible = false
+                        binding.ivErrorImage.isVisible = true
+                        binding.tvErrorText.isVisible = true
                         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                            errorImage?.setImageResource(R.drawable.not_found_track_image_night_mode)
+                            binding.ivErrorImage.setImageResource(R.drawable.not_found_track_image_night_mode)
                         }
                         else {
-                            errorImage?.setImageResource(R.drawable.not_found_track_image_light_mode)
+                            binding.ivErrorImage.setImageResource(R.drawable.not_found_track_image_light_mode)
                         }
-                        errorText?.setText(R.string.not_found_track_message)
+                        binding.tvErrorText.setText(R.string.not_found_track_message)
                     }
                 }
                 override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                    progressBar?.isVisible = false
-                    scrollView?.isVisible = true
-
+                    binding.progressBar.isVisible = false
+                    binding.scrollView.isVisible = true
                     trackList.clear()
                     trackAdapter.notifyDataSetChanged()
-                    recyclerView?.isVisible = false
-                    errorImage?.isVisible = true
-                    errorText?.isVisible = true
+                    binding.recyclerView.isVisible = false
+                    binding.ivErrorImage.isVisible = true
+                    binding.tvErrorText.isVisible = true
                     if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                        errorImage?.setImageResource(R.drawable.error_internet_connection_image_night_mode)
+                        binding.ivErrorImage.setImageResource(R.drawable.error_internet_connection_image_night_mode)
                     } else {
-                        errorImage?.setImageResource(R.drawable.error_internet_connection_image_light_mode)
+                        binding.ivErrorImage.setImageResource(R.drawable.error_internet_connection_image_light_mode)
                     }
-                    errorText?.setText(R.string.error_internet_connection_message)
-                    refreshButton?.isVisible = true
+                    binding.tvErrorText.setText(R.string.error_internet_connection_message)
+                    binding.btnRefresh.isVisible = true
                 }
             })
         }

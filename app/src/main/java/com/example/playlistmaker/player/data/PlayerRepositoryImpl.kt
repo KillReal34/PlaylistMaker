@@ -2,10 +2,10 @@ package com.example.playlistmaker.player.data
 
 import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.api.Executor
-import com.example.playlistmaker.player.domain.api.MediaPlayerClient
+import com.example.playlistmaker.player.domain.api.PlayerRepository
 import com.example.playlistmaker.player.domain.model.PlayerState
 
-class MediaPlayerClientImpl(val executor: Executor) : MediaPlayerClient {
+class PlayerRepositoryImpl(val executor: Executor) : PlayerRepository {
 
     private var playerState: PlayerState? = null
 
