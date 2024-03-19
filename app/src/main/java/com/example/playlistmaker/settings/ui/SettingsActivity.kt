@@ -4,60 +4,60 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.playlistmaker.settings.data.App
+import androidx.activity.viewModels
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivitySettingsBinding
 import com.example.playlistmaker.settings.domain.entities.SettingsUri
 
 class SettingsActivity : AppCompatActivity() {
 
-    companion object {
-        const val PLAYLIST_MAKER_PREFERENCES_SWITCH = "playlist_maker_preferences_switch"
-        const val SWITCH_KEY = "switchKey"
-    }
-
     private lateinit var binding: ActivitySettingsBinding
+    private val viewModel: SettingsScreenViewModel by viewModels { SettingsScreenViewModel.Factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel.themeLiveData.observe(this) { theme ->
+            binding.switchDarkTheme.isChecked = theme.isDark
+        }
+
         binding.buttonBack.setOnClickListener {
             onBackPressed()
         }
 
-        val sharedPref = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES_SWITCH, MODE_PRIVATE)
-
         binding.switchDarkTheme.setOnCheckedChangeListener { _, isChecked ->
-            sharedPref.edit().putBoolean(SWITCH_KEY, isChecked).apply()
-            (applicationContext as App).switchTheme(isChecked)
+            viewModel.changeTheme(isDark = isChecked)
         }
-        binding.switchDarkTheme.isChecked = sharedPref.getBoolean(SWITCH_KEY, false)
 
         binding.textShareApp.setOnClickListener {
-            Intent(Intent.ACTION_SEND).apply {
-                putExtra(Intent.EXTRA_TEXT, getString(R.string.share_app_headerText))
-                type = "text/plain"
-                startActivity(Intent.createChooser(this, SettingsUri.SHARE_APP))
-            }
+            startActivity(Intent.createChooser(createShareAppIntent(), SettingsUri.SHARE_APP))
         }
 
         binding.textSupport.setOnClickListener {
-            Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:")
-                putExtra(Intent.EXTRA_EMAIL, arrayOf(SettingsUri.SUPPORT_EMAIL))
-                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_subject))
-                putExtra(Intent.EXTRA_TEXT, getString(R.string.support_message))
-                startActivity(this)
-            }
+            startActivity(createSupportIntent())
         }
 
         binding.textUserAgreement.setOnClickListener {
-            Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(SettingsUri.USER_AGREEMENT)
-                startActivity(this)
-            }
+            startActivity(createUserAgreementIntent())
         }
     }
+
+    private fun createShareAppIntent(): Intent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.share_app_headerText))
+            type = "text/plain"
+        }
+
+    private fun createSupportIntent(): Intent = Intent(Intent.ACTION_SENDTO).apply {
+        data = Uri.parse("mailto:")
+        putExtra(Intent.EXTRA_EMAIL, arrayOf(SettingsUri.SUPPORT_EMAIL))
+        putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_subject))
+        putExtra(Intent.EXTRA_TEXT, getString(R.string.support_message))
+    }
+
+    private fun createUserAgreementIntent(): Intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(SettingsUri.USER_AGREEMENT)
+    }
+
 }

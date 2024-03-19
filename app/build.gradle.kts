@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.playlistmaker"
-    compileSdk = 33
+    compileSdk = 34
 
     buildFeatures {
         viewBinding = true
@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId = "com.example.playlistmaker"
         minSdk = 29
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -43,8 +43,9 @@ android {
 
 dependencies {
 
+    implementation("androidx.activity:activity-ktx:1.8.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
