@@ -10,21 +10,19 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import com.example.playlistmaker.R
 import com.example.playlistmaker.data.dto.SearchHistory
 import com.example.playlistmaker.player.domain.model.Track
 import com.example.playlistmaker.search.data.TrackResponse
-import com.example.playlistmaker.data.network.ITunesApi
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.player.ui.AudioPlayerActivity
 import com.example.playlistmaker.presentation.TrackAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
 
@@ -37,22 +35,24 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
 
-    private val trackAdapter = TrackAdapter()
-    private val historyTrackAdapter = TrackAdapter()
+    private val viewModel: SearchScreenViewModel by viewModels { SearchScreenViewModel.Factory }
+// Сделать lateinit
+    private val trackAdapter = TrackAdapter(trackListLiveData = viewModel)
+    private val historyTrackAdapter = TrackAdapter(trackListLiveData = viewModel.trackListAuditionHistoryLiveData)
 
     var searchText = ""
 
-    private val baseITunesUrl = "https://itunes.apple.com"
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(baseITunesUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val itunesService = retrofit.create(ITunesApi::class.java)
+//    private val baseITunesUrl = "https://itunes.apple.com"
+//    private val retrofit = Retrofit.Builder()
+//        .baseUrl(baseITunesUrl)
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .build()
+//    private val itunesService = retrofit.create(ITunesApi::class.java)
 
     private val handlerSearch = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable { searchITunesApi(searchText) }
+    private val searchRunnable = Runnable { viewModel.searchTrackByName(searchText) }
 
-    private val trackList = ArrayList<Track>()
+//    private val trackList = ArrayList<Track>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,21 +65,24 @@ class SearchActivity : AppCompatActivity() {
         trackAdapter.tracks = trackList
         historyTrackAdapter.tracks.addAll(searchHistory.read())
 
-        trackAdapter.onClickListener = {track ->
-            val historyTrackIndex = searchHistory.read().indexOf(track)
-
-            if (searchHistory.read().contains(track) && track.trackId == searchHistory.read()[historyTrackIndex].trackId) {
-                historyTrackAdapter.tracks.remove(track)
-                historyTrackAdapter.tracks.add(0, track)
-                searchHistory.write(historyTrackAdapter.tracks)
-            }else if (historyTrackAdapter.itemCount < 10) {
-                historyTrackAdapter.tracks.add(0, track)
-                searchHistory.write(historyTrackAdapter.tracks)
-            } else {
-                historyTrackAdapter.tracks.add(0, track)
-                historyTrackAdapter.tracks.removeAt(10)
-                searchHistory.write(historyTrackAdapter.tracks)
-            }
+        trackAdapter.onClickListener = { track ->
+//            val historyTrackIndex = searchHistory.read().indexOf(track)
+//
+//            if (searchHistory.read()
+//                    .contains(track) && track.trackId == searchHistory.read()[historyTrackIndex].trackId
+//            ) {
+//                historyTrackAdapter.tracks.remove(track)
+//                historyTrackAdapter.tracks.add(0, track)
+//                searchHistory.write(historyTrackAdapter.tracks)
+//            } else if (historyTrackAdapter.itemCount < 10) {
+//                historyTrackAdapter.tracks.add(0, track)
+//                searchHistory.write(historyTrackAdapter.tracks)
+//            } else {
+//                historyTrackAdapter.tracks.add(0, track)
+//                historyTrackAdapter.tracks.removeAt(10)
+//                searchHistory.write(historyTrackAdapter.tracks)
+//            }
+            viewModel.addTrackToAuditionHistory(track)
 
             if (trackAdapter.clickDebounce()) {
                 val audioPlayerIntent = Intent(this, AudioPlayerActivity::class.java)
@@ -88,7 +91,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        historyTrackAdapter.onClickListener = {track ->
+        historyTrackAdapter.onClickListener = { track ->
             if (historyTrackAdapter.clickDebounce()) {
                 val audioPlayerIntent = Intent(this, AudioPlayerActivity::class.java)
                 audioPlayerIntent.putExtra(TRACK_EXTRA, track)
@@ -96,7 +99,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        binding.buttonBackActivitySearch.setOnClickListener{
+        binding.buttonBackActivitySearch.setOnClickListener {
             onBackPressed()
         }
 
@@ -110,7 +113,8 @@ class SearchActivity : AppCompatActivity() {
 
         binding.btnRefresh.setOnClickListener {
             binding.recyclerView.isVisible = true
-            searchITunesApi(searchText)
+            viewModel.searchTrackByName(searchText)
+//            searchITunesApi(searchText)
         }
 
         binding.btnClearHistory.setOnClickListener {
@@ -123,14 +127,17 @@ class SearchActivity : AppCompatActivity() {
 
         binding.etInputSearchText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                searchITunesApi(searchText)
+                viewModel.searchTrackByName(searchText)
+//                searchITunesApi(searchText)
                 true
             }
             false
         }
 
         binding.etInputSearchText.setOnFocusChangeListener { view, hasFocus ->
-            if(hasFocus && binding.etInputSearchText.text!!.isEmpty()  && searchHistory.read().isNotEmpty()) {
+            if (hasFocus && binding.etInputSearchText.text.isEmpty() && searchHistory.read()
+                    .isNotEmpty()
+            ) {
                 binding.tvTextHistoryTitle.isVisible = true
                 binding.btnClearHistory.isVisible = true
                 binding.recyclerView.adapter = historyTrackAdapter
@@ -154,17 +161,14 @@ class SearchActivity : AppCompatActivity() {
                 searchDebounce()
 
                 binding.ivClearIcon.visibility = clearButtonVisibility(s)
-                if (binding.etInputSearchText.hasFocus() && s?.isEmpty() == true && searchHistory.read().isNotEmpty()) {
-                    binding.tvTextHistoryTitle.isVisible = true
-                    binding.btnClearHistory.isVisible = true
-                    binding.recyclerView.adapter = historyTrackAdapter
-                    historyTrackAdapter.notifyDataSetChanged()
-                } else {
-                    binding.tvTextHistoryTitle.isVisible = false
-                    binding.btnClearHistory.isVisible = false
-                    binding.recyclerView.adapter = trackAdapter
-                    trackAdapter.notifyDataSetChanged()
-                }
+                val a =
+                    binding.etInputSearchText.hasFocus() && s?.isEmpty() == true && searchHistory.read()
+                        .isNotEmpty()
+
+                binding.tvTextHistoryTitle.isVisible = a
+                binding.btnClearHistory.isVisible = a
+                binding.recyclerView.adapter = if (a) historyTrackAdapter else trackAdapter
+                historyTrackAdapter.notifyDataSetChanged()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -201,12 +205,15 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchITunesApi(query: String) {
-        if (binding.etInputSearchText.text!!.isNotEmpty()) {
+        if (binding.etInputSearchText.text.isNotEmpty()) {
             binding.progressBar.isVisible = true
             binding.scrollView.isVisible = false
 
-            itunesService.search(query).enqueue(object : Callback<TrackResponse>{
-                override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
+            itunesService.search(query).enqueue(object : Callback<TrackResponse> {
+                override fun onResponse(
+                    call: Call<TrackResponse>,
+                    response: Response<TrackResponse>
+                ) {
                     binding.progressBar.isVisible = false
                     binding.scrollView.isVisible = true
 
@@ -220,23 +227,22 @@ class SearchActivity : AppCompatActivity() {
                         trackList.clear()
                         trackList.addAll(trackResponseResult)
                         trackAdapter.notifyDataSetChanged()
-                    }
-                    else {
+                    } else {
                         trackList.clear()
                         trackAdapter.notifyDataSetChanged()
                         binding.recyclerView.isVisible = false
                         binding.btnRefresh.isVisible = false
                         binding.ivErrorImage.isVisible = true
                         binding.tvErrorText.isVisible = true
-                        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                             binding.ivErrorImage.setImageResource(R.drawable.not_found_track_image_night_mode)
-                        }
-                        else {
+                        } else {
                             binding.ivErrorImage.setImageResource(R.drawable.not_found_track_image_light_mode)
                         }
                         binding.tvErrorText.setText(R.string.not_found_track_message)
                     }
                 }
+
                 override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
                     binding.progressBar.isVisible = false
                     binding.scrollView.isVisible = true
@@ -245,7 +251,7 @@ class SearchActivity : AppCompatActivity() {
                     binding.recyclerView.isVisible = false
                     binding.ivErrorImage.isVisible = true
                     binding.tvErrorText.isVisible = true
-                    if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                    if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                         binding.ivErrorImage.setImageResource(R.drawable.error_internet_connection_image_night_mode)
                     } else {
                         binding.ivErrorImage.setImageResource(R.drawable.error_internet_connection_image_light_mode)

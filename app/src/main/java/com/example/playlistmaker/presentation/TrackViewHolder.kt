@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.player.domain.model.Track
+import com.example.playlistmaker.domain.entities.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -31,7 +31,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         releaseDate?.text = item.releaseDate
         primaryGenreName?.text = item.primaryGenreName
         country?.text = item.country
-        trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(item.trackTimeMillis)
+        trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(item.duration)
         Glide.with(itemView)
             .load(item.coverArtWork)
             .centerCrop()
@@ -40,3 +40,6 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .into(trackImage)
     }
 }
+
+private val Track.coverArtWork: String
+    get() = artworkUrl.replaceAfterLast('/', "512x512bb.jpg")

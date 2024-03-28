@@ -1,5 +1,6 @@
 package com.example.playlistmaker.domain.entities
 
+import java.io.Serializable
 import kotlin.time.Duration
 
 data class Track(
@@ -13,4 +14,4 @@ data class Track(
     val duration: Duration,
     val artworkUrl: String,
     val previewUrl: String,
-)
+): Serializable
