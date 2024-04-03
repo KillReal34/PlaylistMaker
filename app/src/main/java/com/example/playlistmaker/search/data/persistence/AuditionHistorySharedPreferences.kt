@@ -15,7 +15,11 @@ class AuditionHistorySharedPreferences(
     private val gson = Gson()
     override fun add(track: Track) {
         val json = sharedPreferences.getString(auditionHistoryKey, null)
-        val historyTrackList = gson.fromJson(json, Array<Track>::class.java).toMutableList()
+        val historyTrackList = if (json != null) {
+            gson.fromJson(json, Array<Track>::class.java).toMutableList()
+        } else {
+            mutableListOf()
+        }
 
         val historyTrackListIndex = historyTrackList.indexOfFirst { it.trackId == track.trackId }
         val maxHistorySize = 10
@@ -32,7 +36,9 @@ class AuditionHistorySharedPreferences(
         }
     }
 
-    override fun clear() = sharedPreferences.edit { clear() }
+    override fun clear() {
+        sharedPreferences.edit { clear() }
+    }
 
     override fun getLiveData(): LiveData<AuditionHistory> =
         object : LiveData<AuditionHistory>(sharedPreferences.getAuditionHistoryValue()) {
@@ -63,21 +69,25 @@ class AuditionHistorySharedPreferences(
                     sharedPreferences: SharedPreferences?,
                     key: String?
                 ) {
-                    if (auditionHistoryKey != key) return
+                    if (key != null && auditionHistoryKey != key) return
 
-                    postValue(sharedPreferences?.getAuditionHistoryValue())
+                    postValue(sharedPreferences?.getAuditionHistoryValue(key = key))
                 }
             }
         }
 
-    private fun SharedPreferences.getAuditionHistoryValue(): AuditionHistory {
-        val trackListJson = getString(auditionHistoryKey, null)
+    private fun SharedPreferences.getAuditionHistoryValue(
+        key: String? = auditionHistoryKey,
+    ): AuditionHistory {
+        if (key == null) return AuditionHistory(trackList = emptyList())
+
+        val trackListJson = getString(key, null)
         val trackList = if (trackListJson.isNullOrEmpty()) {
             emptyList()
         } else {
             gson.fromJson(trackListJson, Array<Track>::class.java).toList()
         }
 
-        return AuditionHistory(trackList)
+        return AuditionHistory(trackList = trackList)
     }
 }

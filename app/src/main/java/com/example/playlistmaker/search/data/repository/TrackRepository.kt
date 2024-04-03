@@ -1,10 +1,10 @@
-package com.example.playlistmaker.search.domain.interactor
+package com.example.playlistmaker.search.data.repository
 
 import com.example.playlistmaker.domain.entities.Track
 
-interface SearchTracksByNameInteractor {
-    operator fun invoke(
-        namePattern: String,
+interface TrackRepository {
+    fun searchByName(
+        pattern: String,
         onSuccess: (trackList: List<Track>) -> Unit,
         onFailure: (exception: Throwable) -> Unit,
     )
