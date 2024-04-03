@@ -3,140 +3,115 @@ package com.example.playlistmaker.player.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
-import com.example.playlistmaker.databinding.ActivitySettingsBinding
-import com.example.playlistmaker.player.domain.api.PlayerRepository
-import com.example.playlistmaker.player.domain.api.Executor
-import com.example.playlistmaker.player.domain.model.PlayerState
-import com.example.playlistmaker.player.domain.model.Track
-import com.example.playlistmaker.search.ui.SearchActivity
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.time.Duration.Companion.milliseconds
 
-
-class AudioPlayerActivity : AppCompatActivity(), Executor {
+class AudioPlayerActivity : AppCompatActivity() {
 
     companion object {
-        private const val DELAY = 500L
+        const val TRACK_EXTRA = "track_extra"
+        private val DELAY = 500.milliseconds
     }
 
-    private var url: String = ""
+    private val handler = Handler(Looper.getMainLooper())
 
-    private var handler: Handler? = null
-
-    private lateinit var binding: ActivityAudioplayerBinding
-
-    private lateinit var viewModel: TrackViewModel
-
-    private var mediaPlayerClient: PlayerRepository = Creator.getPlayerRepository(this)
-
-    override fun execute(message: Executor.MediaListener) {
-        when (message) {
-            Executor.MediaListener.DoButtonEnable -> binding.ibPlay.isEnabled = true
-            Executor.MediaListener.ChangeButtonDefault -> binding.ibPlay.setImageResource(R.drawable.button_play)
-        }
+    private val binding: ActivityAudioplayerBinding by lazy(mode = LazyThreadSafetyMode.NONE) {
+        ActivityAudioplayerBinding.inflate(layoutInflater)
     }
+
+    private val viewModel: TrackViewModel by viewModels(factoryProducer = TrackViewModel::Factory)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAudioplayerBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(
-            this,
-            TrackViewModel.getViewModelFactory("123")
-        )[TrackViewModel::class.java]
-        setContentView(binding.root)
 
-        handler = Handler(Looper.getMainLooper())
+        viewModel.preparePlayer()
 
-        intent?.extras?.getParcelable<Track>(SearchActivity.TRACK_EXTRA)?.let { track ->
-            url = track.previewUrl
-            binding.tvTrackName.text = track.trackName
-            binding.tvNameGroup.text = track.artistName
-            binding.tvRightTimeTrack.text =
-                SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
-            binding.tvRightAlbumName.text = track.collectionName
-            val date = SimpleDateFormat(
-                "yyyy-MM-dd'T'HH:mm:ss'Z'",
-                Locale.getDefault()
-            ).parse(track.releaseDate)
-            binding.tvRightYearTrack.text =
-                SimpleDateFormat("yyyy", Locale.getDefault()).format(date)
-            binding.tvRightTrackGenre.text = track.primaryGenreName
-            binding.tvRightTrackCountry.text = track.country
+        withBinding {
+            setContentView(root)
 
-            val density = resources.displayMetrics.density
-            val roundedCornersImage = 8 * density
-            Glide.with(applicationContext)
-                .load(track.coverArtWork)
-                .placeholder(R.drawable.no_load_image)
-                .transform(RoundedCorners(roundedCornersImage.toInt()))
-                .into(binding.ivTrackImage)
-        }
+            buttonBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
-        binding.buttonBack.setOnClickListener {
-            onBackPressed()
-        }
-
-        mediaPlayerClient.preparePlayed(url)
-
-        binding.ibPlay.setOnClickListener {
-            when (mediaPlayerClient.getPlayerState()) {
-                PlayerState.STATE_PLAYING -> binding.ibPlay.setImageResource(R.drawable.button_play)
-                PlayerState.STATE_PAUSED, PlayerState.STATE_PREPARED -> binding.ibPlay.setImageResource(
-                    R.drawable.button_stop
-                )
-
-                else -> {}
+            ibPlay.setOnClickListener {
+                viewModel.playbackControl()
+                handler.post(updateTimerPlay())
             }
-            mediaPlayerClient.playbackControl()
-            handler?.post(updateTimerPlay())
+        }
+
+        bindPlayerTrackInfo(playerTrack = viewModel.playerTrack)
+
+        viewModel.playerStateLiveData.observe(this) { state ->
+            with(binding.ibPlay) {
+                isEnabled = state != null && state != PlayerState.CREATED
+
+                val imageResId = if (state == PlayerState.PLAYING) {
+                    R.drawable.button_stop
+                } else {
+                    R.drawable.button_play
+                }
+
+                setImageResource(imageResId)
+            }
         }
     }
 
     override fun onPause() {
         super.onPause()
-        mediaPlayerClient.pausedPlay()
+
+        viewModel.pauseTrack()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        handler?.post(updateTimerPlay())
-        mediaPlayerClient.release()
+    private fun bindPlayerTrackInfo(playerTrack: PlayerTrack): Unit = withBinding {
+        tvTrackName.text = playerTrack.trackName
+        tvNameGroup.text = playerTrack.artistName
+        tvRightTimeTrack.text = SimpleDateFormat("mm:ss", Locale.getDefault())
+            .format(playerTrack.duration)
+        tvRightAlbumName.text = playerTrack.collectionName
+
+        val date = try {
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+                .parse(playerTrack.releaseDate)
+        } catch (_: ParseException) {
+            null
+        }
+
+        tvRightYearTrack.text = SimpleDateFormat("yyyy", Locale.getDefault())
+            .run { format(date ?: return@run "") }
+        tvRightTrackGenre.text = playerTrack.primaryGenreName
+        tvRightTrackCountry.text = playerTrack.country
+
+        val shapeRadius = (resources.displayMetrics.density * 8).toInt()
+
+        Glide.with(applicationContext)
+            .load(playerTrack.coverArtWork)
+            .placeholder(R.drawable.no_load_image)
+            .transform(RoundedCorners(shapeRadius))
+            .into(ivTrackImage)
     }
 
     private fun updateTimerPlay(): Runnable {
         return object : Runnable {
             override fun run() {
-                when (mediaPlayerClient.getPlayerState()) {
-                    PlayerState.STATE_PLAYING -> {
-                        binding.tvPlayTime.text = SimpleDateFormat(
-                            "mm:ss",
-                            Locale.getDefault()
-                        ).format(mediaPlayerClient.currentPosition())
-                        handler?.postDelayed(this, DELAY)
-                    }
+                if (viewModel.currentPlayerState == PlayerState.PLAYING) {
+                    binding.tvPlayTime.text = SimpleDateFormat(
+                        "mm:ss",
+                        Locale.getDefault()
+                    ).format(viewModel.currentPosition)
 
-                    PlayerState.STATE_PAUSED -> {
-                        handler?.removeCallbacks(this)
-                    }
-
-                    PlayerState.STATE_PREPARED -> {
-                        binding.tvPlayTime.text = "00:00"
-                        handler?.removeCallbacks(this)
-                    }
-
-                    else -> {}
+                    handler.postDelayed(this, DELAY.inWholeMilliseconds)
+                } else {
+                    handler.removeCallbacks(this)
                 }
             }
         }
     }
+
+    private fun <R> withBinding(action: ActivityAudioplayerBinding.() -> R) = binding.action()
 }
