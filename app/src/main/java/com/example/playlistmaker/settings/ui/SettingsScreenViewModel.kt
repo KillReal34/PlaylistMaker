@@ -25,7 +25,7 @@ class SettingsScreenViewModel(
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val dependencyContainer = (this[APPLICATION_KEY] as App).dependencyContainer
+                val dependencyContainer = (this[APPLICATION_KEY] as App).dependencyContainerSettingsScreen
                 SettingsScreenViewModel(
                     dependencyContainer.changeThemeInteractor,
                     dependencyContainer.themeLiveDataInteractor,

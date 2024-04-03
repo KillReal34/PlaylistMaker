@@ -7,22 +7,32 @@ import com.example.playlistmaker.settings.domain.entities.Theme
 
 class App : Application() {
 
-    lateinit var dependencyContainer: DependencyContainer
+    lateinit var dependencyContainerSearchScreen: DependencyContainer
+        private set
+    lateinit var dependencyContainerSettingsScreen: DependencyContainer
+        private set
     private lateinit var themeLiveData: LiveData<Theme>
 
     companion object {
+        const val PLAYLIST_MAKER_PREFERENCES_TRACK = "playlist_maker_preferences"
         const val PLAYLIST_MAKER_PREFERENCES_SWITCH = "playlist_maker_preferences_switch"
         const val SWITCH_KEY = "switchKey"
+        const val AUDITION_HISTORY_KEY = "auditionHistoryKey"
     }
 
     override fun onCreate() {
         super.onCreate()
-        val sharedPref = getSharedPreferences(PLAYLIST_MAKER_PREFERENCES_SWITCH, MODE_PRIVATE)
+        val sharedPrefSettingScreen =
+            getSharedPreferences(PLAYLIST_MAKER_PREFERENCES_SWITCH, MODE_PRIVATE)
+        val sharedPrefSearchScreen =
+            getSharedPreferences(PLAYLIST_MAKER_PREFERENCES_TRACK, MODE_PRIVATE)
 
+        dependencyContainerSearchScreen =
+            DependencyContainer(AUDITION_HISTORY_KEY, sharedPrefSearchScreen)
 
-        dependencyContainer = DependencyContainer(SWITCH_KEY, sharedPref)
-        themeLiveData = dependencyContainer.themeLiveDataInteractor()
-        themeLiveData.observeForever {theme ->
+        dependencyContainerSettingsScreen = DependencyContainer(SWITCH_KEY, sharedPrefSettingScreen)
+        themeLiveData = dependencyContainerSettingsScreen.themeLiveDataInteractor()
+        themeLiveData.observeForever { theme ->
             AppCompatDelegate.setDefaultNightMode(
                 when (theme) {
                     Theme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
