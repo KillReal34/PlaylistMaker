@@ -6,7 +6,7 @@ import com.example.playlistmaker.search.domain.repository.TrackRepository
 import com.example.playlistmaker.search.data.repository.TrackRepositoryImpl
 import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractorImpl
 import com.example.playlistmaker.search.domain.interactor.ClearSearchHistoryInteractorImpl
-import com.example.playlistmaker.search.domain.interactor.GetAuditionHistoryLiveDataInteractorImpl
+import com.example.playlistmaker.search.domain.interactor.GetAuditionHistoryFlowInteractorImpl
 import com.example.playlistmaker.search.domain.interactor.SearchTracksByNameInteractorImpl
 import com.example.playlistmaker.search.data.persistence.AuditionHistoryPersistence
 import com.example.playlistmaker.search.data.persistence.AuditionHistorySharedPreferences
@@ -14,7 +14,7 @@ import com.example.playlistmaker.search.domain.repository.AuditionHistoryReposit
 import com.example.playlistmaker.search.data.repository.AuditionHistoryRepositoryImpl
 import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractor
 import com.example.playlistmaker.search.domain.interactor.ClearSearchHistoryInteractor
-import com.example.playlistmaker.search.domain.interactor.GetAuditionHistoryLiveDataInteractor
+import com.example.playlistmaker.search.domain.interactor.GetAuditionHistoryFlowInteractor
 import com.example.playlistmaker.search.domain.interactor.SearchTracksByNameInteractor
 import com.example.playlistmaker.settings.domain.interactor.ChangeThemeInteractorImpl
 import com.example.playlistmaker.settings.domain.interactor.GetThemeFlowInteractorImpl
@@ -64,8 +64,8 @@ class DependencyContainer(
     val clearSearchHistoryInteractor: ClearSearchHistoryInteractor =
         ClearSearchHistoryInteractorImpl(auditionHistoryRepository = auditionHistoryRepository)
 
-    val getAuditionHistoryLiveDataInteractor: GetAuditionHistoryLiveDataInteractor =
-        GetAuditionHistoryLiveDataInteractorImpl(auditionHistoryRepository = auditionHistoryRepository)
+    val getAuditionHistoryFlowInteractor: GetAuditionHistoryFlowInteractor =
+        GetAuditionHistoryFlowInteractorImpl(auditionHistoryRepository = auditionHistoryRepository)
 
     val searchTracksByNameInteractor: SearchTracksByNameInteractor =
         SearchTracksByNameInteractorImpl(trackRepository = trackRepository)

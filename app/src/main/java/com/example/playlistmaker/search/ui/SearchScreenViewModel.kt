@@ -6,25 +6,26 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.map
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmaker.application.App
 import com.example.playlistmaker.domain.entities.Track
-import com.example.playlistmaker.search.domain.entities.AuditionHistory
 import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractor
 import com.example.playlistmaker.search.domain.interactor.ClearSearchHistoryInteractor
-import com.example.playlistmaker.search.domain.interactor.GetAuditionHistoryLiveDataInteractor
+import com.example.playlistmaker.search.domain.interactor.GetAuditionHistoryFlowInteractor
 import com.example.playlistmaker.search.domain.interactor.SearchTracksByNameInteractor
+import kotlinx.coroutines.flow.map
 
 class SearchScreenViewModel(
     private val addTrackToAuditionHistoryInteractor: AddTrackToAuditionHistoryInteractor,
     private val clearSearchHistoryInteractor: ClearSearchHistoryInteractor,
     private val searchTracksByNameInteractor: SearchTracksByNameInteractor,
-    getAuditionHistoryLiveDataInteractor: GetAuditionHistoryLiveDataInteractor,
+    getAuditionHistoryFlowInteractor: GetAuditionHistoryFlowInteractor,
 ) : ViewModel() {
-    private val trackListAuditionHistoryLiveData = getAuditionHistoryLiveDataInteractor()
-        .map(AuditionHistory::trackList)
+    private val trackListAuditionHistoryLiveData = getAuditionHistoryFlowInteractor()
+        .map { it.trackList }
+        .asLiveData()
 
     private val screenStateMutableLiveData =
         MediatorLiveData<SearchScreenState>(SearchScreenState.Idle)
@@ -89,7 +90,7 @@ class SearchScreenViewModel(
                 SearchScreenViewModel(
                     clearSearchHistoryInteractor = container.clearSearchHistoryInteractor,
                     addTrackToAuditionHistoryInteractor = container.addTrackToAuditionHistoryInteractor,
-                    getAuditionHistoryLiveDataInteractor = container.getAuditionHistoryLiveDataInteractor,
+                    getAuditionHistoryFlowInteractor = container.getAuditionHistoryFlowInteractor,
                     searchTracksByNameInteractor = container.searchTracksByNameInteractor,
                 )
             }

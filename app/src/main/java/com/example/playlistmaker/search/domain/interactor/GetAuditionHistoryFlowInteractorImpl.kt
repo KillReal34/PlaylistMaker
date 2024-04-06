@@ -1,11 +1,11 @@
 package com.example.playlistmaker.search.domain.interactor
 
-import androidx.lifecycle.LiveData
 import com.example.playlistmaker.search.domain.repository.AuditionHistoryRepository
 import com.example.playlistmaker.search.domain.entities.AuditionHistory
+import kotlinx.coroutines.flow.Flow
 
-class GetAuditionHistoryLiveDataInteractorImpl (
+class GetAuditionHistoryFlowInteractorImpl (
     private val auditionHistoryRepository: AuditionHistoryRepository
-): GetAuditionHistoryLiveDataInteractor {
-    override fun invoke(): LiveData<AuditionHistory> = auditionHistoryRepository.getLiveData()
+): GetAuditionHistoryFlowInteractor {
+    override fun invoke(): Flow<AuditionHistory> = auditionHistoryRepository.getFlow()
 }
