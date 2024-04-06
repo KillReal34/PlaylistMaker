@@ -1,8 +1,8 @@
 package com.example.playlistmaker.settings.domain.interactor
 
-import androidx.lifecycle.LiveData
 import com.example.playlistmaker.settings.domain.entities.Theme
+import kotlinx.coroutines.flow.Flow
 
-interface GetThemeLiveDataInteractor {
-    operator fun invoke() : LiveData<Theme>
+interface GetThemeFlowInteractor {
+    operator fun invoke(): Flow<Theme>
 }

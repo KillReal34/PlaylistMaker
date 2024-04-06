@@ -3,6 +3,7 @@ package com.example.playlistmaker.application
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import com.example.playlistmaker.settings.domain.entities.Theme
 
 class App : Application() {
@@ -31,7 +32,7 @@ class App : Application() {
             DependencyContainer(AUDITION_HISTORY_KEY, sharedPrefSearchScreen)
 
         dependencyContainerSettingsScreen = DependencyContainer(SWITCH_KEY, sharedPrefSettingScreen)
-        themeLiveData = dependencyContainerSettingsScreen.themeLiveDataInteractor()
+        themeLiveData = dependencyContainerSettingsScreen.themeLiveDataInteractor().asLiveData()
         themeLiveData.observeForever { theme ->
             AppCompatDelegate.setDefaultNightMode(
                 when (theme) {

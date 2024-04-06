@@ -17,13 +17,13 @@ import com.example.playlistmaker.search.domain.interactor.ClearSearchHistoryInte
 import com.example.playlistmaker.search.domain.interactor.GetAuditionHistoryLiveDataInteractor
 import com.example.playlistmaker.search.domain.interactor.SearchTracksByNameInteractor
 import com.example.playlistmaker.settings.domain.interactor.ChangeThemeInteractorImpl
-import com.example.playlistmaker.settings.domain.interactor.GetThemeLiveDataInteractorImpl
+import com.example.playlistmaker.settings.domain.interactor.GetThemeFlowInteractorImpl
 import com.example.playlistmaker.settings.data.persistence.ThemePersistence
 import com.example.playlistmaker.settings.data.persistence.ThemeSharedPreferences
 import com.example.playlistmaker.settings.domain.repository.ThemeRepository
 import com.example.playlistmaker.settings.data.repository.ThemeRepositoryImpl
 import com.example.playlistmaker.settings.domain.interactor.ChangeThemeInteractor
-import com.example.playlistmaker.settings.domain.interactor.GetThemeLiveDataInteractor
+import com.example.playlistmaker.settings.domain.interactor.GetThemeFlowInteractor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -73,6 +73,6 @@ class DependencyContainer(
     val changeThemeInteractor: ChangeThemeInteractor =
         ChangeThemeInteractorImpl(themeRepository = themeRepository)
 
-    val themeLiveDataInteractor: GetThemeLiveDataInteractor =
-        GetThemeLiveDataInteractorImpl(themeRepository = themeRepository)
+    val themeLiveDataInteractor: GetThemeFlowInteractor =
+        GetThemeFlowInteractorImpl(themeRepository = themeRepository)
 }

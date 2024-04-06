@@ -4,19 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmaker.application.App
 import com.example.playlistmaker.settings.domain.entities.Theme
 import com.example.playlistmaker.settings.domain.interactor.ChangeThemeInteractor
-import com.example.playlistmaker.settings.domain.interactor.GetThemeLiveDataInteractor
+import com.example.playlistmaker.settings.domain.interactor.GetThemeFlowInteractor
 
 class SettingsScreenViewModel(
     private val changeThemeInteractor: ChangeThemeInteractor,
-    getThemeLiveDataInteractor: GetThemeLiveDataInteractor,
+    getThemeFlowInteractor: GetThemeFlowInteractor,
 ) : ViewModel() {
 
-    val themeLiveData: LiveData<Theme> = getThemeLiveDataInteractor()
+    val themeLiveData: LiveData<Theme> = getThemeFlowInteractor().asLiveData()
 
     fun changeTheme(isDark: Boolean) {
         changeThemeInteractor(if (isDark) Theme.DARK else Theme.LIGHT)
