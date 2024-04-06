@@ -2,7 +2,7 @@ package com.example.playlistmaker.search.data.repository
 
 import com.example.playlistmaker.search.data.network.ITunesApi
 import com.example.playlistmaker.domain.entities.Track
-import com.example.playlistmaker.search.data.network.TrackResponse
+import com.example.playlistmaker.search.data.network.SearchTracksByNameResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -14,8 +14,8 @@ class TrackRepositoryImpl(private val iTunesApi: ITunesApi) : TrackRepository {
         onSuccess: (trackList: List<Track>) -> Unit,
         onFailure: (exception: Throwable) -> Unit,
     ) {
-        val callback = object : Callback<TrackResponse> {
-            override fun onResponse(call: Call<TrackResponse>, response: Response<TrackResponse>) {
+        val callback = object : Callback<SearchTracksByNameResponse> {
+            override fun onResponse(call: Call<SearchTracksByNameResponse>, response: Response<SearchTracksByNameResponse>) {
                 val responseTrackList = response.body()?.results
                 val domainTrackList = if (responseTrackList.isNullOrEmpty()) {
                     emptyList()
@@ -39,7 +39,7 @@ class TrackRepositoryImpl(private val iTunesApi: ITunesApi) : TrackRepository {
                 onSuccess(domainTrackList)
             }
 
-            override fun onFailure(call: Call<TrackResponse>, t: Throwable) = onFailure(t)
+            override fun onFailure(call: Call<SearchTracksByNameResponse>, t: Throwable) = onFailure(t)
         }
 
         iTunesApi.search(text = pattern).enqueue(callback)
