@@ -26,7 +26,10 @@ class TrackViewModel(
         get() = player.currentPosition
 
     init {
-        addCloseable(player::release)
+        addCloseable {
+            playerStateMutableLiveData.value = PlayerState.RELEASE
+            player.release()
+        }
     }
 
     override fun onPrepare() = playerStateMutableLiveData.postValue(PlayerState.PREPARED)
@@ -39,6 +42,7 @@ class TrackViewModel(
         playerStateMutableLiveData.value = with(player) {
             when (currentPlayerState) {
                 PlayerState.CREATED,
+                PlayerState.RELEASE,
                 null -> return
 
                 PlayerState.PREPARED,
