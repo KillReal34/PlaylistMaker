@@ -54,10 +54,18 @@ class SearchScreenViewModel(
         searchTracksByNameInteractor(
             namePattern = namePattern,
             onSuccess = { trackList ->
+                if (screenStateLiveData.value !is SearchScreenState.IsLoading) {
+                    return@searchTracksByNameInteractor
+                }
+
                 screenStateMutableLiveData.value =
                     SearchScreenState.SearchedTrackResult(searchedTrackList = trackList)
             },
             onFailure = {
+                if (screenStateLiveData.value !is SearchScreenState.IsLoading) {
+                    return@searchTracksByNameInteractor
+                }
+
                 screenStateMutableLiveData.value = SearchScreenState.OnSearchError
             },
         )
