@@ -1,8 +1,7 @@
-package com.example.playlistmaker.settings.data.interactor
+package com.example.playlistmaker.settings.domain.interactor
 
-import com.example.playlistmaker.settings.data.repository.ThemeRepository
+import com.example.playlistmaker.settings.domain.repository.ThemeRepository
 import com.example.playlistmaker.settings.domain.entities.Theme
-import com.example.playlistmaker.settings.domain.interactor.ChangeThemeInteractor
 
 class ChangeThemeInteractorImpl(
     private val themeRepository: ThemeRepository,

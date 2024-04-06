@@ -1,9 +1,8 @@
-package com.example.playlistmaker.settings.data.interactor
+package com.example.playlistmaker.settings.domain.interactor
 
 import androidx.lifecycle.LiveData
-import com.example.playlistmaker.settings.data.repository.ThemeRepository
+import com.example.playlistmaker.settings.domain.repository.ThemeRepository
 import com.example.playlistmaker.settings.domain.entities.Theme
-import com.example.playlistmaker.settings.domain.interactor.GetThemeLiveDataInteractor
 
 class GetThemeLiveDataInteractorImpl(
     private val themeRepository: ThemeRepository,

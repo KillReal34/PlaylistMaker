@@ -3,6 +3,7 @@ package com.example.playlistmaker.settings.data.repository
 import androidx.lifecycle.LiveData
 import com.example.playlistmaker.settings.data.persistence.ThemePersistence
 import com.example.playlistmaker.settings.domain.entities.Theme
+import com.example.playlistmaker.settings.domain.repository.ThemeRepository
 
 class ThemeRepositoryImpl(
     private val themePersistence: ThemePersistence,

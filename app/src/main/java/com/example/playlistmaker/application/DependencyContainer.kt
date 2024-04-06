@@ -16,11 +16,11 @@ import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHist
 import com.example.playlistmaker.search.domain.interactor.ClearSearchHistoryInteractor
 import com.example.playlistmaker.search.domain.interactor.GetAuditionHistoryLiveDataInteractor
 import com.example.playlistmaker.search.domain.interactor.SearchTracksByNameInteractor
-import com.example.playlistmaker.settings.data.interactor.ChangeThemeInteractorImpl
-import com.example.playlistmaker.settings.data.interactor.GetThemeLiveDataInteractorImpl
+import com.example.playlistmaker.settings.domain.interactor.ChangeThemeInteractorImpl
+import com.example.playlistmaker.settings.domain.interactor.GetThemeLiveDataInteractorImpl
 import com.example.playlistmaker.settings.data.persistence.ThemePersistence
 import com.example.playlistmaker.settings.data.persistence.ThemeSharedPreferences
-import com.example.playlistmaker.settings.data.repository.ThemeRepository
+import com.example.playlistmaker.settings.domain.repository.ThemeRepository
 import com.example.playlistmaker.settings.data.repository.ThemeRepositoryImpl
 import com.example.playlistmaker.settings.domain.interactor.ChangeThemeInteractor
 import com.example.playlistmaker.settings.domain.interactor.GetThemeLiveDataInteractor

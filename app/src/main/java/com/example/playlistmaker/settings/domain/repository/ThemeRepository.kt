@@ -1,4 +1,4 @@
-package com.example.playlistmaker.settings.data.repository
+package com.example.playlistmaker.settings.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.example.playlistmaker.settings.domain.entities.Theme
