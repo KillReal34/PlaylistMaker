@@ -8,7 +8,7 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmaker.player.data.AndroidMediaPlayer
-import com.example.playlistmaker.player.domain.api.SimplePlayer
+import com.example.playlistmaker.player.data.SimplePlayer
 
 class TrackViewModel(
     val playerTrack: PlayerTrack,
