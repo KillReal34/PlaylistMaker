@@ -2,15 +2,15 @@ package com.example.playlistmaker.application
 
 import android.content.SharedPreferences
 import com.example.playlistmaker.search.data.network.ITunesApi
-import com.example.playlistmaker.search.data.repository.TrackRepository
+import com.example.playlistmaker.search.domain.repository.TrackRepository
 import com.example.playlistmaker.search.data.repository.TrackRepositoryImpl
-import com.example.playlistmaker.search.data.interactor.AddTrackToAuditionHistoryInteractorImpl
-import com.example.playlistmaker.search.data.interactor.ClearSearchHistoryInteractorImpl
-import com.example.playlistmaker.search.data.interactor.GetAuditionHistoryLiveDataInteractorImpl
-import com.example.playlistmaker.search.data.interactor.SearchTracksByNameInteractorImpl
+import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractorImpl
+import com.example.playlistmaker.search.domain.interactor.ClearSearchHistoryInteractorImpl
+import com.example.playlistmaker.search.domain.interactor.GetAuditionHistoryLiveDataInteractorImpl
+import com.example.playlistmaker.search.domain.interactor.SearchTracksByNameInteractorImpl
 import com.example.playlistmaker.search.data.persistence.AuditionHistoryPersistence
 import com.example.playlistmaker.search.data.persistence.AuditionHistorySharedPreferences
-import com.example.playlistmaker.search.data.repository.AuditionHistoryRepository
+import com.example.playlistmaker.search.domain.repository.AuditionHistoryRepository
 import com.example.playlistmaker.search.data.repository.AuditionHistoryRepositoryImpl
 import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractor
 import com.example.playlistmaker.search.domain.interactor.ClearSearchHistoryInteractor

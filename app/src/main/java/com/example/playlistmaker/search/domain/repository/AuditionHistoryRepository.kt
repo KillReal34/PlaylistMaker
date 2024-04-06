@@ -1,4 +1,4 @@
-package com.example.playlistmaker.search.data.repository
+package com.example.playlistmaker.search.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.example.playlistmaker.domain.entities.Track

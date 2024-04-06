@@ -1,8 +1,7 @@
-package com.example.playlistmaker.search.data.interactor
+package com.example.playlistmaker.search.domain.interactor
 
-import com.example.playlistmaker.search.data.repository.TrackRepository
+import com.example.playlistmaker.search.domain.repository.TrackRepository
 import com.example.playlistmaker.domain.entities.Track
-import com.example.playlistmaker.search.domain.interactor.SearchTracksByNameInteractor
 
 class SearchTracksByNameInteractorImpl(
     private val trackRepository: TrackRepository

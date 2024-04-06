@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.playlistmaker.domain.entities.Track
 import com.example.playlistmaker.search.data.persistence.AuditionHistoryPersistence
 import com.example.playlistmaker.search.domain.entities.AuditionHistory
+import com.example.playlistmaker.search.domain.repository.AuditionHistoryRepository
 
 class AuditionHistoryRepositoryImpl(
     private val auditionHistoryPersistence: AuditionHistoryPersistence

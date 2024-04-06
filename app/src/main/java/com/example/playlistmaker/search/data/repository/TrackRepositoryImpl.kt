@@ -3,6 +3,7 @@ package com.example.playlistmaker.search.data.repository
 import com.example.playlistmaker.search.data.network.ITunesApi
 import com.example.playlistmaker.domain.entities.Track
 import com.example.playlistmaker.search.data.network.SearchTracksByNameResponse
+import com.example.playlistmaker.search.domain.repository.TrackRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
