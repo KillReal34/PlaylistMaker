@@ -4,17 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.player.data.AndroidMediaPlayer
-import com.example.playlistmaker.player.data.SimplePlayer
+import com.example.playlistmaker.application.App
+import com.example.playlistmaker.player.domain.entities.SimplePlayer
+import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractor
 
 class TrackViewModel(
     val playerTrack: PlayerTrack,
-    private val player: SimplePlayer,
+    getSimplePlayerInteractor: GetSimplePlayerInteractor,
 ) : ViewModel(), SimplePlayer.Listener {
     private val playerStateMutableLiveData = MutableLiveData(PlayerState.CREATED)
+
+    private val player = getSimplePlayerInteractor()
 
     val playerStateLiveData: LiveData<PlayerState>
         get() = playerStateMutableLiveData
@@ -75,10 +79,11 @@ class TrackViewModel(
                     requireNotNull(savedStateHandle[AudioPlayerActivity.TRACK_EXTRA]) {
                         "Can't get track info from saved state handle by key ${AudioPlayerActivity.TRACK_EXTRA}"
                     }
+                val container = ((this[APPLICATION_KEY] as App).dependencyContainerSearchScreen)
 
                 TrackViewModel(
                     playerTrack = playerTrack,
-                    player = AndroidMediaPlayer(),
+                    getSimplePlayerInteractor = container.getSimplePlayerInteractor,
                 )
             }
         }

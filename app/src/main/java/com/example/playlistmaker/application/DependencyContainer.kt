@@ -1,6 +1,10 @@
 package com.example.playlistmaker.application
 
 import android.content.SharedPreferences
+import com.example.playlistmaker.player.data.repository.SimplePlayerRepositoryImpl
+import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractor
+import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractorImpl
+import com.example.playlistmaker.player.domain.repository.SimplePlayerRepository
 import com.example.playlistmaker.search.data.network.ITunesApi
 import com.example.playlistmaker.search.domain.repository.TrackRepository
 import com.example.playlistmaker.search.data.repository.TrackRepositoryImpl
@@ -33,7 +37,7 @@ class DependencyContainer(
 ) {
 
     private val baseITunesUrl = "https://itunes.apple.com"
-    val retrofitITunesApi = Retrofit.Builder()
+    private val retrofitITunesApi = Retrofit.Builder()
         .baseUrl(baseITunesUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build().create(ITunesApi::class.java)
@@ -51,6 +55,8 @@ class DependencyContainer(
             auditionHistoryKey = key,
             sharedPreferences = sharedPreferences,
         )
+
+    private val simplePlayerRepository: SimplePlayerRepository = SimplePlayerRepositoryImpl()
 
     private val auditionHistoryRepository: AuditionHistoryRepository =
         AuditionHistoryRepositoryImpl(auditionHistoryPersistence = auditionHistoryPersistence)
@@ -75,4 +81,7 @@ class DependencyContainer(
 
     val themeLiveDataInteractor: GetThemeFlowInteractor =
         GetThemeFlowInteractorImpl(themeRepository = themeRepository)
+
+    val getSimplePlayerInteractor: GetSimplePlayerInteractor =
+        GetSimplePlayerInteractorImpl(simplePlayerRepository)
 }
