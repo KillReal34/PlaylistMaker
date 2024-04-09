@@ -128,7 +128,7 @@ class SearchActivity : AppCompatActivity() {
             searchDebounce()
         } else {
             stopDebounceSearch()
-            drawAuditionHistoryState(historyTrackAdapter.trackList)
+            viewModel.setAuditionHistoryTrack()
         }
 
         setClearButtonAvailability(searchFieldIsNotEmpty = searchIsNotEmpty)
