@@ -121,9 +121,15 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun onSearchTextChanged(newText: CharSequence?) {
+
         val searchIsNotEmpty = newText?.isNotEmpty() == true
 
-        if (searchIsNotEmpty) searchDebounce()
+        if (newText?.isNotEmpty() == true) {
+            searchDebounce()
+        } else {
+            stopDebounceSearch()
+            drawAuditionHistoryState(historyTrackAdapter.trackList)
+        }
 
         setClearButtonAvailability(searchFieldIsNotEmpty = searchIsNotEmpty)
     }
