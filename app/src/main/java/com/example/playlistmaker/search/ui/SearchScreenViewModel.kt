@@ -4,12 +4,7 @@ package com.example.playlistmaker.search.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.playlistmaker.application.App
 import com.example.playlistmaker.domain.entities.Track
 import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractor
 import com.example.playlistmaker.search.domain.interactor.ClearSearchHistoryInteractor
@@ -80,20 +75,5 @@ class SearchScreenViewModel(
 
     fun setIdleState() {
         screenStateMutableLiveData.value = SearchScreenState.Idle
-    }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val container = (this[APPLICATION_KEY] as App).dependencyContainerSearchScreen
-
-                SearchScreenViewModel(
-                    clearSearchHistoryInteractor = container.clearSearchHistoryInteractor,
-                    addTrackToAuditionHistoryInteractor = container.addTrackToAuditionHistoryInteractor,
-                    getAuditionHistoryFlowInteractor = container.getAuditionHistoryFlowInteractor,
-                    searchTracksByNameInteractor = container.searchTracksByNameInteractor,
-                )
-            }
-        }
     }
 }

@@ -7,7 +7,6 @@ import android.os.Looper
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isGone
@@ -18,6 +17,7 @@ import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.domain.entities.Track
 import com.example.playlistmaker.player.ui.AudioPlayerActivity
 import com.example.playlistmaker.player.ui.PlayerTrack
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.time.Duration.Companion.seconds
 
 class SearchActivity : AppCompatActivity() {
@@ -30,7 +30,7 @@ class SearchActivity : AppCompatActivity() {
         ActivitySearchBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: SearchScreenViewModel by viewModels(factoryProducer = SearchScreenViewModel::Factory)
+    private val viewModel: SearchScreenViewModel by viewModel()
 
     private val searchTrackListAdapter = TrackAdapter(onTrackClick = ::onSearchedTackClick)
 
