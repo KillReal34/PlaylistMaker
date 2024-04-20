@@ -7,6 +7,7 @@ import com.example.playlistmaker.search.data.persistence.AuditionHistoryPersiste
 import com.example.playlistmaker.search.data.persistence.AuditionHistorySharedPreferences
 import com.example.playlistmaker.settings.data.persistence.ThemePersistence
 import com.example.playlistmaker.settings.data.persistence.ThemeSharedPreferences
+import com.google.gson.Gson
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -28,6 +29,7 @@ val persistenceModule = module {
         AuditionHistorySharedPreferences(
             auditionHistoryKey = App.AUDITION_HISTORY_KEY,
             sharedPreferences = sharedPreferences,
+            gson = Gson(),
         )
     } bind AuditionHistoryPersistence::class
 }
