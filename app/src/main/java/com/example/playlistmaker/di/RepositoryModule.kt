@@ -19,5 +19,7 @@ val repositoryModule = module {
 
     singleOf(::ThemeRepositoryImpl) bind ThemeRepository::class
 
-    singleOf(::SimplePlayerRepositoryImpl) bind SimplePlayerRepository::class
+    single<SimplePlayerRepository> {
+        SimplePlayerRepositoryImpl(playerFactory = ::get)
+    }
 }
