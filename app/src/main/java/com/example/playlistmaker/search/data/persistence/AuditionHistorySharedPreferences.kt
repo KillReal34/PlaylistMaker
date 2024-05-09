@@ -10,9 +10,9 @@ import com.google.gson.Gson
 class AuditionHistorySharedPreferences(
     private val auditionHistoryKey: String,
     private val sharedPreferences: SharedPreferences,
+    private val gson: Gson,
 ) : AuditionHistoryPersistence {
 
-    private val gson = Gson()
     override fun add(track: Track) {
         val json = sharedPreferences.getString(auditionHistoryKey, null)
         val historyTrackList = if (json != null) {
