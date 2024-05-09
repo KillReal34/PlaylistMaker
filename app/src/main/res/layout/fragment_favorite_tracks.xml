@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".library.ui.FragmentFavoriteTracks">
+    tools:context=".library.ui.FragmentFavoriteTracks"
+    >
 
     <ImageView
         android:id="@+id/iv_error_image"
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="244dp"
-        tools:text="@string/fft_your_medialibrary_is_empty"
+        android:text="@string/fft_your_medialibrary_is_empty"
         style="@style/SearchActivityErrorTextStyles"
         android:visibility="visible"/>
 

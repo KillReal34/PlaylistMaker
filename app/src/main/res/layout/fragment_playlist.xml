@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".library.ui.FragmentPlaylist">
+    tools:context=".library.ui.FragmentPlaylist"
+    >
 
     <Button
         android:id="@+id/btn_new_playlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:visibility="visible"
+        android:layout_marginTop="24dp"
+        android:textAllCaps="false"
         android:text="@string/fp_button_add_new_playlist"
         app:cornerRadius="54dp"
         style="@style/SearchActivityRefreshButtonStyles"/>
@@ -32,7 +34,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:layout_marginTop="244dp"
-        tools:text="@string/fp_you_havent_created_any_playlist"
+        android:text="@string/fp_you_havent_created_any_playlist"
         style="@style/SearchActivityErrorTextStyles"
         android:visibility="visible"/>
 
