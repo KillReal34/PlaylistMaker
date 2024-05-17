@@ -22,7 +22,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="244dp"
         android:text="@string/fft_your_medialibrary_is_empty"
-        style="@style/SearchActivityErrorTextStyles"
+        style="@style/LibraryActivityErrorTextStyles"
         android:visibility="visible"/>
 
 </FrameLayout>

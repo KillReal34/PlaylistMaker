@@ -35,7 +35,7 @@
         android:gravity="center"
         android:layout_marginTop="244dp"
         android:text="@string/fp_you_havent_created_any_playlist"
-        style="@style/SearchActivityErrorTextStyles"
+        style="@style/LibraryActivityErrorTextStyles"
         android:visibility="visible"/>
 
 </FrameLayout>
