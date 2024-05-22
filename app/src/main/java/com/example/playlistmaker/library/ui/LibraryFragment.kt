@@ -28,7 +28,6 @@ class LibraryFragment : Fragment() {
         val tracks = "tracks"
         val playlists = "playlists"
 
-
         binding.viewPager.adapter =
             LibraryViewPagerAdapter(requireActivity().supportFragmentManager, lifecycle, tracks, playlists)
 
