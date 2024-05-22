@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".library.ui.FragmentPlaylist"
+    >
+
+    <Button
+        android:id="@+id/btn_new_playlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:textAllCaps="false"
+        android:text="@string/fp_button_add_new_playlist"
+        app:cornerRadius="54dp"
+        style="@style/SearchActivityRefreshButtonStyles"/>
+
+    <ImageView
+        android:id="@+id/iv_error_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="120dp"
+        tools:src="@drawable/not_found_track_image_light_mode"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/tv_error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="244dp"
+        android:text="@string/fp_you_havent_created_any_playlist"
+        style="@style/LibraryActivityErrorTextStyles"
+        android:visibility="visible"/>
+
+</FrameLayout>
