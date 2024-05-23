@@ -43,10 +43,9 @@ android {
 
 dependencies {
 
-    implementation ("com.google.android.material:material:1.8.0")
-    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
-    implementation ("androidx.fragment:fragment-ktx:1.7.1")
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation ("androidx.fragment:fragment-ktx:1.5.6")
     implementation("androidx.activity:activity-ktx:1.8.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")

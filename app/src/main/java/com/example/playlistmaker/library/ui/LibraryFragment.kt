@@ -11,6 +11,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class LibraryFragment : Fragment() {
 
+    companion object{
+        const val tracks = "tracks"
+        const val playlists = "playlists"
+    }
+
     private val binding by lazy(mode = LazyThreadSafetyMode.NONE){
         FragmentLibraryBinding.inflate(layoutInflater)
     }
@@ -25,8 +30,8 @@ class LibraryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tracks = "tracks"
-        val playlists = "playlists"
+//        val tracks = "tracks"
+//        val playlists = "playlists"
 
         binding.viewPager.adapter =
             LibraryViewPagerAdapter(requireActivity().supportFragmentManager, lifecycle, tracks, playlists)
@@ -38,5 +43,10 @@ class LibraryFragment : Fragment() {
             }
         }
         tabMediator?.attach()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        tabMediator?.detach()
     }
 }
