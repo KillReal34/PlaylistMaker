@@ -13,20 +13,13 @@
         android:orientation="horizontal"
         style="@style/ActivityFrameLayoutStyle">
 
-        <ImageButton
-            android:id="@+id/button_back"
-            style="@style/ActivityAudioPlayerButtonBackStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/button_back" />
-
         <TextView
             style="@style/PanelHeaderTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
             android:text="@string/library" />
 
     </LinearLayout>
@@ -39,7 +32,7 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
+        style="@style/ActivityFrameLayoutStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/ActivityFrameLayoutStyle"/>
+        android:layout_height="match_parent" />
 </LinearLayout>

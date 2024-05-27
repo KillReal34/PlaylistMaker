@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ActivityLinearLayoutStyle"
     tools:context=".settings.ui.SettingFragment">
@@ -12,17 +11,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <Button
-            android:layout_width="@dimen/panelHeader_button_width"
-            android:layout_height="@dimen/panelHeader_button_height"
-            android:id="@+id/button_back"
-            app:icon="@drawable/button_back"
-            style="@style/PanelHeaderButtonStyle" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="12dp"
             android:text="@string/settings"
             style="@style/PanelHeaderTextStyle"/>
     </LinearLayout>

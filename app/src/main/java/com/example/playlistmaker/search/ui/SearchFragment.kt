@@ -10,12 +10,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.domain.entities.Track
@@ -160,10 +158,10 @@ class SearchFragment : Fragment() {
 
         //TODO Поидее вот так выглядит передача данных
         //TODO Попробовать ебануть функцию и использовать её в дальнейшем вместо startActivity()
-        findNavController().navigate(
-            R.id.action_searchFragment_to_audioPlayerActivity,
-            bundleOf(AudioPlayerActivity.TRACK_EXTRA to PlayerTrack(track = track))
-        )
+//        findNavController().navigate(
+//            R.id.action_searchFragment_to_audioPlayerActivity,
+//            bundleOf(AudioPlayerActivity.TRACK_EXTRA to PlayerTrack(track = track))
+//        )
 
         startActivity(createAudioPlayerIntent(track = track))
     }
