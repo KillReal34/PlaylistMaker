@@ -23,7 +23,6 @@ class TrackAdapter(
     var trackList = emptyList<Track>()
         set(value) {
             field = value
-
             notifyDataSetChanged()
         }
 

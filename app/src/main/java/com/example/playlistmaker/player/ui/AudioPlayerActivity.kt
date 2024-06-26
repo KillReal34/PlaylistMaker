@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -22,6 +26,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private val handler = Handler(Looper.getMainLooper())
+    private var timerJob: Job? = null
 
     private val binding: ActivityAudioplayerBinding by lazy(mode = LazyThreadSafetyMode.NONE) {
         ActivityAudioplayerBinding.inflate(layoutInflater)
@@ -41,7 +46,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
             ibPlay.setOnClickListener {
                 viewModel.playbackControl()
-                handler.post(updateTimerPlay())
+                updateTimerPlay()
             }
         }
 
@@ -96,19 +101,14 @@ class AudioPlayerActivity : AppCompatActivity() {
             .into(ivTrackImage)
     }
 
-    private fun updateTimerPlay(): Runnable {
-        return object : Runnable {
-            override fun run() {
-                if (viewModel.currentPlayerState == PlayerState.PLAYING) {
-                    binding.tvPlayTime.text = SimpleDateFormat(
-                        "mm:ss",
-                        Locale.getDefault()
-                    ).format(viewModel.currentPosition)
-
-                    handler.postDelayed(this, DELAY.inWholeMilliseconds)
-                } else {
-                    handler.removeCallbacks(this)
-                }
+    private fun updateTimerPlay(){
+        timerJob = lifecycleScope.launch {
+            while (viewModel.currentPlayerState == PlayerState.PLAYING) {
+                delay(DELAY.inWholeMilliseconds)
+                binding.tvPlayTime.text = SimpleDateFormat(
+                    "mm:ss",
+                    Locale.getDefault()
+                ).format(viewModel.currentPosition)
             }
         }
     }
