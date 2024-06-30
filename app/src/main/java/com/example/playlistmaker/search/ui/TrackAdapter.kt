@@ -1,12 +1,13 @@
 package com.example.playlistmaker.search.ui
 
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.domain.entities.Track
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 class TrackAdapter(
@@ -18,7 +19,6 @@ class TrackAdapter(
     }
 
     private var clickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
 
     var trackList = emptyList<Track>()
         set(value) {
@@ -54,12 +54,11 @@ class TrackAdapter(
 
         if (clickAllowed) {
             clickAllowed = false
-            handler.postDelayed(
-                { clickAllowed = true },
-                DEBOUNCE_DELAY.inWholeMilliseconds,
-            )
+            GlobalScope.launch {
+                clickAllowed = true
+                delay(DEBOUNCE_DELAY.inWholeMilliseconds)
+            }
         }
-
         return current
     }
 }

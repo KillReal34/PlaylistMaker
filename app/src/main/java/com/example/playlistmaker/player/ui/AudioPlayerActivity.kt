@@ -1,8 +1,6 @@
 package com.example.playlistmaker.player.ui
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -25,7 +23,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         private val DELAY = 500.milliseconds
     }
 
-    private val handler = Handler(Looper.getMainLooper())
     private var timerJob: Job? = null
 
     private val binding: ActivityAudioplayerBinding by lazy(mode = LazyThreadSafetyMode.NONE) {
@@ -74,6 +71,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun bindPlayerTrackInfo(playerTrack: PlayerTrack): Unit = withBinding {
+        tvPlayTime.text = "00:00"
         tvTrackName.text = playerTrack.trackName
         tvNameGroup.text = playerTrack.artistName
         tvRightTimeTrack.text = SimpleDateFormat("mm:ss", Locale.getDefault())
@@ -109,6 +107,9 @@ class AudioPlayerActivity : AppCompatActivity() {
                     "mm:ss",
                     Locale.getDefault()
                 ).format(viewModel.currentPosition)
+            }
+            if (viewModel.currentPlayerState == PlayerState.PREPARED) {
+                binding.tvPlayTime.text = "00:00"
             }
         }
     }
