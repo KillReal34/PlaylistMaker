@@ -3,29 +3,34 @@ package com.example.playlistmaker.settings.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivitySettingsBinding
+import com.example.playlistmaker.databinding.FragmentSettingBinding
 import com.example.playlistmaker.settings.domain.entities.SettingsUri
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SettingsActivity : AppCompatActivity() {
+class SettingFragment : Fragment() {
 
-    private lateinit var binding: ActivitySettingsBinding
+    private val binding by lazy(mode = LazyThreadSafetyMode.NONE){
+        FragmentSettingBinding.inflate(layoutInflater)
+    }
     private val viewModel: SettingsScreenViewModel by viewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = binding.root
 
-        viewModel.themeLiveData.observe(this) { theme ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.themeLiveData.observe(viewLifecycleOwner) { theme ->
             binding.switchDarkTheme.isChecked = theme.isDark
         }
 
-        binding.buttonBack.setOnClickListener {
-            onBackPressed()
-        }
 
         binding.switchDarkTheme.setOnCheckedChangeListener { _, isChecked ->
             viewModel.changeTheme(isDark = isChecked)
@@ -43,11 +48,10 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(createUserAgreementIntent())
         }
     }
-
     private fun createShareAppIntent(): Intent = Intent(Intent.ACTION_SEND).apply {
-            putExtra(Intent.EXTRA_TEXT, getString(R.string.share_app_headerText))
-            type = "text/plain"
-        }
+        putExtra(Intent.EXTRA_TEXT, getString(R.string.share_app_headerText))
+        type = "text/plain"
+    }
 
     private fun createSupportIntent(): Intent = Intent(Intent.ACTION_SENDTO).apply {
         data = Uri.parse("mailto:")
@@ -59,5 +63,4 @@ class SettingsActivity : AppCompatActivity() {
     private fun createUserAgreementIntent(): Intent = Intent(Intent.ACTION_VIEW).apply {
         data = Uri.parse(SettingsUri.USER_AGREEMENT)
     }
-
 }

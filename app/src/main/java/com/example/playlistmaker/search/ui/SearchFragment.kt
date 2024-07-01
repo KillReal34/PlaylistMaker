@@ -4,30 +4,31 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import com.example.playlistmaker.R
-import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.domain.entities.Track
 import com.example.playlistmaker.player.ui.AudioPlayerActivity
 import com.example.playlistmaker.player.ui.PlayerTrack
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.time.Duration.Companion.seconds
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment() {
+    private val binding by lazy(mode = LazyThreadSafetyMode.NONE) {
+        FragmentSearchBinding.inflate(layoutInflater)
+    }
 
     companion object {
         private val SEARCH_DEBOUNCE_DELAY = 2.seconds
-    }
-
-    private val binding by lazy(mode = LazyThreadSafetyMode.NONE) {
-        ActivitySearchBinding.inflate(layoutInflater)
     }
 
     private val viewModel: SearchScreenViewModel by viewModel()
@@ -45,22 +46,22 @@ class SearchActivity : AppCompatActivity() {
     private var inputSearchText: String?
         get() = withBinding { etInputSearchText.text?.toString() }
         set(value) = withBinding { etInputSearchText.setText(value) }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = binding.root
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         withBinding {
-            setContentView(root)
-
-            buttonBackActivitySearch.setOnClickListener {
-                onBackPressedDispatcher.onBackPressed()
-            }
 
             ivClearIcon.setOnClickListener { view ->
                 inputSearchText = ""
                 viewModel.setAuditionHistoryTrack()
-                (getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager)
-                    ?.hideSoftInputFromWindow(view.windowToken, 0)
+//                (getSystemService(requireContext()) as? InputMethodManager)
+//                    ?.hideSoftInputFromWindow(view.windowToken, 0)
             }
 
             btnRefresh.setOnClickListener { searchDebounce() }
@@ -96,7 +97,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.screenStateLiveData.observe(this) { state ->
+        viewModel.screenStateLiveData.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is SearchScreenState.AuditionHistory ->
                     drawAuditionHistoryState(historyTrackList = state.historyTrackList)
@@ -112,7 +113,6 @@ class SearchActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun stopDebounceSearch() = handlerSearch.removeCallbacks(searchRunnable)
 
     private fun searchDebounce() {
@@ -147,7 +147,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun createAudioPlayerIntent(track: Track) = Intent(
-        this,
+        requireContext(),
         AudioPlayerActivity::class.java,
     ).apply {
         putExtra(AudioPlayerActivity.TRACK_EXTRA, PlayerTrack(track = track))
@@ -155,6 +155,13 @@ class SearchActivity : AppCompatActivity() {
 
     private fun onSearchedTackClick(track: Track) {
         viewModel.addTrackToAuditionHistory(track = track)
+
+        //TODO Поидее вот так выглядит передача данных
+        //TODO Попробовать ебануть функцию и использовать её в дальнейшем вместо startActivity()
+//        findNavController().navigate(
+//            R.id.action_searchFragment_to_audioPlayerActivity,
+//            bundleOf(AudioPlayerActivity.TRACK_EXTRA to PlayerTrack(track = track))
+//        )
 
         startActivity(createAudioPlayerIntent(track = track))
     }
@@ -271,5 +278,5 @@ class SearchActivity : AppCompatActivity() {
         btnRefresh.isGone = true
     }
 
-    private inline fun <R> withBinding(action: ActivitySearchBinding.() -> R) = binding.action()
+    private inline fun <R> withBinding(action: FragmentSearchBinding.() -> R) = binding.action()
 }
