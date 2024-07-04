@@ -20,7 +20,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     companion object {
         const val TRACK_EXTRA = "track_extra"
-        private val DELAY = 500.milliseconds
+        private val DELAY = 300.milliseconds
     }
 
     private var timerJob: Job? = null
