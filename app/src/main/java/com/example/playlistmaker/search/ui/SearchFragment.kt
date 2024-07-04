@@ -2,8 +2,6 @@ package com.example.playlistmaker.search.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +12,15 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.domain.entities.Track
 import com.example.playlistmaker.player.ui.AudioPlayerActivity
 import com.example.playlistmaker.player.ui.PlayerTrack
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.time.Duration.Companion.seconds
 
@@ -33,15 +35,11 @@ class SearchFragment : Fragment() {
 
     private val viewModel: SearchScreenViewModel by viewModel()
 
+    private var searchJob: Job? = null
+
     private val searchTrackListAdapter = TrackAdapter(onTrackClick = ::onSearchedTackClick)
 
     private val historyTrackAdapter = TrackAdapter(onTrackClick = ::onHistoryTrackClick)
-
-    private val handlerSearch = Handler(Looper.getMainLooper())
-
-    private val searchRunnable = Runnable {
-        viewModel.searchTrackByName(namePattern = inputSearchText ?: return@Runnable)
-    }
 
     private var inputSearchText: String?
         get() = withBinding { etInputSearchText.text?.toString() }
@@ -60,8 +58,6 @@ class SearchFragment : Fragment() {
             ivClearIcon.setOnClickListener { view ->
                 inputSearchText = ""
                 viewModel.setAuditionHistoryTrack()
-//                (getSystemService(requireContext()) as? InputMethodManager)
-//                    ?.hideSoftInputFromWindow(view.windowToken, 0)
             }
 
             btnRefresh.setOnClickListener { searchDebounce() }
@@ -73,7 +69,6 @@ class SearchFragment : Fragment() {
                     val namePattern = inputSearchText
 
                     if (actionId == EditorInfo.IME_ACTION_DONE && namePattern?.isNotEmpty() == true) {
-                        stopDebounceSearch()
                         viewModel.searchTrackByName(namePattern = namePattern)
                     }
 
@@ -113,11 +108,14 @@ class SearchFragment : Fragment() {
             }
         }
     }
-    private fun stopDebounceSearch() = handlerSearch.removeCallbacks(searchRunnable)
 
     private fun searchDebounce() {
-        stopDebounceSearch()
-        handlerSearch.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY.inWholeMilliseconds)
+        searchJob?.cancel()
+
+        searchJob = lifecycleScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY.inWholeMilliseconds)
+            viewModel.searchTrackByName(namePattern = inputSearchText ?: return@launch)
+        }
     }
 
     private fun onSearchTextChanged(newText: CharSequence?) {
@@ -127,7 +125,6 @@ class SearchFragment : Fragment() {
         if (newText?.isNotEmpty() == true) {
             searchDebounce()
         } else {
-            stopDebounceSearch()
             viewModel.setAuditionHistoryTrack()
         }
 
@@ -155,13 +152,6 @@ class SearchFragment : Fragment() {
 
     private fun onSearchedTackClick(track: Track) {
         viewModel.addTrackToAuditionHistory(track = track)
-
-        //TODO Поидее вот так выглядит передача данных
-        //TODO Попробовать ебануть функцию и использовать её в дальнейшем вместо startActivity()
-//        findNavController().navigate(
-//            R.id.action_searchFragment_to_audioPlayerActivity,
-//            bundleOf(AudioPlayerActivity.TRACK_EXTRA to PlayerTrack(track = track))
-//        )
 
         startActivity(createAudioPlayerIntent(track = track))
     }

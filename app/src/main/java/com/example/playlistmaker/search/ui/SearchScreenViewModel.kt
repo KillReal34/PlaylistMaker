@@ -5,12 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.domain.entities.Track
 import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractor
 import com.example.playlistmaker.search.domain.interactor.ClearSearchHistoryInteractor
 import com.example.playlistmaker.search.domain.interactor.GetAuditionHistoryFlowInteractor
 import com.example.playlistmaker.search.domain.interactor.SearchTracksByNameInteractor
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class SearchScreenViewModel(
     private val addTrackToAuditionHistoryInteractor: AddTrackToAuditionHistoryInteractor,
@@ -47,24 +49,19 @@ class SearchScreenViewModel(
     fun searchTrackByName(namePattern: String) {
         screenStateMutableLiveData.value = SearchScreenState.IsLoading
 
-        searchTracksByNameInteractor(
-            namePattern = namePattern,
-            onSuccess = { trackList ->
-                if (screenStateLiveData.value !is SearchScreenState.IsLoading) {
-                    return@searchTracksByNameInteractor
-                }
+        viewModelScope.launch {
+            val state = searchTracksByNameInteractor
+                .runCatching { invoke(namePattern = namePattern) }
+                .getOrNull()
+                ?.let(SearchScreenState::SearchedTrackResult)
+                ?: SearchScreenState.OnSearchError
 
-                screenStateMutableLiveData.value =
-                    SearchScreenState.SearchedTrackResult(searchedTrackList = trackList)
-            },
-            onFailure = {
-                if (screenStateLiveData.value !is SearchScreenState.IsLoading) {
-                    return@searchTracksByNameInteractor
-                }
+            if (screenStateLiveData.value !is SearchScreenState.IsLoading) {
+                return@launch
+            }
 
-                screenStateMutableLiveData.value = SearchScreenState.OnSearchError
-            },
-        )
+            screenStateMutableLiveData.value = state
+        }
     }
 
     fun setAuditionHistoryTrack() {
