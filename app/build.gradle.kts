@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     kotlin("plugin.serialization") version "1.9.22"
+    id("kotlin-kapt")
 }
 
 android {
@@ -42,6 +43,11 @@ android {
 }
 
 dependencies {
+
+    val room_version = "2.5.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation ("androidx.navigation:navigation-fragment-ktx:2.5.3")
