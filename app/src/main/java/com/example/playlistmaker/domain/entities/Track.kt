@@ -13,4 +13,6 @@ data class Track(
     val duration: Duration,
     val artworkUrl: String,
     val previewUrl: String,
-)
+){
+    var isFavorite: Boolean = false
+}
