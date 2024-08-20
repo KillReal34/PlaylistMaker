@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_fragmentFavoriteTracks_to_fragmentPlaylist"
             app:destination="@id/fragmentPlaylist" />
+        <action
+            android:id="@+id/action_searchFragment_to_audioPlayerActivity"
+            app:destination="@+id/audioPlayerActivity" />
     </fragment>
     <fragment
         android:id="@+id/fragmentPlaylist"

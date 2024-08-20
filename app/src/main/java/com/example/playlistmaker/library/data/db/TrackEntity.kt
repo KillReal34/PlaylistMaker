@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlin.time.Duration
 
-@Entity(tableName = "track_table")
+@Entity(tableName = TRACK_TABLE)
 data class TrackEntity(
     @PrimaryKey
     val trackId: String,
@@ -18,3 +18,5 @@ data class TrackEntity(
     val artworkUrl: String,
     val previewUrl: String,
 )
+
+const val TRACK_TABLE = "track_table"

@@ -1,13 +1,13 @@
 package com.example.playlistmaker.library.domain.repository
 
-import com.example.playlistmaker.domain.entities.Track
+import com.example.playlistmaker.player.ui.PlayerTrack
 import kotlinx.coroutines.flow.Flow
 
 interface LibraryRepository {
 
-    suspend fun addTrackLibrary(track: Track)
+    suspend fun addTrackLibrary(track: PlayerTrack)
 
-    suspend fun deleteTrackLibrary(track: Track)
+    suspend fun deleteTrackLibrary(track: PlayerTrack)
 
-    fun getTrackLibrary(): Flow<List<Track>>
+    fun getTrackLibrary(): Flow<List<PlayerTrack>>
 }

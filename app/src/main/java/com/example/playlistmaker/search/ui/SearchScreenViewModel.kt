@@ -20,9 +20,13 @@ class SearchScreenViewModel(
     private val searchTracksByNameInteractor: SearchTracksByNameInteractor,
     getAuditionHistoryFlowInteractor: GetAuditionHistoryFlowInteractor,
 ) : ViewModel() {
-    private val trackListAuditionHistoryLiveData = getAuditionHistoryFlowInteractor()
-        .map { it.trackList }
-        .asLiveData()
+
+
+    private var trackListAuditionHistoryLiveData = viewModelScope.launch {
+        getAuditionHistoryFlowInteractor()
+            .map { it.trackList }
+            .asLiveData()
+    }
 
     private val screenStateMutableLiveData =
         MediatorLiveData<SearchScreenState>(SearchScreenState.Idle)

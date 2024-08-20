@@ -16,6 +16,7 @@ data class PlayerTrack(
     val duration: Long,
     val coverArtWork: String,
     val previewUrl: String,
+    var isFavorite: Boolean,
 ) : Parcelable {
     constructor(track: Track) : this(
         collectionName = track.collectionName,
@@ -27,5 +28,6 @@ data class PlayerTrack(
         duration = track.duration.inWholeMilliseconds,
         coverArtWork = track.coverArtWork,
         previewUrl = track.previewUrl,
+        isFavorite = track.isFavorite,
     )
 }

@@ -94,7 +94,7 @@
         app:layout_constraintTop_toTopOf="@id/ib_play"
         app:layout_constraintStart_toEndOf="@id/ib_play"
         app:layout_constraintBottom_toBottomOf="@id/ib_play"
-        app:srcCompat="@drawable/button_like"
+        app:srcCompat="@drawable/button_like_false"
         style="@style/ActivityAudioPlayerButtonAddAndLikeStyle"/>
 
     <ImageButton

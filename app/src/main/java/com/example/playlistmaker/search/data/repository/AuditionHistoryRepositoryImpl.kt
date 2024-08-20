@@ -17,13 +17,15 @@ class AuditionHistoryRepositoryImpl(
     override fun clear() = auditionHistoryPersistence.clear()
 
     override suspend fun getFlow(): Flow<AuditionHistory> {
-        val auditionHistory = auditionHistoryPersistence.getLiveData().asFlow()
-        return auditionHistory
+        val auditionHistory = auditionHistoryPersistence.getLiveData()
 
-//        val isFavoriteTracks = appDatabase.trackDao().getTracksById()
-//
-//        auditionHistory.map { track ->
-//            if (isFavoriteTracks.contains(track.trackList.))
-//        }
+        val isFavoriteTracks = appDatabase.trackDao().getTracksById()
+
+        auditionHistory.value?.trackList?.map { track ->
+            if (isFavoriteTracks.contains(track.trackId)){
+                track.isFavorite = true
+            }
+        }
+        return auditionHistory.asFlow()
     }
 }
