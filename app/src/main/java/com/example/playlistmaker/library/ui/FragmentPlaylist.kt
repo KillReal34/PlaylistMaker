@@ -47,6 +47,7 @@ class FragmentPlaylist : Fragment() {
             }
 
         }
+
     }
     private inline fun <R> withBinding(action: FragmentPlaylistBinding.() -> R) = binding.action()
 }

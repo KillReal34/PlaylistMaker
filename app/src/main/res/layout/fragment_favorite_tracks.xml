@@ -1,28 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".library.ui.FragmentFavoriteTracks"
-    >
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".library.ui.FragmentFavoriteTracks">
 
-    <ImageView
-        android:id="@+id/iv_error_image"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/favorite_list_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="106dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:gravity="center_horizontal"
+        tools:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_error_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            tools:src="@drawable/not_found_track_image_light_mode" />
+
+        <TextView
+            android:id="@+id/tv_error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/fft_your_medialibrary_is_empty"
+            style="@style/LibraryActivityErrorTextStyles" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favorite_recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="120dp"
-        tools:src="@drawable/not_found_track_image_light_mode"
-        android:visibility="visible"/>
+        android:layout_marginTop="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/activity_track"
+        tools:visibility="gone" />
 
-    <TextView
-        android:id="@+id/tv_error_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="244dp"
-        android:text="@string/fft_your_medialibrary_is_empty"
-        style="@style/LibraryActivityErrorTextStyles"
-        android:visibility="visible"/>
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/favorite_progress_bar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="140dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="visible"
+        app:indicatorColor="@color/black"
+        tools:progress="25" />
 
-</FrameLayout>
+</LinearLayout>

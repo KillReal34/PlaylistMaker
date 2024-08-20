@@ -1,8 +1,12 @@
-package com.example.playlistmaker.domain.entities
+package com.example.playlistmaker.library.data.db
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlin.time.Duration
 
-data class Track(
+@Entity(tableName = TRACK_TABLE)
+data class TrackEntity(
+    @PrimaryKey
     val trackId: String,
     val collectionName: String,
     val releaseDate: String,
@@ -13,6 +17,6 @@ data class Track(
     val duration: Duration,
     val artworkUrl: String,
     val previewUrl: String,
-){
-    var isFavorite: Boolean = false
-}
+)
+
+const val TRACK_TABLE = "track_table"
