@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.library.domain.interactor.AddTrackLibraryInteractor
 import com.example.playlistmaker.library.domain.interactor.DeleteTrackLibraryInteractor
+import com.example.playlistmaker.library.ui.extensions.toTrackEntity
 import com.example.playlistmaker.player.domain.entities.SimplePlayer
 import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractor
 import kotlinx.coroutines.launch
@@ -84,9 +85,9 @@ class TrackViewModel(
     fun onFavoriteClicked(track: PlayerTrack) {
         viewModelScope.launch {
             if (track.isFavorite) {
-                deleteTrackLibraryInteractor(track = track)
+                deleteTrackLibraryInteractor(track = track.toTrackEntity())
             } else {
-                addTrackLibraryInteractor(track = track)
+                addTrackLibraryInteractor(track = track.toTrackEntity())
             }
             track.isFavorite = !track.isFavorite
             favoriteTrackLiveData.postValue(track.isFavorite)

@@ -9,5 +9,5 @@ interface AuditionHistoryRepository {
 
     fun clear()
 
-    suspend fun getFlow(): Flow<AuditionHistory>
+    fun getFlow(): Flow<AuditionHistory>
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.library.domain.interactor.GetTrackLibraryInteractor
+import com.example.playlistmaker.player.ui.PlayerTrack
 import kotlinx.coroutines.launch
 
 class FragmentFavoriteTracksViewModel(
@@ -23,7 +24,11 @@ class FragmentFavoriteTracksViewModel(
                 if (tracks.isEmpty()) {
                     setState(FavoriteTracksState.isEmpty)
                 } else {
-                    setState(FavoriteTracksState.Content(tracks))
+                    setState(
+                        FavoriteTracksState.Content(
+                            tracks.map(::PlayerTrack)
+                        )
+                    )
                 }
             }
         }

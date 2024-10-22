@@ -1,8 +1,8 @@
 package com.example.playlistmaker.library.domain.interactor
 
-import com.example.playlistmaker.player.ui.PlayerTrack
+import com.example.playlistmaker.domain.entities.Track
 import kotlinx.coroutines.flow.Flow
 
 interface GetTrackLibraryInteractor {
-    operator fun invoke(): Flow<List<PlayerTrack>>
+    operator fun invoke(): Flow<List<Track>>
 }

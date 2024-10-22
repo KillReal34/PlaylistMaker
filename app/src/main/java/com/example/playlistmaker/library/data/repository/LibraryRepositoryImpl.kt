@@ -6,6 +6,7 @@ import com.example.playlistmaker.library.data.db.TrackEntity
 import com.example.playlistmaker.library.domain.repository.LibraryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlin.time.Duration.Companion.milliseconds
 
 class LibraryRepositoryImpl(
     private val appDatabase: AppDatabase
@@ -33,7 +34,7 @@ class LibraryRepositoryImpl(
                 primaryGenreName = trackEntity.primaryGenreName,
                 country = trackEntity.country,
                 artistName = trackEntity.artistName,
-                duration = trackEntity.duration,
+                duration = trackEntity.duration.milliseconds,
                 artworkUrl = trackEntity.artworkUrl,
                 previewUrl = trackEntity.previewUrl
             )
@@ -48,7 +49,7 @@ class LibraryRepositoryImpl(
             primaryGenreName = track.primaryGenreName,
             country = track.country,
             artistName = track.artistName,
-            duration = track.duration,
+            duration = track.duration.inWholeMilliseconds,
             artworkUrl = track.artworkUrl,
             previewUrl = track.previewUrl,
             trackName = track.trackName

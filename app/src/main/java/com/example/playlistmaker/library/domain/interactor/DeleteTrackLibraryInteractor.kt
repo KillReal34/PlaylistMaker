@@ -1,7 +1,7 @@
 package com.example.playlistmaker.library.domain.interactor
 
-import com.example.playlistmaker.player.ui.PlayerTrack
+import com.example.playlistmaker.domain.entities.Track
 
 interface DeleteTrackLibraryInteractor {
-    suspend operator fun invoke(track: PlayerTrack)
+    suspend operator fun invoke(track: Track)
 }

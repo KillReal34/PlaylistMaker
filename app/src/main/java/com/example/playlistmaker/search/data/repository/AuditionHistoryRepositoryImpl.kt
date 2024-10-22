@@ -7,6 +7,8 @@ import com.example.playlistmaker.search.data.persistence.AuditionHistoryPersiste
 import com.example.playlistmaker.search.domain.entities.AuditionHistory
 import com.example.playlistmaker.search.domain.repository.AuditionHistoryRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 
 class AuditionHistoryRepositoryImpl(
     private val auditionHistoryPersistence: AuditionHistoryPersistence,
@@ -16,7 +18,7 @@ class AuditionHistoryRepositoryImpl(
 
     override fun clear() = auditionHistoryPersistence.clear()
 
-    override suspend fun getFlow(): Flow<AuditionHistory> {
+    override fun getFlow(): Flow<AuditionHistory> = flow {
         val auditionHistory = auditionHistoryPersistence.getLiveData()
 
         val isFavoriteTracks = appDatabase.trackDao().getTracksById()
@@ -26,6 +28,6 @@ class AuditionHistoryRepositoryImpl(
                 track.isFavorite = true
             }
         }
-        return auditionHistory.asFlow()
+        emitAll(auditionHistory.asFlow())
     }
 }

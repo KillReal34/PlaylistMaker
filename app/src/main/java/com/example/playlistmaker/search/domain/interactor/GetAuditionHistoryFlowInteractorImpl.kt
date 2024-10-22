@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 class GetAuditionHistoryFlowInteractorImpl (
     private val auditionHistoryRepository: AuditionHistoryRepository
 ): GetAuditionHistoryFlowInteractor {
-    override suspend fun invoke(): Flow<AuditionHistory> = auditionHistoryRepository.getFlow()
+    override fun invoke(): Flow<AuditionHistory> = auditionHistoryRepository.getFlow()
 }

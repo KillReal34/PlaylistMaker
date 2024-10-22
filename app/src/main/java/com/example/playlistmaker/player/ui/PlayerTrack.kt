@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PlayerTrack(
+    val trackId: String,
     val collectionName: String,
     val releaseDate: String,
     val primaryGenreName: String,
@@ -19,6 +20,7 @@ data class PlayerTrack(
     var isFavorite: Boolean,
 ) : Parcelable {
     constructor(track: Track) : this(
+        trackId = track.trackId,
         collectionName = track.collectionName,
         releaseDate = track.releaseDate,
         primaryGenreName = track.primaryGenreName,

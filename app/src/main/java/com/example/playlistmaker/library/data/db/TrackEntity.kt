@@ -2,7 +2,6 @@ package com.example.playlistmaker.library.data.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlin.time.Duration
 
 @Entity(tableName = TRACK_TABLE)
 data class TrackEntity(
@@ -14,7 +13,7 @@ data class TrackEntity(
     val country: String,
     val trackName: String,
     val artistName: String,
-    val duration: Duration,
+    val duration: Long,
     val artworkUrl: String,
     val previewUrl: String,
 )
