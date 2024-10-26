@@ -46,7 +46,7 @@ class AudioPlayerActivity : AppCompatActivity() {
                 updateTimerPlay()
             }
 
-            ibPlay.setOnClickListener {
+            ibLike.setOnClickListener {
                 viewModel.onFavoriteClicked(viewModel.playerTrack)
             }
         }

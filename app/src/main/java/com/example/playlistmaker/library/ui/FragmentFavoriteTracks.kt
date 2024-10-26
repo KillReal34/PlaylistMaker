@@ -46,7 +46,7 @@ class FragmentFavoriteTracks : Fragment() {
 
         viewModel.getFavoriteTrackList()
 
-        binding.favoriteListEmpty.isGone = true
+        binding.favoriteListEmpty.isVisible = true
         binding.favoriteRecyclerView.adapter = favoriteTracksAdapter
 
         viewModel.favoriteStateLiveData.observe(viewLifecycleOwner) {
@@ -59,7 +59,7 @@ class FragmentFavoriteTracks : Fragment() {
         when(favoriteTracksState) {
             is FavoriteTracksState.Content -> showFavoriteList()
             is FavoriteTracksState.Load -> showLoading()
-            is FavoriteTracksState.isEmpty -> showFavoriteList()
+            is FavoriteTracksState.isEmpty -> showFavoriteEmptyList()
         }
     }
 
