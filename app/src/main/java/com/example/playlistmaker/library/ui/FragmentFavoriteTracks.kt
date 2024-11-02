@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentFavoriteTracksBinding
 import com.example.playlistmaker.domain.entities.Track
+import com.example.playlistmaker.library.ui.extensions.toTrackEntity
 import com.example.playlistmaker.player.ui.AudioPlayerActivity
 import com.example.playlistmaker.player.ui.PlayerTrack
 import com.example.playlistmaker.search.ui.TrackAdapter
@@ -56,17 +57,21 @@ class FragmentFavoriteTracks : Fragment() {
     }
 
     private fun execute(favoriteTracksState: FavoriteTracksState) {
-        when(favoriteTracksState) {
-            is FavoriteTracksState.Content -> showFavoriteList()
+        when (favoriteTracksState) {
+            is FavoriteTracksState.Content -> showFavoriteList(trackList = favoriteTracksState
+                .tracks.map { it.toTrackEntity() })
+
             is FavoriteTracksState.Load -> showLoading()
             is FavoriteTracksState.isEmpty -> showFavoriteEmptyList()
         }
     }
 
-    private fun showFavoriteList() {
+    private fun showFavoriteList(trackList: List<Track>) {
         binding.favoriteListEmpty.isGone = true
         binding.favoriteProgressBar.isGone = true
         binding.favoriteRecyclerView.isVisible = true
+
+        favoriteTracksAdapter.trackList = trackList
     }
 
     private fun showFavoriteEmptyList() {
