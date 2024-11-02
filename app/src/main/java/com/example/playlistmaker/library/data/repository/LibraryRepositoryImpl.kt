@@ -5,7 +5,7 @@ import com.example.playlistmaker.library.data.db.AppDatabase
 import com.example.playlistmaker.library.data.db.TrackEntity
 import com.example.playlistmaker.library.domain.repository.LibraryRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlin.time.Duration.Companion.milliseconds
 
 class LibraryRepositoryImpl(
@@ -19,9 +19,11 @@ class LibraryRepositoryImpl(
         appDatabase.trackDao().deleteTrack(trackId)
     }
 
-    override fun getTrackLibrary(): Flow<List<Track>> = flow {
+    override fun getTrackLibrary(): Flow<List<Track>> {
         val tracks = appDatabase.trackDao().getTracks()
-        emit(converterTracksFromTrackEntity(tracks))
+        return tracks.map { tracks ->
+            converterTracksFromTrackEntity(tracks)
+        }
     }
 
     private fun converterTracksFromTrackEntity(tracks: List<TrackEntity>): List<Track> {

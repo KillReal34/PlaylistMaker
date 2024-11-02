@@ -26,7 +26,7 @@ class TrackViewModel(
 
     private val playerStateMutableLiveData = MutableLiveData(PlayerState.CREATED)
 
-    private val favoriteTrackLiveData = MutableLiveData<Boolean>()
+    private val favoriteTrackLiveData = MutableLiveData(playerTrack.isFavorite)
 
     private val player = getSimplePlayerInteractor()
 
