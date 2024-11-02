@@ -6,4 +6,6 @@ import com.example.playlistmaker.library.domain.repository.LibraryRepository
 class DeleteTrackLibraryInteractorImpl(
     private val libraryRepository: LibraryRepository): DeleteTrackLibraryInteractor {
     override suspend fun invoke(track: Track) = libraryRepository.deleteTrackLibrary(track)
+
+    override suspend fun invoke(trackId: String) = libraryRepository.deleteTrackLibrary(trackId)
 }

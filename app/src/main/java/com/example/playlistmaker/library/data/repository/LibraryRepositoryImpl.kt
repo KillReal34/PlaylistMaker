@@ -19,6 +19,10 @@ class LibraryRepositoryImpl(
         appDatabase.trackDao().deleteTrack(converterTrackFromTrackEntity(track))
     }
 
+    override suspend fun deleteTrackLibrary(trackId: String) {
+        appDatabase.trackDao().deleteTrack(trackId)
+    }
+
     override fun getTrackLibrary(): Flow<List<Track>> = flow {
         val tracks = appDatabase.trackDao().getTracks()
         emit(converterTracksFromTrackEntity(tracks))

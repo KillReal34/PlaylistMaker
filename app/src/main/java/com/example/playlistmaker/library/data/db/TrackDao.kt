@@ -8,11 +8,14 @@ import androidx.room.Query
 
 @Dao
 interface TrackDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(entity = TrackEntity::class ,onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTrack(track: TrackEntity)
 
     @Delete
     suspend fun deleteTrack(track: TrackEntity)
+
+    @Query("DELETE FROM $TRACK_TABLE WHERE trackId = :trackId")
+    suspend fun deleteTrack(trackId: String)
 
     @Query("SELECT * FROM $TRACK_TABLE")
     suspend fun getTracks(): List<TrackEntity>

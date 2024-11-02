@@ -4,4 +4,6 @@ import com.example.playlistmaker.domain.entities.Track
 
 interface DeleteTrackLibraryInteractor {
     suspend operator fun invoke(track: Track)
+
+    suspend operator fun invoke(trackId: String)
 }
