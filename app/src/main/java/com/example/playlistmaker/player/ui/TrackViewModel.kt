@@ -86,9 +86,9 @@ class TrackViewModel(
     fun onFavoriteClicked(track: PlayerTrack) {
         viewModelScope.launch(Dispatchers.IO) {
             if (track.isFavorite) {
-                addTrackLibraryInteractor(track = track.toTrackEntity())
-            } else {
                 deleteTrackLibraryInteractor(trackId = track.trackId)
+            } else {
+                addTrackLibraryInteractor(track = track.toTrackEntity())
             }
             track.isFavorite = !track.isFavorite
             favoriteTrackLiveData.postValue(track.isFavorite)
