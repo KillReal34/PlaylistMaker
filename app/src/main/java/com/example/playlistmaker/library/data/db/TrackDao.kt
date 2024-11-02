@@ -18,5 +18,5 @@ interface TrackDao {
     fun getTracks(): Flow<List<TrackEntity>>
 
     @Query("SELECT trackId FROM $TRACK_TABLE")
-    suspend fun getTracksById(): List<String>
+    suspend fun getTracksIdList(): List<String>
 }

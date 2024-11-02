@@ -21,7 +21,7 @@ class AuditionHistoryRepositoryImpl(
     override fun getFlow(): Flow<AuditionHistory> = flow {
         val auditionHistory = auditionHistoryPersistence.getLiveData()
 
-        val isFavoriteTracks = appDatabase.trackDao().getTracksById()
+        val isFavoriteTracks = appDatabase.trackDao().getTracksIdList()
 
         auditionHistory.value?.trackList?.map { track ->
             if (isFavoriteTracks.contains(track.trackId)){

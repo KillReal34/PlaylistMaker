@@ -27,13 +27,12 @@ class TrackRepositoryImpl(
                 previewUrl = trackDto.previewUrl,
             )
         }
-        val isFavoriteTracks = appDatabase.trackDao().getTracksById()
+        val trackIdList = appDatabase.trackDao().getTracksIdList()
 
-        searchedTracks.map { track ->
-            if (isFavoriteTracks.contains(track.trackId)){
-                track.isFavorite = true
-            }
+        searchedTracks.forEach { track ->
+            track.isFavorite = track.trackId in trackIdList
         }
+
         return searchedTracks
     }
 }
