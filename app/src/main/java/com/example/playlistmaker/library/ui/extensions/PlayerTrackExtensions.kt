@@ -15,4 +15,4 @@ fun PlayerTrack.toTrackEntity(): Track = Track(
     duration = duration.milliseconds,
     artworkUrl = coverArtWork,
     previewUrl = previewUrl,
-)
+).apply { isFavorite = this@toTrackEntity.isFavorite }
