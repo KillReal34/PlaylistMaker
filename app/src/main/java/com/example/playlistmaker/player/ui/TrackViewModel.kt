@@ -10,6 +10,7 @@ import com.example.playlistmaker.library.domain.interactor.DeleteTrackLibraryInt
 import com.example.playlistmaker.library.ui.extensions.toTrackEntity
 import com.example.playlistmaker.player.domain.entities.SimplePlayer
 import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class TrackViewModel(
@@ -83,11 +84,11 @@ class TrackViewModel(
     }
 
     fun onFavoriteClicked(track: PlayerTrack) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             if (track.isFavorite) {
-                deleteTrackLibraryInteractor(track = track.toTrackEntity())
-            } else {
                 addTrackLibraryInteractor(track = track.toTrackEntity())
+            } else {
+                deleteTrackLibraryInteractor(trackId = track.trackId)
             }
             track.isFavorite = !track.isFavorite
             favoriteTrackLiveData.postValue(track.isFavorite)
