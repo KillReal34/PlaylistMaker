@@ -15,10 +15,6 @@ class LibraryRepositoryImpl(
         appDatabase.trackDao().insertTrack(converterTrackFromTrackEntity(track))
     }
 
-    override suspend fun deleteTrackLibrary(track: Track) {
-        appDatabase.trackDao().deleteTrack(converterTrackFromTrackEntity(track))
-    }
-
     override suspend fun deleteTrackLibrary(trackId: String) {
         appDatabase.trackDao().deleteTrack(trackId)
     }

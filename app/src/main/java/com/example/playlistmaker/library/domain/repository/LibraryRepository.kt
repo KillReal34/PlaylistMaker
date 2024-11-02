@@ -7,8 +7,6 @@ interface LibraryRepository {
 
     suspend fun addTrackLibrary(track: Track)
 
-    suspend fun deleteTrackLibrary(track: Track)
-
     suspend fun deleteTrackLibrary(trackId: String)
 
     fun getTrackLibrary(): Flow<List<Track>>
