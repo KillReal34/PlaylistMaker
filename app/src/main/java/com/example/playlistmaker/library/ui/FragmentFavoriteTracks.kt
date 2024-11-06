@@ -53,7 +53,6 @@ class FragmentFavoriteTracks : Fragment() {
         viewModel.favoriteStateLiveData.observe(viewLifecycleOwner) {
             execute(it)
         }
-
     }
 
     private fun execute(favoriteTracksState: FavoriteTracksState) {
