@@ -54,7 +54,6 @@ class AudioPlayerActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     viewModel.playerTrack.let { viewModel.onFavoriteClicked(it) }
                 }
-//                viewModel.onFavoriteClicked(viewModel.playerTrack)
             }
         }
 
