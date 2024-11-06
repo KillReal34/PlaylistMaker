@@ -5,6 +5,7 @@ import com.example.playlistmaker.library.data.db.AppDatabase
 import com.example.playlistmaker.library.data.db.TrackEntity
 import com.example.playlistmaker.library.domain.repository.LibraryRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -25,6 +26,21 @@ class LibraryRepositoryImpl(
             converterTracksFromTrackEntity(tracks)
         }
     }
+
+    override suspend fun onFavoriteClicked(track: Track) {
+        if (track.isFavorite) {
+            deleteTrackLibrary(track.trackId)
+        }
+        else {
+            addTrackLibrary(track)
+        }
+    }
+
+    override suspend fun isFavorite(trackId: String): Boolean {
+        val favoriteTracks = getTrackLibrary().first()
+        return favoriteTracks.any { it.trackId == trackId }
+    }
+
 
     private fun converterTracksFromTrackEntity(tracks: List<TrackEntity>): List<Track> {
         return tracks.map { trackEntity ->

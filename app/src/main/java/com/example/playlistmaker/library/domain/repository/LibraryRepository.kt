@@ -10,4 +10,8 @@ interface LibraryRepository {
     suspend fun deleteTrackLibrary(trackId: String)
 
     fun getTrackLibrary(): Flow<List<Track>>
+
+    suspend fun onFavoriteClicked(track: Track)
+
+    suspend fun isFavorite(trackId: String): Boolean
 }
