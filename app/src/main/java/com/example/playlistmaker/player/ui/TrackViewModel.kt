@@ -5,19 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlistmaker.library.domain.interactor.AddTrackLibraryInteractor
-import com.example.playlistmaker.library.domain.interactor.DeleteTrackLibraryInteractor
+import com.example.playlistmaker.library.domain.interactor.OnFavoriteClickInteractor
 import com.example.playlistmaker.library.ui.extensions.toTrackEntity
 import com.example.playlistmaker.player.domain.entities.SimplePlayer
 import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractor
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class TrackViewModel(
     savedStateHandle: SavedStateHandle,
     getSimplePlayerInteractor: GetSimplePlayerInteractor,
-    val addTrackLibraryInteractor: AddTrackLibraryInteractor,
-    val deleteTrackLibraryInteractor: DeleteTrackLibraryInteractor,
+    val favoriteClickInteractor: OnFavoriteClickInteractor,
 ) : ViewModel(), SimplePlayer.Listener {
 
     val playerTrack: PlayerTrack = requireNotNull(savedStateHandle[AudioPlayerActivity.TRACK_EXTRA]) {
@@ -83,15 +80,23 @@ class TrackViewModel(
         player.pause()
     }
 
-    fun onFavoriteClicked(track: PlayerTrack) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (track.isFavorite) {
-                deleteTrackLibraryInteractor(trackId = track.trackId)
-            } else {
-                addTrackLibraryInteractor(track = track.toTrackEntity())
-            }
+    suspend fun onFavoriteClicked(track: PlayerTrack){
+        viewModelScope.launch {
+            favoriteClickInteractor(track.toTrackEntity())
             track.isFavorite = !track.isFavorite
             favoriteTrackLiveData.postValue(track.isFavorite)
         }
     }
+
+//    fun onFavoriteClicked(track: PlayerTrack) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            if (track.isFavorite) {
+//                deleteTrackLibraryInteractor(trackId = track.trackId)
+//            } else {
+//                addTrackLibraryInteractor(track = track.toTrackEntity())
+//            }
+//            track.isFavorite = !track.isFavorite
+//            favoriteTrackLiveData.postValue(track.isFavorite)
+//        }
+//    }
 }

@@ -6,6 +6,8 @@ import com.example.playlistmaker.library.domain.interactor.DeleteTrackLibraryInt
 import com.example.playlistmaker.library.domain.interactor.DeleteTrackLibraryInteractorImpl
 import com.example.playlistmaker.library.domain.interactor.GetTrackLibraryInteractor
 import com.example.playlistmaker.library.domain.interactor.GetTrackLibraryInteractorImpl
+import com.example.playlistmaker.library.domain.interactor.OnFavoriteClickInteractor
+import com.example.playlistmaker.library.domain.interactor.OnFavoriteClickInteractorImpl
 import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractor
 import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractorImpl
 import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractor
@@ -44,4 +46,6 @@ val interactorModule = module {
     singleOf(::DeleteTrackLibraryInteractorImpl) bind DeleteTrackLibraryInteractor::class
 
     singleOf(::GetTrackLibraryInteractorImpl) bind GetTrackLibraryInteractor::class
+
+    singleOf(::OnFavoriteClickInteractorImpl) bind OnFavoriteClickInteractor::class
 }

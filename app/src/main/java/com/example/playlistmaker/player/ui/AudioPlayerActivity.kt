@@ -36,6 +36,10 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         viewModel.preparePlayer()
 
+        viewModel.observeFavoriteTracksLiveData.observe(this) {isFavorite ->
+            clickLike(isFavorite)
+        }
+
         withBinding {
             setContentView(root)
 
@@ -47,8 +51,16 @@ class AudioPlayerActivity : AppCompatActivity() {
             }
 
             ibLike.setOnClickListener {
-                viewModel.onFavoriteClicked(viewModel.playerTrack)
+                lifecycleScope.launch {
+                    viewModel.playerTrack.let { viewModel.onFavoriteClicked(it) }
+                }
+//                viewModel.onFavoriteClicked(viewModel.playerTrack)
             }
+        }
+
+        lifecycleScope.launch {
+            var isFavorite = viewModel.playerTrack.isFavorite
+            clickLike(isFavorite)
         }
 
         bindPlayerTrackInfo(playerTrack = viewModel.playerTrack)
@@ -66,9 +78,9 @@ class AudioPlayerActivity : AppCompatActivity() {
                 setImageResource(imageResId)
             }
         }
-        viewModel.observeFavoriteTracksLiveData.observe(this) {isFavorite ->
-            clickLike(isFavorite)
-        }
+//        viewModel.observeFavoriteTracksLiveData.observe(this) {isFavorite ->
+//            clickLike(isFavorite)
+//        }
     }
 
     override fun onPause() {
