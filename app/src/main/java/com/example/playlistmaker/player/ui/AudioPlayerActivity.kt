@@ -77,9 +77,6 @@ class AudioPlayerActivity : AppCompatActivity() {
                 setImageResource(imageResId)
             }
         }
-//        viewModel.observeFavoriteTracksLiveData.observe(this) {isFavorite ->
-//            clickLike(isFavorite)
-//        }
     }
 
     override fun onPause() {

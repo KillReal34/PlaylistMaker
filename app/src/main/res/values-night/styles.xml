@@ -178,7 +178,7 @@
     </style>
 
     <style name="ActivityAudioPlayerButtonAddAndLikeStyle" >
-        <item name="android:tint">@color/white</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
     </style>
 
     <style name="ActivityAudioPlayerPlayTimeStyle" >
