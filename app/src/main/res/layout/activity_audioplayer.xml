@@ -59,6 +59,7 @@
         app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/iv_track_image"
         app:layout_constraintBottom_toTopOf="@id/tv_name_group"
+        android:maxLength="35"
         tools:text="Yesterday (Remastered 2009)" />
 
     <TextView
@@ -181,7 +182,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_left_album_name"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
-        tools:text="Yesterday(Remastered 2009)" />
+        android:maxLength="35"
+        tools:text="Yesterday(Remastered 2009)435345345434534534534345345" />
 
     <TextView
         android:id="@+id/tv_right_year_track"

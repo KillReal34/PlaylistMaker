@@ -82,6 +82,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:inputType">text</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
         <item name="android:textColorHint">@color/gray</item>
         <item name="android:drawableStart">@drawable/search</item>
         <item name="android:drawableTint">@color/gray</item>
