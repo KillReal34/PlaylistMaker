@@ -5,16 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playlistmaker.library.domain.interactor.IsFavoriteCheckInteractor
 import com.example.playlistmaker.library.domain.interactor.OnFavoriteClickInteractor
 import com.example.playlistmaker.library.ui.extensions.toTrackEntity
 import com.example.playlistmaker.player.domain.entities.SimplePlayer
 import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class TrackViewModel(
     savedStateHandle: SavedStateHandle,
     getSimplePlayerInteractor: GetSimplePlayerInteractor,
     val favoriteClickInteractor: OnFavoriteClickInteractor,
+    val isFavoriteCheckInteractor: IsFavoriteCheckInteractor,
 ) : ViewModel(), SimplePlayer.Listener {
 
     val playerTrack: PlayerTrack = requireNotNull(savedStateHandle[AudioPlayerActivity.TRACK_EXTRA]) {
@@ -80,23 +83,15 @@ class TrackViewModel(
         player.pause()
     }
 
+    suspend fun isTrackFavorite(trackId: String): Boolean{
+        return isFavoriteCheckInteractor(trackId)
+    }
+
     suspend fun onFavoriteClicked(track: PlayerTrack){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             favoriteClickInteractor(track.toTrackEntity())
             track.isFavorite = !track.isFavorite
             favoriteTrackLiveData.postValue(track.isFavorite)
         }
     }
-
-//    fun onFavoriteClicked(track: PlayerTrack) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            if (track.isFavorite) {
-//                deleteTrackLibraryInteractor(trackId = track.trackId)
-//            } else {
-//                addTrackLibraryInteractor(track = track.toTrackEntity())
-//            }
-//            track.isFavorite = !track.isFavorite
-//            favoriteTrackLiveData.postValue(track.isFavorite)
-//        }
-//    }
 }

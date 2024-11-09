@@ -20,8 +20,6 @@ class FragmentFavoriteTracksViewModel(
 
     fun getFavoriteTrackList() {
         viewModelScope.launch{
-//            getTrackLibraryInteractor()
-//                .collect{favoriteStateMutableLiveData.postValue(checkingFavorite(it))}
             setState(FavoriteTracksState.Load)
             getTrackLibraryInteractor().collect { tracks ->
                 if (tracks.isEmpty()) {

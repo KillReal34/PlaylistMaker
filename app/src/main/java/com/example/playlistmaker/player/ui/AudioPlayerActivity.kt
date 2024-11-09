@@ -58,7 +58,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            var isFavorite = viewModel.playerTrack.isFavorite
+            var isFavorite = viewModel.isTrackFavorite(viewModel.playerTrack.trackId)
             clickLike(isFavorite)
         }
 
