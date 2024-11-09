@@ -113,6 +113,13 @@
         <item name="android:textColor">@color/light_gray</item>
     </style>
 
+    <style name="ActivityTrackTextViewPointStyle" >
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="tint">@color/light_gray</item>
+    </style>
+
     <style name="ActivityTrackImageViewStyle" >
         <item name="tint">@color/light_gray</item>
     </style>
