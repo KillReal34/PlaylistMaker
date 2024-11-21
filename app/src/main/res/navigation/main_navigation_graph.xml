@@ -65,7 +65,7 @@
         tools:layout="@layout/activity_audioplayer" />
     <fragment
         android:id="@+id/creationPlaylist"
-        android:name="com.example.playlistmaker.CreationPlaylist"
+        android:name="com.example.playlistmaker.library.ui.CreationPlaylist"
         android:label="fragment_creation_window_playlist"
         tools:layout="@layout/fragment_creation_window_playlist" />
 </navigation>

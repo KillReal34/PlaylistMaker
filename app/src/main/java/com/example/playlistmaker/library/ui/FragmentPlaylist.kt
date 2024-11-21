@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,7 +46,9 @@ class FragmentPlaylist : Fragment() {
 
                 setImageResource(imageResId)
             }
-
+            btnNewPlaylist.setOnClickListener{
+                findNavController().navigate(R.id.action_fragmentPlaylist_to_creationPlaylist)
+            }
         }
 
     }
