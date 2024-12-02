@@ -1,12 +1,8 @@
 package com.example.playlistmaker.library.domain.interactor
 
-import com.example.playlistmaker.library.domain.model.Playlist
+import com.example.playlistmaker.creationPlaylistWindow.domain.model.Playlist
 import kotlinx.coroutines.flow.Flow
 
 interface PlaylistInteractor {
-    fun addPlaylist(playlist: Playlist): Flow<Long>
-
-    fun updatePlaylist(playlist: Playlist): Flow<Int>
-
-    fun savePlaylist(uri: String): String
+    suspend fun getPlaylist(): Flow<List<Playlist>>
 }
