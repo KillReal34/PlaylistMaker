@@ -20,7 +20,9 @@ class SearchScreenViewModel(
     private val searchTracksByNameInteractor: SearchTracksByNameInteractor,
     getAuditionHistoryFlowInteractor: GetAuditionHistoryFlowInteractor,
 ) : ViewModel() {
-    private val trackListAuditionHistoryLiveData = getAuditionHistoryFlowInteractor()
+
+
+    private var trackListAuditionHistoryLiveData = getAuditionHistoryFlowInteractor()
         .map { it.trackList }
         .asLiveData()
 

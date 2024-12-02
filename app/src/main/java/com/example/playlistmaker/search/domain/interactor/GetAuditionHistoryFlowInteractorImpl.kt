@@ -1,7 +1,7 @@
 package com.example.playlistmaker.search.domain.interactor
 
-import com.example.playlistmaker.search.domain.repository.AuditionHistoryRepository
 import com.example.playlistmaker.search.domain.entities.AuditionHistory
+import com.example.playlistmaker.search.domain.repository.AuditionHistoryRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetAuditionHistoryFlowInteractorImpl (

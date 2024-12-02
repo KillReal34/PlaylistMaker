@@ -36,6 +36,10 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         viewModel.preparePlayer()
 
+        viewModel.observeFavoriteTracksLiveData.observe(this) {isFavorite ->
+            clickLike(isFavorite)
+        }
+
         withBinding {
             setContentView(root)
 
@@ -45,6 +49,17 @@ class AudioPlayerActivity : AppCompatActivity() {
                 viewModel.playbackControl()
                 updateTimerPlay()
             }
+
+            ibLike.setOnClickListener {
+                lifecycleScope.launch {
+                    viewModel.playerTrack.let { viewModel.onFavoriteClicked(it) }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            var isFavorite = viewModel.isTrackFavorite(viewModel.playerTrack.trackId)
+            clickLike(isFavorite)
         }
 
         bindPlayerTrackInfo(playerTrack = viewModel.playerTrack)
@@ -111,6 +126,13 @@ class AudioPlayerActivity : AppCompatActivity() {
             if (viewModel.currentPlayerState == PlayerState.PREPARED) {
                 binding.tvPlayTime.text = "00:00"
             }
+        }
+    }
+
+    private fun clickLike(isFavoriteStatus: Boolean){
+        when(isFavoriteStatus){
+            true -> binding.ibLike.setImageResource(R.drawable.button_like_true)
+            false -> binding.ibLike.setImageResource(R.drawable.button_like_false)
         }
     }
 
