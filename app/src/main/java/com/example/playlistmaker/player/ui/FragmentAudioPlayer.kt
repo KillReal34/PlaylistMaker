@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creationPlaylistWindow.domain.model.Playlist
-import com.example.playlistmaker.databinding.ActivityAudioplayerBinding
+import com.example.playlistmaker.databinding.FragmentAudioPlayerBinding
 import com.example.playlistmaker.library.ui.extensions.toTrackEntity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Job
@@ -37,8 +37,8 @@ class FragmentAudioPlayer : Fragment() {
     private val playlists = arrayListOf<Playlist>()
     private var timerJob: Job? = null
 
-    private val binding: ActivityAudioplayerBinding by lazy(mode = LazyThreadSafetyMode.NONE) {
-        ActivityAudioplayerBinding.inflate(layoutInflater)
+    private val binding: FragmentAudioPlayerBinding by lazy(mode = LazyThreadSafetyMode.NONE) {
+        FragmentAudioPlayerBinding.inflate(layoutInflater)
     }
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
@@ -227,5 +227,5 @@ class FragmentAudioPlayer : Fragment() {
         return current
     }
 
-    private fun <R> withBinding(action: ActivityAudioplayerBinding.() -> R) = binding.action()
+    private fun <R> withBinding(action: FragmentAudioPlayerBinding.() -> R) = binding.action()
 }

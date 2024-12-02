@@ -76,7 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="15dp"
-                android:hint="@string/name_new_playlist" />
+                android:hint="@string/name_new_playlist"
+                style="@style/FragmentCreationWindowsTextInputEditText"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,7 +97,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="15dp"
-                android:hint="@string/description_new_playlist"/>
+                android:hint="@string/description_new_playlist"
+                android:textColorHint="@color/white"
+                style="@style/FragmentCreationWindowsTextInputEditText"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
