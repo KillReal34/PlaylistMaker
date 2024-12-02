@@ -1,16 +1,16 @@
-package com.example.playlistmaker.library.ui
+package com.example.playlistmaker.creationPlaylistWindow.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlistmaker.library.domain.interactor.PlaylistInteractor
-import com.example.playlistmaker.library.domain.model.Playlist
+import com.example.playlistmaker.creationPlaylistWindow.domain.interactor.CreatePlaylistInteractor
+import com.example.playlistmaker.creationPlaylistWindow.domain.model.Playlist
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CreationPlaylistViewModel(
-    private val interactor: PlaylistInteractor
+    private val interactor: CreatePlaylistInteractor
 ) : ViewModel() {
 
     var CreateNewPlaylistFragment = false
@@ -18,8 +18,8 @@ class CreationPlaylistViewModel(
     var playlistDescription = ""
     var playlistName = ""
 
-    private val playlistMutableLiveData = MutableLiveData<PlaylistState>()
-    val playlistLiveData: LiveData<PlaylistState>
+    private val playlistMutableLiveData = MutableLiveData<PlaylistState?>()
+    val playlistLiveData: LiveData<PlaylistState?>
         get() = playlistMutableLiveData
 
     fun setUri(uri: String) {
@@ -51,6 +51,10 @@ class CreationPlaylistViewModel(
     fun checkPlaylist() {
         CreateNewPlaylistFragment =
             playlistName.isNotEmpty() || playlistDescription.isNotEmpty() || playlistUri.isNotEmpty()
+    }
+
+    fun resetPlaylistState() {
+        playlistMutableLiveData.value = null
     }
 }
 

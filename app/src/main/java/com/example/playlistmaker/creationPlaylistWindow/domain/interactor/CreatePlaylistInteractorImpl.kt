@@ -1,14 +1,14 @@
-package com.example.playlistmaker.library.domain.interactor
+package com.example.playlistmaker.creationPlaylistWindow.domain.interactor
 
-import com.example.playlistmaker.library.data.converters.PlaylistDatabaseConverter
-import com.example.playlistmaker.library.domain.model.Playlist
-import com.example.playlistmaker.library.domain.repository.PlaylistRepository
+import com.example.playlistmaker.creationPlaylistWindow.data.converters.PlaylistDatabaseConverter
+import com.example.playlistmaker.creationPlaylistWindow.domain.model.Playlist
+import com.example.playlistmaker.creationPlaylistWindow.domain.repository.CreatePlaylistRepository
 import kotlinx.coroutines.flow.Flow
 
-class PlaylistInteractorImpl(
-    private val playlistRepository: PlaylistRepository,
+class CreatePlaylistInteractorImpl(
+    private val playlistRepository: CreatePlaylistRepository,
     private val playlistDatabaseConverter: PlaylistDatabaseConverter,
-): PlaylistInteractor {
+): CreatePlaylistInteractor {
     override fun addPlaylist(playlist: Playlist): Flow<Long> {
         return playlistRepository.addNewPlaylist(playlistDatabaseConverter.converterPlaylistFromPlaylistEntity(playlist))
     }

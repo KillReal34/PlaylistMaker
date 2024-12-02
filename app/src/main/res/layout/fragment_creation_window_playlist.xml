@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_gravity="center"
-    tools:context=".library.ui.CreationPlaylist">
+    tools:context=".creationPlaylistWindow.ui.FragmentCreationPlaylist">
     <LinearLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
