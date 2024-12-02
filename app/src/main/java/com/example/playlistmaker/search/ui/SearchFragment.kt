@@ -1,6 +1,5 @@
 package com.example.playlistmaker.search.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +12,11 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.domain.entities.Track
-import com.example.playlistmaker.player.ui.AudioPlayerActivity
+import com.example.playlistmaker.player.ui.FragmentAudioPlayer
 import com.example.playlistmaker.player.ui.PlayerTrack
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -143,21 +143,16 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun createAudioPlayerIntent(track: Track) = Intent(
-        requireContext(),
-        AudioPlayerActivity::class.java,
-    ).apply {
-        putExtra(AudioPlayerActivity.TRACK_EXTRA, PlayerTrack(track = track))
-    }
-
     private fun onSearchedTackClick(track: Track) {
         viewModel.addTrackToAuditionHistory(track = track)
 
-        startActivity(createAudioPlayerIntent(track = track))
+        findNavController().navigate(R.id.action_searchFragment_to_fragmentAudioPlayer,
+            FragmentAudioPlayer.createArgs(PlayerTrack(track = track)))
     }
 
     private fun onHistoryTrackClick(track: Track) =
-        startActivity(createAudioPlayerIntent(track = track))
+        findNavController().navigate(R.id.action_searchFragment_to_fragmentAudioPlayer,
+            FragmentAudioPlayer.createArgs(PlayerTrack(track = track)))
 
     private fun drawIdleState(): Unit = withBinding {
         progressBar.isGone = true

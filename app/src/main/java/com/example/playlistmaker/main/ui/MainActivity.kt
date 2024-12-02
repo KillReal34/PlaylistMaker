@@ -3,6 +3,8 @@ package com.example.playlistmaker.main.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -37,7 +39,24 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id){
+                R.id.libraryFragment -> showBottomNav()
+                R.id.searchFragment -> showBottomNav()
+                R.id.settingFragment -> showBottomNav()
+                else -> hideBottomNav()
+            }
+        }
+
         viewModel.isNightThemeFlow.observeForever(nightThemeObserver)
+    }
+
+    private fun showBottomNav(){
+        binding.bottomNavigationView.isVisible = true
+    }
+
+    private fun hideBottomNav(){
+        binding.bottomNavigationView.isGone = true
     }
 
     override fun onDestroy() {
