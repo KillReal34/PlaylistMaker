@@ -4,6 +4,7 @@
     <string name="library">Медиатека</string>
     <string name="new_playlist">Новый плейлист</string>
     <string name="name_new_playlist">Название*</string>
+    <string name="playlist_name">Название альбома</string>
     <string name="description_new_playlist">Описание</string>
     <string name="button_add_new_playlist">Создать</string>
     <string name="settings">Настройки</string>
@@ -30,6 +31,7 @@
     <string name="library_activity_tablayout_favorite_tracks">Избранные треки</string>
     <string name="library_activity_tablayout_playlists">Плейлисты</string>
     <string name="text_point">" • "</string>
+    <string name="quantity_tracks">Количество треков</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
