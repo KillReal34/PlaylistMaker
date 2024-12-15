@@ -10,32 +10,24 @@
         android:name="com.example.playlistmaker.library.ui.FragmentFavoriteTracks"
         android:label="fragment_favorite_tracks"
         tools:layout="@layout/fragment_favorite_tracks" >
-        <action
-            android:id="@+id/action_fragmentFavoriteTracks_to_fragmentPlaylist"
-            app:destination="@id/fragmentPlaylist" />
-        <action
-            android:id="@+id/action_searchFragment_to_audioPlayerActivity"
-            app:destination="@+id/audioPlayerActivity" />
     </fragment>
     <fragment
         android:id="@+id/fragmentPlaylist"
         android:name="com.example.playlistmaker.library.ui.FragmentPlaylist"
         android:label="fragment_playlist"
-        tools:layout="@layout/fragment_playlist" />
+        tools:layout="@layout/fragment_playlist" >
+    </fragment>
     <fragment
         android:id="@+id/libraryFragment"
         android:name="com.example.playlistmaker.library.ui.LibraryFragment"
         android:label="fragment_library"
         tools:layout="@layout/fragment_library" >
         <action
-            android:id="@+id/action_libraryFragment_to_fragmentPlaylist"
-            app:destination="@id/fragmentPlaylist" />
+            android:id="@+id/action_libraryFragment_to_creationPlaylist"
+            app:destination="@id/creationPlaylist" />
         <action
-            android:id="@+id/action_libraryFragment_to_fragmentFavoriteTracks"
-            app:destination="@id/fragmentFavoriteTracks" />
-        <action
-            android:id="@+id/action_libraryFragment_to_settingFragment"
-            app:destination="@id/settingFragment" />
+            android:id="@+id/action_libraryFragment_to_fragmentAudioPlayer"
+            app:destination="@id/fragmentAudioPlayer" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -43,20 +35,26 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
-            android:id="@+id/action_searchFragment_to_audioPlayerActivity"
-            app:destination="@id/audioPlayerActivity" />
-        <action
-            android:id="@+id/action_searchFragment_to_libraryFragment"
-            app:destination="@id/libraryFragment" />
+            android:id="@+id/action_searchFragment_to_fragmentAudioPlayer"
+            app:destination="@id/fragmentAudioPlayer" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.playlistmaker.settings.ui.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
-    <activity
-        android:id="@+id/audioPlayerActivity"
-        android:name="com.example.playlistmaker.player.ui.AudioPlayerActivity"
-        android:label="activity_audioplayer"
-        tools:layout="@layout/activity_audioplayer" />
+    <fragment
+        android:id="@+id/creationPlaylist"
+        android:name="com.example.playlistmaker.creationPlaylistWindow.ui.FragmentCreationPlaylist"
+        android:label="fragment_creation_window_playlist"
+        tools:layout="@layout/fragment_creation_window_playlist" />
+    <fragment
+        android:id="@+id/fragmentAudioPlayer"
+        android:name="com.example.playlistmaker.player.ui.FragmentAudioPlayer"
+        android:label="fragment_audio_player"
+        tools:layout="@layout/fragment_audio_player" >
+        <action
+            android:id="@+id/action_fragmentAudioPlayer_to_creationPlaylist"
+            app:destination="@id/creationPlaylist" />
+    </fragment>
 </navigation>
