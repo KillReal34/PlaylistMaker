@@ -87,9 +87,9 @@ class FragmentAudioPlayer : Fragment() {
                 }
             }
 
-            val bottomSheetContainer = playlistsBottomSheet
-            bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer as View).apply {
+            bottomSheetBehavior = BottomSheetBehavior.from(playlistsBottomSheet as View).apply {
                 state = BottomSheetBehavior.STATE_HIDDEN
+                halfExpandedRatio = 0.66f
             }
         }
 
@@ -128,7 +128,7 @@ class FragmentAudioPlayer : Fragment() {
                 viewModel.getPlaylist()
                 binding.playlistsBottomSheet.isVisible = true
                 binding.btNewPlayListBottomSheet.isVisible = true
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             }
         }
 
