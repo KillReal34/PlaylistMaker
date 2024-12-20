@@ -95,9 +95,8 @@ class TrackViewModel(
     override fun onCompletion() = playerStateMutableLiveData.postValue(PlayerState.PREPARED)
 
     fun preparePlayer() {
-        if (playerStateLiveData.value != PlayerState.CREATED){
-            player.prepare(url = playerTrack.previewUrl, listener = this)
-        }
+        if (playerStateLiveData.value != PlayerState.CREATED) return
+        player.prepare(url = playerTrack.previewUrl, listener = this)
     }
 
     fun playbackControl() {
