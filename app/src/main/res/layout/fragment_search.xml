@@ -100,9 +100,11 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
                 app:cornerRadius="54dp"
+                android:textSize="9sp"
                 android:text="@string/button_history_clear"
                 style="@style/ActivitySearchButtonClearHistoryStyle"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
             <ImageView
                 android:id="@+id/iv_error_image"
