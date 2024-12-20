@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
@@ -31,6 +32,8 @@ class FragmentCreationPlaylist : Fragment() {
     }
 
     lateinit var confirmDialog: MaterialAlertDialogBuilder
+
+    lateinit var backPressedCallback: OnBackPressedCallback
 
     private val viewModel: CreationPlaylistViewModel by viewModel()
 
@@ -114,17 +117,32 @@ class FragmentCreationPlaylist : Fragment() {
             }
 
             buttonBack.setOnClickListener {
-                if (viewModel.CreateNewPlaylistFragment) {
-                    showExitConfirmationDialog()
-                } else {
-                    findNavController().popBackStack()
-                }
+                showExitConfirmationDialogFromBackButton()
             }
         }
+        backPressedCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                showExitConfirmationDialogFromBackButton()
+            }
+        }
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, backPressedCallback)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        backPressedCallback.remove()
     }
 
     fun savePlaylist(playlistUri: String){
         viewModel.addNewPlaylist(playlistUri)
+    }
+
+    private fun showExitConfirmationDialogFromBackButton(){
+        if (viewModel.CreateNewPlaylistFragment){
+            showExitConfirmationDialog()
+        } else {
+            findNavController().popBackStack()
+        }
     }
 
     fun showThePlaylistCover (uri: Uri?) {
