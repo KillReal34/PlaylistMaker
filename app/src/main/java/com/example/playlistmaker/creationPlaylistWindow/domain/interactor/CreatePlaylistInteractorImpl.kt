@@ -20,4 +20,8 @@ class CreatePlaylistInteractorImpl(
     override fun savePlaylist(uri: String): String {
         return playlistRepository.savePlaylist(uri)
     }
+
+    override fun deletePlaylistById(playlistId: Long): Flow<Long> {
+        return playlistRepository.deletePlaylistById(playlistId)
+    }
 }
