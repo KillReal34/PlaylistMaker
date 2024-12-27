@@ -9,4 +9,6 @@ interface CreatePlaylistInteractor {
     fun updatePlaylist(playlist: Playlist): Flow<Int>
 
     fun savePlaylist(uri: String): String
+
+    fun deletePlaylistById(playlistId: Long): Flow<Long>
 }
