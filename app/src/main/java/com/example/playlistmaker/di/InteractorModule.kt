@@ -16,6 +16,8 @@ import com.example.playlistmaker.library.domain.interactor.PlayListInteractorImp
 import com.example.playlistmaker.library.domain.interactor.PlaylistInteractor
 import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractor
 import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractorImpl
+import com.example.playlistmaker.playlist.domain.SelectedPlaylistInteractor
+import com.example.playlistmaker.playlist.domain.SelectedPlaylistInteractorImpl
 import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractor
 import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractorImpl
 import com.example.playlistmaker.search.domain.interactor.ClearSearchHistoryInteractor
@@ -60,4 +62,6 @@ val interactorModule = module {
     singleOf(::CreatePlaylistInteractorImpl) bind CreatePlaylistInteractor::class
 
     singleOf(::PlayListInteractorImpl) bind PlaylistInteractor::class
+
+    singleOf(::SelectedPlaylistInteractorImpl) bind SelectedPlaylistInteractor::class
 }
