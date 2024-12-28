@@ -14,5 +14,5 @@ interface PlaylistRepository {
 
     fun deleteTrackById(trackId: Int)
 
-    fun deletePlalistById(playlistId: Long)
+    fun deletePlaylistById(playlistId: Long)
 }
