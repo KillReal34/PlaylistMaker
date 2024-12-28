@@ -16,6 +16,6 @@ class SelectedPlaylistInteractorImpl(private val playlistRepository: PlaylistRep
     }
 
     override fun deletePlaylistById(playlistId: Long) {
-        return playlistRepository.deletePlalistById(playlistId)
+        return playlistRepository.deletePlaylistById(playlistId)
     }
 }
