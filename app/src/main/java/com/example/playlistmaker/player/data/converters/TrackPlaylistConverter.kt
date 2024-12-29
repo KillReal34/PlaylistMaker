@@ -2,6 +2,7 @@ package com.example.playlistmaker.player.data.converters
 
 import com.example.playlistmaker.domain.entities.Track
 import com.example.playlistmaker.player.data.TrackPlaylistEntity
+import kotlin.time.Duration.Companion.milliseconds
 
 class TrackPlaylistConverter {
     fun converterTrackFromTrackPlaylistEntity(track: Track): TrackPlaylistEntity {
@@ -16,6 +17,21 @@ class TrackPlaylistConverter {
             country = track.country,
             trackTimeMillis = track.duration.inWholeMilliseconds,
             previewUrl = track.previewUrl,
+        )
+    }
+
+    fun converterTrackPlaylistEntityFromTrack(trackPlaylistEntity: TrackPlaylistEntity): Track {
+        return Track(
+            trackId = trackPlaylistEntity.trackId,
+            artworkUrl = trackPlaylistEntity.artworkUrl100,
+            collectionName = trackPlaylistEntity.collectionName,
+            releaseDate = trackPlaylistEntity.releaseDate,
+            primaryGenreName = trackPlaylistEntity.primaryGenreName,
+            country = trackPlaylistEntity.country,
+            trackName = trackPlaylistEntity.trackName,
+            artistName = trackPlaylistEntity.artistName,
+            duration = trackPlaylistEntity.trackTimeMillis.milliseconds,
+            previewUrl = trackPlaylistEntity.previewUrl,
         )
     }
 }
