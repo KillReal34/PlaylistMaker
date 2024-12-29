@@ -10,7 +10,7 @@ interface PlaylistRepository {
 
     fun getPlaylistById(playlistId: Long): Flow<Playlist>
 
-    fun getTrackFormPlaylist(playlistIdList: List<Int>): Flow<List<Track>>
+    fun getTrackFromPlaylist(playlistIdList: List<Int>): Flow<List<Track>>
 
     fun deleteTrackById(trackId: Int)
 

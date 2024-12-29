@@ -12,7 +12,7 @@ class SelectedPlaylistInteractorImpl(private val playlistRepository: PlaylistRep
     }
 
     override fun getTracksFromPlaylist(playlistIdList: List<Int>): Flow<List<Track>> {
-        return playlistRepository.getTrackFormPlaylist(playlistIdList)
+        return playlistRepository.getTrackFromPlaylist(playlistIdList)
     }
 
     override fun deletePlaylistById(playlistId: Long) {
