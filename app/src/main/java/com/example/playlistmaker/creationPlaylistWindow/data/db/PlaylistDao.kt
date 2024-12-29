@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.example.playlistmaker.player.data.TrackPlaylistEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -20,4 +21,8 @@ interface PlaylistDao {
 
     @Query("SELECT * FROM playlist_table WHERE id = :playlistId")
     fun getPlaylistById(playlistId: Long): PlaylistEntity
+
+    @Query("SELECT * FROM track_playlist_table")
+    fun getAllTracksFromPlaylist(): Flow<List<TrackPlaylistEntity>>
+
 }
