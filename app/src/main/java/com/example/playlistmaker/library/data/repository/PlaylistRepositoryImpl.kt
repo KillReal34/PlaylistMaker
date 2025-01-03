@@ -42,7 +42,9 @@ class PlaylistsRepositoryImpl(
     }
 
     override fun deletePlaylistById(playlistId: Long) {
-        TODO("Not yet implemented")
+        CoroutineScope(Dispatchers.IO).launch {
+            appDatabase.playlistDao().deletePlaylistById(playlistId)
+        }
     }
 
     private fun trackFilter(
