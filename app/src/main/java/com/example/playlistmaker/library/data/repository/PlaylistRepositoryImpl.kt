@@ -7,9 +7,12 @@ import com.example.playlistmaker.library.data.db.AppDatabase
 import com.example.playlistmaker.library.domain.repository.PlaylistRepository
 import com.example.playlistmaker.player.data.TrackPlaylistEntity
 import com.example.playlistmaker.player.data.converters.TrackPlaylistConverter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class PlaylistsRepositoryImpl(
     private val appDatabase: AppDatabase,
@@ -33,7 +36,9 @@ class PlaylistsRepositoryImpl(
     }
 
     override fun deleteTrackById(trackId: Int) {
-        TODO("Not yet implemented")
+        CoroutineScope(Dispatchers.IO).launch {
+            appDatabase.playlistDao().deleteTrackById(trackId)
+        }
     }
 
     override fun deletePlaylistById(playlistId: Long) {
