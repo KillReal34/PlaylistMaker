@@ -13,7 +13,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentPlaylist"
-        android:name="com.example.playlistmaker.library.ui.FragmentPlaylist"
+        android:name="com.example.playlistmaker.library.ui.FragmentLibraryPlaylist"
         android:label="fragment_playlist"
         tools:layout="@layout/fragment_playlist" >
     </fragment>
@@ -62,7 +62,11 @@
     </fragment>
     <fragment
         android:id="@+id/playlistFragment"
-        android:name="com.example.playlistmaker.playlist.ui.PlaylistFragment"
+        android:name="com.example.playlistmaker.playlist.ui.FragmentPlaylist"
         android:label="fragment_selected_playlist"
-        tools:layout="@layout/fragment_selected_playlist" />
+        tools:layout="@layout/fragment_selected_playlist" >
+        <action
+            android:id="@+id/action_playlistFragment_to_fragmentAudioPlayer"
+            app:destination="@id/fragmentAudioPlayer" />
+    </fragment>
 </navigation>
