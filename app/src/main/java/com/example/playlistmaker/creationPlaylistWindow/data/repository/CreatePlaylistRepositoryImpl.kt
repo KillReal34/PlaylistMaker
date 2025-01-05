@@ -8,8 +8,12 @@ import androidx.core.net.toUri
 import com.example.playlistmaker.creationPlaylistWindow.data.db.PlaylistEntity
 import com.example.playlistmaker.creationPlaylistWindow.domain.repository.CreatePlaylistRepository
 import com.example.playlistmaker.library.data.db.AppDatabase
+import com.example.playlistmaker.player.data.TrackPlaylistEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.time.ZonedDateTime
@@ -22,6 +26,12 @@ class CreatePlaylistRepositoryImpl(
     override fun addNewPlaylist(playlist: PlaylistEntity): Flow<Long> = flow {
         val plailist = appDatabase.playlistDao().insertPlaylist(playlist)
         emit(plailist)
+    }
+
+    override fun addTrackInPlaylist(track: TrackPlaylistEntity) {
+        CoroutineScope(Dispatchers.IO).launch {
+            appDatabase.trackPlaylistDao().insertTrackFromPlaylist(track)
+        }
     }
 
     override fun updatePlaylist(playlist: PlaylistEntity): Flow<Int> = flow {
@@ -48,8 +58,10 @@ class CreatePlaylistRepositoryImpl(
         return file.toUri().toString()
     }
 
-    override fun deletePlaylistById(playlistId: Long): Flow<Long> {
-        TODO()
+    override fun deletePlaylistById(playlistId: Long): Flow<Long> = flow{
+        CoroutineScope(Dispatchers.IO).launch {
+            appDatabase.playlistDao().deletePlaylistById(playlistId)
+        }
     }
 
 }
