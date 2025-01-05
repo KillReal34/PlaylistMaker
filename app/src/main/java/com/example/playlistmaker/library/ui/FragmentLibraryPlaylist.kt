@@ -14,24 +14,24 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
-import com.example.playlistmaker.playlist.ui.PlaylistFragment
+import com.example.playlistmaker.playlist.ui.FragmentPlaylist
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class FragmentPlaylist : Fragment() {
+class FragmentLibraryPlaylist : Fragment() {
 
     companion object {
         private const val PLAYLISTS = "playLists"
         private const val CLICK_DEBOUNCE_DELAY = 1000L
 
-        fun newInstance(playlists: String) = FragmentPlaylist().apply {
+        fun newInstance(playlists: String) = FragmentLibraryPlaylist().apply {
             arguments = bundleOf(PLAYLISTS to playlists)
         }
     }
 
-    private val viewModel: FragmentPlaylistViewModel by viewModel()
+    private val viewModel: FragmentLibraryPlaylistViewModel by viewModel()
     private lateinit var adapter: PlaylistAdapter
     private var isClickAllowed = true
 
@@ -64,7 +64,7 @@ class FragmentPlaylist : Fragment() {
                 if (clickDebounce()) {
                     findNavController().navigate(
                         R.id.action_libraryFragment_to_playlistFragment,
-                        PlaylistFragment.createArgs(it)
+                        FragmentPlaylist.createArgs(it)
                     )
                 }
             }
