@@ -128,6 +128,11 @@ class FragmentCreationPlaylist : Fragment() {
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, backPressedCallback)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(URIKEY, playlistUri)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         backPressedCallback.remove()
