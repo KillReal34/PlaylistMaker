@@ -199,7 +199,7 @@ class FragmentPlaylist : Fragment() {
                 ?: "") + "\n" + viewModel.rightEndingTrack(trackList.size) + "\n"
             for (index in trackList.indices) {
                 val track = trackList[index]
-                val trackTime = dateFormat.format(track.duration)
+                val trackTime = dateFormat.format(track.duration.inWholeMilliseconds)
                 val string =
                     "\n" + (index + 1).toString() + ". " + track.artistName + " '" + track.trackName + "' " + trackTime
                 message += string
