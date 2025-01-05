@@ -35,6 +35,7 @@ class CreationPlaylistViewModel(
             if (playlistUri.isNotEmpty()) interactor.savePlaylist(playlistUri) else null,
             mutableListOf(),
             0,
+            0,
         )
         viewModelScope.launch(Dispatchers.IO) {
             interactor.addPlaylist(playlist).collect {
