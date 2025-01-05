@@ -17,6 +17,7 @@ class TrackPlaylistConverter {
             country = track.country,
             trackTimeMillis = track.duration.inWholeMilliseconds,
             previewUrl = track.previewUrl,
+            System.currentTimeMillis(),
         )
     }
 
