@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -17,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creationPlaylistWindow.domain.model.Playlist
+import com.example.playlistmaker.creationPlaylistWindow.ui.FragmentEditorPlaylist
 import com.example.playlistmaker.databinding.FragmentSelectedPlaylistBinding
 import com.example.playlistmaker.domain.entities.Track
 import com.example.playlistmaker.player.ui.FragmentAudioPlayer
@@ -141,7 +144,7 @@ class FragmentPlaylist : Fragment() {
                 )
             }
         }, { track ->
-            MaterialAlertDialogBuilder(requireContext())
+            val dialog = MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.delete_track)
                 .setMessage(R.string.agree_delete_track)
                 .setNegativeButton(getString(R.string.no)) { _, _ -> }
@@ -153,6 +156,8 @@ class FragmentPlaylist : Fragment() {
                     viewModel.deleteTrackById(track.trackId.toInt())
                     playlist?.listIdTracks?.let { viewModel.getTracksFromPlaylist(it) }
                 }.show()
+
+            changeColorDialog(dialog)
             true
         })
         adapter.tracks = trackList
@@ -166,25 +171,45 @@ class FragmentPlaylist : Fragment() {
             rvTrackList.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
+            menu.setOnClickListener {
+                editingBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+
+            editPlaylist.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_playlistFragment_to_fragmentEditorPlaylist,
+                    FragmentEditorPlaylist.createArgs(playlist!!)
+                )
+            }
+
+            sharePlaylist.setOnClickListener {
+                sharePlaylist()
+                editingBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
             share.setOnClickListener {
                 sharePlaylist()
+                editingBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             }
 
             deletePlaylist.setOnClickListener {
+                editingBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 deletePlaylist()
             }
         }
     }
 
-    private fun deletePlaylist(){
-        MaterialAlertDialogBuilder(requireContext())
+    private fun deletePlaylist() {
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.delete_playlist))
             .setMessage(getString(R.string.agree_delete_playlist))
-            .setNegativeButton(getString(R.string.no)) {_, _, ->}
-            .setPositiveButton(getString(R.string.yes)) {_, _, ->
+            .setNegativeButton(getString(R.string.no)) { _, _ -> }
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
                 viewModel.deletePlaylistById(playlistId)
                 findNavController().popBackStack()
             }.show()
+
+        changeColorDialog(dialog)
     }
 
     private fun sharePlaylist() {
@@ -256,6 +281,14 @@ class FragmentPlaylist : Fragment() {
             }
         }
         return currentClick
+    }
+
+    private fun changeColorDialog(dialog: AlertDialog) {
+
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
     }
 
     private fun <R> withBinding(action: FragmentSelectedPlaylistBinding.() -> R) = binding.action()
