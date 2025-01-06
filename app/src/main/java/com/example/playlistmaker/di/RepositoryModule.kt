@@ -1,7 +1,11 @@
 package com.example.playlistmaker.di
 
+import com.example.playlistmaker.creationPlaylistWindow.data.repository.CreatePlaylistRepositoryImpl
+import com.example.playlistmaker.creationPlaylistWindow.domain.repository.CreatePlaylistRepository
 import com.example.playlistmaker.library.data.repository.LibraryRepositoryImpl
+import com.example.playlistmaker.library.data.repository.PlaylistsRepositoryImpl
 import com.example.playlistmaker.library.domain.repository.LibraryRepository
+import com.example.playlistmaker.library.domain.repository.PlaylistRepository
 import com.example.playlistmaker.player.data.repository.SimplePlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.repository.SimplePlayerRepository
 import com.example.playlistmaker.search.data.repository.AuditionHistoryRepositoryImpl
@@ -22,6 +26,10 @@ val repositoryModule = module {
     singleOf(::ThemeRepositoryImpl) bind ThemeRepository::class
 
     singleOf(::LibraryRepositoryImpl) bind LibraryRepository::class
+
+    singleOf(::CreatePlaylistRepositoryImpl) bind CreatePlaylistRepository::class
+
+    singleOf(::PlaylistsRepositoryImpl) bind PlaylistRepository::class
 
     single<SimplePlayerRepository> {
         SimplePlayerRepositoryImpl(playerFactory = ::get)

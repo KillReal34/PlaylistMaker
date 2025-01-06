@@ -6,7 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,7 +26,8 @@ class FragmentPlaylist : Fragment() {
         }
     }
 
-    private val fragmentPlaylistViewModel: FragmentPlaylistViewModel by viewModel()
+    private val viewModel: FragmentPlaylistViewModel by viewModel()
+    private lateinit var adapter: PlaylistAdapter
 
     private val binding by lazy(mode = LazyThreadSafetyMode.NONE) {
         FragmentPlaylistBinding.inflate(layoutInflater)
@@ -45,9 +50,41 @@ class FragmentPlaylist : Fragment() {
 
                 setImageResource(imageResId)
             }
+            btnNewPlaylist.setOnClickListener{
+                findNavController().navigate(R.id.action_libraryFragment_to_creationPlaylist)
+            }
 
+            adapter = PlaylistAdapter{}
+
+            rvPlaylists.adapter = adapter
+            rvPlaylists.layoutManager = GridLayoutManager(requireContext(), 2)
         }
+        viewModel.getPlaylist()
 
+        viewModel.playlistLiveData.observe(viewLifecycleOwner) {listPlaylists ->
+            if (listPlaylists.isNotEmpty()){
+                showPlaylist()
+                adapter.updatePlaylists(listPlaylists)
+            } else {
+                showPlaceHolder()
+            }
+        }
+    }
+
+    private fun showPlaceHolder(){
+        withBinding {
+            rvPlaylists.isGone = true
+            ivErrorImage.isVisible = true
+            tvErrorText.isVisible = true
+        }
+    }
+
+    private fun showPlaylist(){
+        withBinding {
+            rvPlaylists.isVisible = true
+            ivErrorImage.isGone = true
+            tvErrorText.isGone = true
+        }
     }
     private inline fun <R> withBinding(action: FragmentPlaylistBinding.() -> R) = binding.action()
 }

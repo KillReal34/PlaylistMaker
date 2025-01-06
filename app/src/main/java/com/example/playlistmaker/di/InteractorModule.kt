@@ -1,5 +1,7 @@
 package com.example.playlistmaker.di
 
+import com.example.playlistmaker.creationPlaylistWindow.domain.interactor.CreatePlaylistInteractor
+import com.example.playlistmaker.creationPlaylistWindow.domain.interactor.CreatePlaylistInteractorImpl
 import com.example.playlistmaker.library.domain.interactor.AddTrackLibraryInteractor
 import com.example.playlistmaker.library.domain.interactor.AddTrackLibraryInteractorImpl
 import com.example.playlistmaker.library.domain.interactor.DeleteTrackLibraryInteractor
@@ -10,6 +12,8 @@ import com.example.playlistmaker.library.domain.interactor.IsFavoriteCheckIntera
 import com.example.playlistmaker.library.domain.interactor.IsFavoriteCheckInteractorImpl
 import com.example.playlistmaker.library.domain.interactor.OnFavoriteClickInteractor
 import com.example.playlistmaker.library.domain.interactor.OnFavoriteClickInteractorImpl
+import com.example.playlistmaker.library.domain.interactor.PlayListInteractorImpl
+import com.example.playlistmaker.library.domain.interactor.PlaylistInteractor
 import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractor
 import com.example.playlistmaker.player.domain.interactor.GetSimplePlayerInteractorImpl
 import com.example.playlistmaker.search.domain.interactor.AddTrackToAuditionHistoryInteractor
@@ -52,4 +56,8 @@ val interactorModule = module {
     singleOf(::OnFavoriteClickInteractorImpl) bind OnFavoriteClickInteractor::class
 
     singleOf(::IsFavoriteCheckInteractorImpl) bind IsFavoriteCheckInteractor::class
+
+    singleOf(::CreatePlaylistInteractorImpl) bind CreatePlaylistInteractor::class
+
+    singleOf(::PlayListInteractorImpl) bind PlaylistInteractor::class
 }

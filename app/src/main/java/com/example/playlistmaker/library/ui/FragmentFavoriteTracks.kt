@@ -1,6 +1,5 @@
 package com.example.playlistmaker.library.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +9,12 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentFavoriteTracksBinding
 import com.example.playlistmaker.domain.entities.Track
 import com.example.playlistmaker.library.ui.extensions.toTrackEntity
-import com.example.playlistmaker.player.ui.AudioPlayerActivity
+import com.example.playlistmaker.player.ui.FragmentAudioPlayer
 import com.example.playlistmaker.player.ui.PlayerTrack
 import com.example.playlistmaker.search.ui.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -97,15 +97,9 @@ class FragmentFavoriteTracks : Fragment() {
         binding.favoriteRecyclerView.isGone = true
     }
 
-    private fun createAudioPlayerIntent(track: Track) = Intent(
-        requireContext(),
-        AudioPlayerActivity::class.java,
-    ).apply {
-        putExtra(AudioPlayerActivity.TRACK_EXTRA, PlayerTrack(track = track))
-    }
-
     private fun onLibraryTrackClick(track: Track) {
-        startActivity(createAudioPlayerIntent(track))
+        findNavController().navigate(R.id.action_libraryFragment_to_fragmentAudioPlayer,
+            FragmentAudioPlayer.createArgs(PlayerTrack(track = track)))
     }
 
     private inline fun <R> withBinding(action: FragmentFavoriteTracksBinding.() -> R) =
