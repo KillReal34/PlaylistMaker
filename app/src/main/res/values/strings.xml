@@ -40,6 +40,8 @@
     <string name="agree_delete_playlist">Хотите удалить плейлист?</string>
     <string name="yes">ДА</string>
     <string name="no">НЕТ</string>
+    <string name="edit">Редактировать</string>
+    <string name="save">Сохранить</string>
     <string name="empty_tracks_share_message">В этом плейлисте нет треков</string>
     <string name="text_point">" • "</string>
     <string name="quantity_tracks">Количество треков</string>
