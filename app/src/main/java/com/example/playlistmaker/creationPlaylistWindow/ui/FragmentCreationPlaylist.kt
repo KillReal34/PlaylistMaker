@@ -21,13 +21,13 @@ import com.example.playlistmaker.databinding.FragmentCreationWindowPlaylistBindi
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FragmentCreationPlaylist : Fragment() {
+open class FragmentCreationPlaylist : Fragment() {
 
     companion object{
         val URIKEY = "uriKey"
     }
 
-    private val binding by lazy(mode = LazyThreadSafetyMode.NONE) {
+    open val binding by lazy(mode = LazyThreadSafetyMode.NONE) {
         FragmentCreationWindowPlaylistBinding.inflate(layoutInflater)
     }
 
@@ -35,7 +35,7 @@ class FragmentCreationPlaylist : Fragment() {
 
     lateinit var backPressedCallback: OnBackPressedCallback
 
-    private val viewModel: CreationPlaylistViewModel by viewModel()
+    open val viewModel: CreationPlaylistViewModel by viewModel()
 
     var playlistUri = ""
 
@@ -138,7 +138,7 @@ class FragmentCreationPlaylist : Fragment() {
         backPressedCallback.remove()
     }
 
-    fun savePlaylist(playlistUri: String){
+    open fun savePlaylist(playlistUri: String){
         viewModel.addNewPlaylist(playlistUri)
     }
 
