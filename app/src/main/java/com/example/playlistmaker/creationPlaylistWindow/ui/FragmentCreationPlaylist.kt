@@ -54,7 +54,7 @@ class FragmentCreationPlaylist : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.CreateNewPlaylistFragment = false
+        viewModel.createNewPlaylistFragment = false
 
         if (savedInstanceState != null) {
             playlistUri = savedInstanceState.getString(URIKEY, null) ?: ""
@@ -143,7 +143,7 @@ class FragmentCreationPlaylist : Fragment() {
     }
 
     private fun showExitConfirmationDialogFromBackButton(){
-        if (viewModel.CreateNewPlaylistFragment){
+        if (viewModel.createNewPlaylistFragment){
             showExitConfirmationDialog()
         } else {
             findNavController().popBackStack()
