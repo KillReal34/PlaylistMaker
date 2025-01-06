@@ -5,7 +5,7 @@ import com.example.playlistmaker.creationPlaylistWindow.domain.interactor.Create
 import com.example.playlistmaker.creationPlaylistWindow.domain.model.Playlist
 import kotlinx.coroutines.launch
 
-class FragmentEditorPlaylistViewModel(
+class EditorPlaylistViewModel(
     private val createPlaylistInteractor: CreatePlaylistInteractor,
 ): CreationPlaylistViewModel(createPlaylistInteractor) {
 
