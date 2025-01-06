@@ -18,7 +18,6 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreationWindowPlaylistBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 open class FragmentCreationPlaylist : Fragment() {
@@ -30,8 +29,6 @@ open class FragmentCreationPlaylist : Fragment() {
     open val binding by lazy(mode = LazyThreadSafetyMode.NONE) {
         FragmentCreationWindowPlaylistBinding.inflate(layoutInflater)
     }
-
-    lateinit var confirmDialog: MaterialAlertDialogBuilder
 
     lateinit var backPressedCallback: OnBackPressedCallback
 
@@ -59,7 +56,7 @@ open class FragmentCreationPlaylist : Fragment() {
         if (savedInstanceState != null) {
             playlistUri = savedInstanceState.getString(URIKEY, null) ?: ""
         } else {
-            playlistUri = viewModel.playlistUri ?: ""
+            playlistUri = viewModel.playlistUri
         }
 
         if (playlistUri.isNotEmpty()) {
@@ -78,7 +75,12 @@ open class FragmentCreationPlaylist : Fragment() {
                     findNavController().popBackStack()
                     viewModel.resetPlaylistState()
                     val playlistName = viewModel.playlistName
-                    Toast.makeText(requireContext(), "Плейлист \"$playlistName\" создан", Toast.LENGTH_SHORT).show()                }
+                    Toast.makeText(
+                        requireContext(),
+                        "Плейлист \"$playlistName\" создан",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 PlaylistState.FALSE -> {
                     Toast.makeText(requireContext(), "Не удалось создать плейлист", Toast.LENGTH_SHORT).show()
                 }
@@ -106,6 +108,23 @@ open class FragmentCreationPlaylist : Fragment() {
 
                 override fun afterTextChanged(s: Editable?) {}
 
+            })
+
+            descriptionNewPlaylist.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    viewModel.playlistDescription = s.toString()
+                    viewModel.checkPlaylist()
+                }
+
+                override fun afterTextChanged(s: Editable?) {}
             })
 
             pickImage.setOnClickListener {
