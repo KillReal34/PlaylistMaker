@@ -34,7 +34,6 @@ class FragmentEditorPlaylist : FragmentCreationPlaylist() {
     }
 
     override fun savePlaylist(playlistUri: String) {
-        super.savePlaylist(playlistUri)
         viewModel.savePlaylist(playlist?.id, playlist?.uri, playlist?.listIdTracks)
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
