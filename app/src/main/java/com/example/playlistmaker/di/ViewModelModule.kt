@@ -1,6 +1,7 @@
 package com.example.playlistmaker.di
 
 import com.example.playlistmaker.creationPlaylistWindow.ui.CreationPlaylistViewModel
+import com.example.playlistmaker.creationPlaylistWindow.ui.EditorPlaylistViewModel
 import com.example.playlistmaker.library.ui.FragmentFavoriteTracksViewModel
 import com.example.playlistmaker.library.ui.FragmentLibraryPlaylistViewModel
 import com.example.playlistmaker.main.ui.MainActivityViewModel
@@ -27,4 +28,6 @@ val viewModelModule = module {
     viewModelOf(::CreationPlaylistViewModel)
 
     viewModelOf(::PlaylistViewModel)
+
+    viewModelOf(::EditorPlaylistViewModel)
 }
