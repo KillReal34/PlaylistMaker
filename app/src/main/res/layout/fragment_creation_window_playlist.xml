@@ -23,6 +23,7 @@
             android:src="@drawable/button_back" />
 
         <TextView
+            android:id="@+id/title_playlist"
             style="@style/PanelHeaderTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,6 +76,7 @@
             android:textColor="@color/tv_create_playlist">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_name_playlist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="15dp"
@@ -98,6 +100,7 @@
             android:textColor="@color/tv_create_playlist">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_description_playlist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="15dp"
