@@ -9,11 +9,11 @@ import com.example.playlistmaker.creationPlaylistWindow.domain.model.Playlist
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CreationPlaylistViewModel(
+open class CreationPlaylistViewModel(
     private val interactor: CreatePlaylistInteractor
 ) : ViewModel() {
 
-    var CreateNewPlaylistFragment = false
+    var createNewPlaylistFragment = false
     var playlistUri = ""
     var playlistDescription = ""
     var playlistName = ""
@@ -46,11 +46,11 @@ class CreationPlaylistViewModel(
                 }
             }
         }
-        CreateNewPlaylistFragment = false
+        createNewPlaylistFragment = false
     }
 
-    fun checkPlaylist() {
-        CreateNewPlaylistFragment =
+    open fun checkPlaylist() {
+        createNewPlaylistFragment =
             playlistName.isNotEmpty() || playlistDescription.isNotEmpty() || playlistUri.isNotEmpty()
     }
 
