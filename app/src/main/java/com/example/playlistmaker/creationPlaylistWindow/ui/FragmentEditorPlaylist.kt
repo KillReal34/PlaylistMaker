@@ -3,8 +3,10 @@ package com.example.playlistmaker.creationPlaylistWindow.ui
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creationPlaylistWindow.domain.model.Playlist
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,6 +31,16 @@ class FragmentEditorPlaylist : FragmentCreationPlaylist() {
         binding.createPlaylistButtom.text = getString(R.string.save)
         binding.etNamePlaylist.setText(playlist?.name)
         binding.etDescriptionPlaylist.setText(playlist?.description)
+
+        binding.buttonBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        backPressedCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, backPressedCallback)
 
         showThePlaylistCover(playlist?.uri?.toUri())
     }
