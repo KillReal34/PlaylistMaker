@@ -8,7 +8,7 @@ import com.example.playlistmaker.creationPlaylistWindow.domain.model.Playlist
 import com.example.playlistmaker.library.domain.interactor.PlaylistInteractor
 import kotlinx.coroutines.launch
 
-class FragmentPlaylistViewModel(private val playlistInteractor: PlaylistInteractor): ViewModel() {
+class FragmentLibraryPlaylistViewModel(private val playlistInteractor: PlaylistInteractor): ViewModel() {
     private val playlistMutableLiveData = MutableLiveData(listOf<Playlist>())
     val playlistLiveData: LiveData<List<Playlist>>
         get() = playlistMutableLiveData

@@ -12,30 +12,28 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentCreationWindowPlaylistBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FragmentCreationPlaylist : Fragment() {
+open class FragmentCreationPlaylist : Fragment() {
 
     companion object{
         val URIKEY = "uriKey"
     }
 
-    private val binding by lazy(mode = LazyThreadSafetyMode.NONE) {
+    open val binding by lazy(mode = LazyThreadSafetyMode.NONE) {
         FragmentCreationWindowPlaylistBinding.inflate(layoutInflater)
     }
 
-    lateinit var confirmDialog: MaterialAlertDialogBuilder
-
     lateinit var backPressedCallback: OnBackPressedCallback
 
-    private val viewModel: CreationPlaylistViewModel by viewModel()
+    open val viewModel: CreationPlaylistViewModel by viewModel()
 
     var playlistUri = ""
 
@@ -54,12 +52,12 @@ class FragmentCreationPlaylist : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.CreateNewPlaylistFragment = false
+        viewModel.createNewPlaylistFragment = false
 
         if (savedInstanceState != null) {
             playlistUri = savedInstanceState.getString(URIKEY, null) ?: ""
         } else {
-            playlistUri = viewModel.playlistUri ?: ""
+            playlistUri = viewModel.playlistUri
         }
 
         if (playlistUri.isNotEmpty()) {
@@ -78,7 +76,12 @@ class FragmentCreationPlaylist : Fragment() {
                     findNavController().popBackStack()
                     viewModel.resetPlaylistState()
                     val playlistName = viewModel.playlistName
-                    Toast.makeText(requireContext(), "Плейлист \"$playlistName\" создан", Toast.LENGTH_SHORT).show()                }
+                    Toast.makeText(
+                        requireContext(),
+                        "Плейлист \"$playlistName\" создан",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 PlaylistState.FALSE -> {
                     Toast.makeText(requireContext(), "Не удалось создать плейлист", Toast.LENGTH_SHORT).show()
                 }
@@ -108,6 +111,23 @@ class FragmentCreationPlaylist : Fragment() {
 
             })
 
+            descriptionNewPlaylist.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    viewModel.playlistDescription = s.toString()
+                    viewModel.checkPlaylist()
+                }
+
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
             pickImage.setOnClickListener {
                 pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
@@ -128,17 +148,22 @@ class FragmentCreationPlaylist : Fragment() {
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, backPressedCallback)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(URIKEY, playlistUri)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         backPressedCallback.remove()
     }
 
-    fun savePlaylist(playlistUri: String){
+    open fun savePlaylist(playlistUri: String){
         viewModel.addNewPlaylist(playlistUri)
     }
 
     private fun showExitConfirmationDialogFromBackButton(){
-        if (viewModel.CreateNewPlaylistFragment){
+        if (viewModel.createNewPlaylistFragment){
             showExitConfirmationDialog()
         } else {
             findNavController().popBackStack()
@@ -168,6 +193,10 @@ class FragmentCreationPlaylist : Fragment() {
             .create()
 
         dialog.show()
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
     }
 
     private inline fun <R> withBinding(action: FragmentCreationWindowPlaylistBinding.() -> R) =

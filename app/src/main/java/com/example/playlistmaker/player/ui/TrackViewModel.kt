@@ -64,6 +64,7 @@ class TrackViewModel(
         get() = player.currentPosition
 
     fun updatePlaylist(playlist: Playlist, track: Track) {
+        createPlaylistInteractor.addTrackInPlaylist(track)
         viewModelScope.launch {
             val isAdded = playlist.listIdTracks.none { it.toString() == track.trackId }
             if (isAdded) {

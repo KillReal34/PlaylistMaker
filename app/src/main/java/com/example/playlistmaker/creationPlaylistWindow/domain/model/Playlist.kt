@@ -11,4 +11,6 @@ data class Playlist(
     val uri: String?,
     val listIdTracks: MutableList<Int>,
     val quentityTracks: Int,
+    val totalPlaylistTime: Int,
+    val endingMinute: String = "Минут"
 ): Parcelable {}

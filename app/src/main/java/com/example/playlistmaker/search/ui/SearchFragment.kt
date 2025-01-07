@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -90,6 +91,7 @@ class SearchFragment : Fragment() {
 
                 doAfterTextChanged(action = ::onSearchTextChanged)
             }
+            etInputSearchText.textCursorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.cursor)
         }
 
         viewModel.screenStateLiveData.observe(viewLifecycleOwner) { state ->

@@ -13,6 +13,8 @@ class PlaylistDatabaseConverter(private val gson: Gson) {
             uri = playlist.uri,
             listIdTracks = gson.toJson(playlist.listIdTracks),
             quentityTracks = playlist.quentityTracks,
+            totalPlaylistItem = playlist.totalPlaylistTime,
+            endingMinute = playlist.endingMinute
         )
     }
 
@@ -24,6 +26,8 @@ class PlaylistDatabaseConverter(private val gson: Gson) {
             uri = playlistEntity.uri,
             gson.fromJson(playlistEntity.listIdTracks, Array<Int>::class.java).toCollection(ArrayList()),
             quentityTracks = playlistEntity.quentityTracks,
+            totalPlaylistTime = playlistEntity.totalPlaylistItem,
+            endingMinute = playlistEntity.endingMinute,
         )
     }
 }
