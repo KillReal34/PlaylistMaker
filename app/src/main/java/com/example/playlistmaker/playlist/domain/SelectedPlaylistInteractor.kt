@@ -1,18 +1,11 @@
-package com.example.playlistmaker.library.domain.repository
+package com.example.playlistmaker.playlist.domain
 
 import com.example.playlistmaker.creationPlaylistWindow.domain.model.Playlist
 import com.example.playlistmaker.domain.entities.Track
 import kotlinx.coroutines.flow.Flow
 
-
-interface PlaylistRepository {
-    suspend fun getPlaylist(): Flow<List<Playlist>>
-
+interface SelectedPlaylistInteractor {
     fun getPlaylistById(playlistId: Long): Flow<Playlist>
-
-    fun getTrackFromPlaylist(playlistIdList: List<Int>): Flow<List<Track>>
-
-    fun deleteTrackById(trackId: Int)
-
+    fun getTracksFromPlaylist(playlistIdList: List<Int>): Flow<List<Track>>
     fun deletePlaylistById(playlistId: Long)
 }

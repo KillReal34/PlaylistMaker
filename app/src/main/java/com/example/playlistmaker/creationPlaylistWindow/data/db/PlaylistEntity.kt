@@ -12,4 +12,6 @@ data class PlaylistEntity(
     val uri: String?,
     val listIdTracks: String,
     val quentityTracks: Int,
+    val totalPlaylistItem: Int,
+    val endingMinute: String = "Минут",
 )
